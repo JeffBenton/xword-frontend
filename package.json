@@ -1,0 +1,29 @@
+{
+  "name": "xword-frontend",
+  "version": "0.0.1",
+  "description": "solving crossword puzzles with pen and paper is too hard",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --progress --colors --watch",
+    "dev": "webpack-dev-server --progress --colors --content-base static/"
+  },
+  "author": "alex benton",
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "reflux": "^0.3.0"
+  },
+  "babel": {
+    "presets": ["es2015", "react"]
+  },
+
+  "private": true
+}
