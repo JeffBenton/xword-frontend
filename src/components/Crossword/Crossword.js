@@ -1,5 +1,5 @@
 let React = require('react');
-let CrosswordBox = require('./../Crossword/CrosswordBox.js');
+let CrosswordBoard = require('./../Crossword/CrosswordBoard.js');
 
 class Box {
 
@@ -63,7 +63,7 @@ class Crossword extends React.Component {
             let downClue = [];
             let start = board[y][x];
             let isNewClue = (start.across == null || start.across.char != 0);
-            let downClueNumber = isNewClue ? clueCount + 1 : start.across.clue;
+            let downClueNumber = isNewClue ? (start.across == null) ?  clueCount : clueCount + 1 : start.across.clue;
 
             for (let i = y; i < board.length; i++) {
                 let box = board[i][x];
@@ -145,26 +145,7 @@ class Crossword extends React.Component {
     }
 
     render() {
-        var crosswordStyle = {
-            height: 30*this.props.height + 'px',
-            width: 30*this.props.width + 'px',
-            border: '1px black solid'
-        };
-        var crosswordRowStyle = {
-            height: '30px',
-            width: '100%',
-            display: 'flex'
-        };
-
-        return (<div className='crossword' style={crosswordStyle}>
-            {this.state.board.map(function (row, index) {
-                return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
-                    {row.map(function (box) {
-                        return (<CrosswordBox onClick={this.handleBoxClick} box={box} key={box.id} />);
-                    }, this)}
-                </div>);
-            }, this)}
-        </div>);
+        return (<div><CrosswordBoard onClick={this.handleBoxClick} board={this.state.board} /></div>);
     }
 }
 

@@ -8,15 +8,15 @@ class CrosswordBox extends React.Component {
 
     getBoxStyle() {
         return {
-            height: '30px',
-            width: '30px',
+            height: this.props.size + 'px',
+            width: this.props.size + 'px',
             border: '1px black solid'
         };
     }
 
     getNumberStyle() {
         return {
-            fontSize: '9px',
+            fontSize: Math.floor(this.props.size/3.3) + 'px',
             padding: '1px',
             position: 'fixed'
         };
@@ -66,11 +66,12 @@ class CrosswordBox extends React.Component {
 
 CrosswordBox.propTypes = {
     box: React.PropTypes.object.isRequired,
-    onClick: React.PropTypes.func.isRequired
+    onClick: React.PropTypes.func.isRequired,
+    size: React.PropTypes.number
 };
 
 CrosswordBox.defaultProps = {
-
+    size: 30
 };
 
 module.exports = CrosswordBox;
