@@ -1,5 +1,5 @@
 let Board = require('./board.js');
-
+let ClueHelper = require('./cluehelper.js');
 /**
  * The Game object contains logic to manipulate the state of the crossword puzzle.
  */
@@ -31,13 +31,107 @@ class Game {
         box.isBlackBox = !box.isBlackBox;
 
         // update the game state based on the new board
-        var state = this.board.generateStateFromBoard();
-        this.puzzle = state.puzzle;
-        this.clues = this.updateCluesAfterBoxChange(box, state);
+        if (box.isBlackBox) {
+            var state = this.board.generateStateFromBoard();
+            this.puzzle = state.puzzle;
+            var changes = this.determineCreateBlackBox(box);
+            this.clues = state.clues;
+        } else {
+            var changes = this.determineRemoveBlackBox(box);
+            var state = this.board.generateStateFromBoard();
+            this.puzzle = state.puzzle;
+            this.clues = state.clues;
+        }
     }
 
-    updateCluesAfterBoxChange(box, state) {
-        return state.clues;
+
+    determineRemoveBlackBox(box) {
+        // determine whether we deleted an existing across clue by adding this box
+        var determineDeletedAcrossClue = function(board, box) {
+            if (box.x > 0 && board.get(box.x-1, box.y).across != null) {
+                if (box.x + 1 < board.width && board.get(box.x+1, box.y).across != null) {
+                    var clue = ClueHelper.determineLostAcrossClue(board, box);
+                    console.log('-: lost clue: ' + clue + ' across');
+                    return clue;
+                }
+            }
+        };
+
+        var determineDeletedDownClue = function(board, box) {
+            if (box.y > 0 && board.get(box.x, box.y-1).down != null) {
+                if (box.y + 1 < board.height && board.get(box.x, box.y+1).down != null) {
+                    var clue = board.get(box.x, box.y+1).down.clue;
+                    console.log('-: lost clue: ' + clue + ' down');
+                    return clue;
+                }
+            } else if (box.y === 0 && board.get(box.x, box.y+1).down != null) {
+                var clue = board.get(box.x, box.y+1).down.clue;
+                console.log('-: lost clue: ' + clue + ' down');
+                return clue;
+
+            }
+        };
+
+        determineDeletedAcrossClue(this.board, box);
+        determineDeletedDownClue(this.board, box);
+    }
+
+    determineCreateBlackBox(box) {
+        // determine whether we created a new across clue by adding this box
+        var determineCreatedAcrossClue = function(board, box) {
+            // check if the box to our right is part of an across clue
+            if (board.width > box.x + 1 && board.get(box.x+1, box.y).across != null) {
+                // make sure the box to our left is part of an across clue
+                // (this means we just split an existing across clue with this new black box)
+                if (box.x - 1 > 0 && board.get(box.x-1, box.y).across != null) {
+                    console.log('+: created clue: ' + board.get(box.x+1,box.y).across.clue + ' across');
+                    return board.get(box.x+1,box.y).across.clue;
+                }
+            }
+            return null;
+        };
+
+        // determine whether we deleted an existing across clue by adding this box
+        var determineDeletedAcrossClue = function(board, box) {
+            if (box.x - 1 > 0 && board.get(box.x-1, box.y).across == null) {
+                if (box.x + 1 < board.width && board.get(box.x+1, box.y).across == null) {
+                    let lostAcrossClue = ClueHelper.determineLostAcrossClue(board, box);
+                    console.log('+: lost clue: ' + lostAcrossClue + ' across');
+                    return lostAcrossClue;
+                }
+            }
+            return null;
+        };
+
+        // determine whether we created a new down clue by adding this box
+        var determineCreatedDownClue = function(board, box) {
+            if (board.height > box.y + 1 && board.get(box.x, box.y+1).down != null) {
+                console.log('+: created clue: ' + board.get(box.x, box.y+1).down.clue + ' down');
+                return board.get(box.x, box.y+1).down.clue;
+            }
+            return null;
+        }
+
+        var determineDeletedDownClue = function(board, box) {
+            if (box.y === 0 || board.get(box.x, box.y-1).isBlackBox) {
+                var lostDownClue = ClueHelper.determineLostDownClue(board, board.get(box.x,box.y));
+                console.log('+: lost clue: ' + lostDownClue + ' down');
+            } else if (box.y > 0 && board.get(box.x, box.y-1).down == null) {
+                var lostDownClue = ClueHelper.determineLostDownClue(board, board.get(box.x,box.y-1));
+                console.log('+: lost clue: ' + lostDownClue + ' down');
+            }
+        };
+
+        return {
+            across: {
+                created: determineCreatedAcrossClue(this.board, box),
+                deleted: determineDeletedAcrossClue(this.board, box)
+            },
+            down: {
+                created: determineCreatedDownClue(this.board, box),
+                deleted: determineDeletedDownClue(this.board, box)
+            }
+        };
     }
 
     /**
@@ -129,45 +223,6 @@ class Game {
         }
         console.log(clues);
         return clues;
-    }
-
-     determineLostAcrossClue(box) {
-        for (let i = 1; box.x + i < this.state.board[box.y].length || box.x - i >= 0; i++) {
-            if (box.x + i < this.state.board[box.y].length) {
-                let b = this.state.board[box.y][box.x+i];
-                if (b.across != null) {
-                    return b.across.clue;
-                }
-            }
-            if (box.x - i >= 0 && !this.state.board[box.y][box.x - i].down != null) {
-                let b = this.state.board[box.y][box.x - i];
-                if (b.across != null && b.across) {
-                    return b.across.clue + 1;
-                }
-            }
-        }
-    }
-     determineLostDownClue(box) {
-        for (let i = 1; box.x + i < this.state.board[box.y].length || box.x - i >= 0; i++) {
-            if (box.x + i < this.state.board[box.y].length) {
-                let b = this.state.board[box.y][box.x+i];
-                if (b.across != null && b.across.char === 0) {
-                    return b.across.clue;
-                }
-                if (b.down != null && b.down.char === 0) {
-                    return b.down.clue;
-                }
-            }
-            if (box.x - i >= 0 && !this.state.board[box.y][box.x - i].down != null) {
-                let b = this.state.board[box.y][box.x-i];
-                if (b.across != null && b.across.char === 0) {
-                    return b.across.clue + 1;
-                }
-                if (b.down != null && b.down.char === 0) {
-                    return b.down.clue + 1;
-                }
-            }
-        }
     }
      */
 
