@@ -1,5 +1,6 @@
 let React = require('react');
 
+let Box = require('./../../objects/box.js');
 class CrosswordBox extends React.Component {
 
     constructor(props) {
@@ -64,7 +65,7 @@ class CrosswordBox extends React.Component {
 
 
 CrosswordBox.propTypes = {
-    box: React.PropTypes.object.isRequired,
+    box: React.PropTypes.instanceOf(Box).isRequired,
     onClick: React.PropTypes.func.isRequired,
     size: React.PropTypes.number
 };

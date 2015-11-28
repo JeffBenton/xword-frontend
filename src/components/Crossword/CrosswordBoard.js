@@ -4,13 +4,14 @@
 
 let React = require('react');
 let CrosswordBox = require('./../Crossword/CrosswordBox.js');
+let Board = require('./../../objects/board.js');
 
 class CrosswordBoard extends React.Component {
 
     render() {
         var crosswordStyle = {
-            height: this.props.boxSize*this.props.board.length + 'px',
-            width: this.props.boxSize*this.props.board[0].length + 'px',
+            height: this.props.boxSize*this.props.board.height + 'px',
+            width: this.props.boxSize*this.props.board.width + 'px',
             border: '1px black solid'
         };
         var crosswordRowStyle = {
@@ -20,7 +21,7 @@ class CrosswordBoard extends React.Component {
         };
 
         return (<div className='crossword' style={crosswordStyle}>
-            {this.props.board.map(function (row, index) {
+            {this.props.board.board.map(function (row, index) {
                 return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
                     {row.map(function (box) {
                         return (<CrosswordBox onClick={this.props.onClick} box={box} key={box.id} />);
@@ -32,7 +33,7 @@ class CrosswordBoard extends React.Component {
 }
 
 CrosswordBoard.propTypes = {
-    board: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.object)).isRequired,
+    board: React.PropTypes.instanceOf(Board).isRequired,
     onClick: React.PropTypes.func.isRequired,
     boxSize: React.PropTypes.number
 };
