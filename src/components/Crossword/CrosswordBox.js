@@ -18,7 +18,6 @@ class CrosswordBox extends React.Component {
         return {
             fontSize: Math.floor(this.props.size/3.3) + 'px',
             padding: '1px',
-            position: 'fixed'
         };
     }
 
