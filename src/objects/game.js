@@ -29,31 +29,24 @@ class Game {
     toggleBoxStatus(x, y) {
         // toggle the status of the box
         var box = this.board.get(x,y);
+
+        let deletes = ClueHelper.determineDeletedClues(this.board, box);
         box.isBlackBox = !box.isBlackBox;
 
-        // update the game state based on the new board
-        if (box.isBlackBox) {
-            let state = this.board.generateStateFromBoard();
-            this.puzzle = state.puzzle;
-            this.clues = state.clues;
-            //let changes = this.determineCreateBlackBox(box);
-            //this.clues = this.updateClues(this.clues, state.clues, changes)
-        } else {
-            //let changes = this.determineRemoveBlackBox(box);
-            let state = this.board.generateStateFromBoard();
-            this.puzzle = state.puzzle;
-            this.clues = state.clues;
-            //this.clues = this.updateClues(this.clues, state.clues, changes);
-        }
+        let state = this.board.generateStateFromBoard();
+        let creates = ClueHelper.determineCreatedClues(this.board, box);
+
+
+        this.puzzle = state.puzzle;
+        this.clues = this.updateClues(this.clues, state.clues, creates, deletes);
     }
 
-    updateClues(oldclues, newclues, changes) {
-        console.log(changes);
+
+
+    updateClues(oldclues, newclues, creates, deletes) {
         console.log(oldclues);
-        console.log(newclues);
-        if (changes.down.created && changes.down.deleted) {
-            //newclues.down[changes.down.created] = oldclues.down[changes.down.deleted];
-        }
+        console.log(creates);
+        console.log(deletes);
         return newclues;
     }
 

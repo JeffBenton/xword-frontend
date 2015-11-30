@@ -54,10 +54,42 @@ class Board {
      * @returns a Box
      */
     get(x, y) {
-        if (x < 0 || y < 0 || this.board.length < y || this.board[y].length < x) {
+        if (x < 0 || y < 0 || y >= this.board.length  || x >= this.board[y].length) {
             return null;
         }
         return this.board[y][x];
+    }
+
+    above(box) {
+        if (box == null || box.x == null || box.y == null) {
+            return null;
+        } else {
+            return this.get(box.x, box.y - 1);
+        }
+    }
+
+    left(box) {
+        if (box == null || box.x == null || box.y == null) {
+            return null;
+        } else {
+            return this.get(box.x - 1, box.y);
+        }
+    }
+
+    below(box) {
+        if (box == null || box.x == null || box.y == null) {
+            return null;
+        } else {
+            return this.get(box.x, box.y + 1);
+        }
+    }
+
+    right(box) {
+        if (box == null || box.x == null || box.y == null) {
+            return null;
+        } else {
+            return this.get(box.x + 1, box.y);
+        }
     }
 
     /**

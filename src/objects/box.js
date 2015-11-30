@@ -12,6 +12,14 @@ class Box {
         this.across = null;
         this.down = null;
     }
+
+    isPartOfAcrossClue() {
+        return !this.isBlackBox && this.across != null;
+    }
+
+    isPartOfDownClue() {
+        return !this.isBlackBox && this.down != null;
+    }
 }
 
 module.exports = Box;
