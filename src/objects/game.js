@@ -36,20 +36,9 @@ class Game {
         let state = this.board.generateStateFromBoard();
         let creates = ClueHelper.determineCreatedClues(this.board, box);
 
-
         this.puzzle = state.puzzle;
-        this.clues = this.updateClues(this.clues, state.clues, creates, deletes);
+        this.clues = ClueHelper.updateClues(this.clues, state.clues, creates, deletes);
     }
-
-
-
-    updateClues(oldclues, newclues, creates, deletes) {
-        console.log(oldclues);
-        console.log(creates);
-        console.log(deletes);
-        return newclues;
-    }
-
 }
 
 module.exports = Game;
