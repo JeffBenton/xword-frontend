@@ -1,5 +1,5 @@
-let Box = require('./box.js');
-let Clue = require('./clue.js');
+import Clue from './clue.js';
+import Box from './box.js';
 
 /**
  * Represents a crossword board.

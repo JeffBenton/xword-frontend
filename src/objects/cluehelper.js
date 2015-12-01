@@ -2,7 +2,7 @@
  * Created by alex on 11/28/15.
  */
 
-let Clue = require('./clue.js');
+import Clue from './clue.js';
 
 class ClueHelper {
 
@@ -70,7 +70,7 @@ class ClueHelper {
             } else {
                 // this means we're removing a black box.
                 if ((ClueHelper.isPartOfDownClue(board.above(box)) && !ClueHelper.isPartOfDownClue(board.above(board.above(box)))) ||
-                    (ClueHelper.isPartOfDownClue(board.below(box))) && !ClueHelper.isPartOfDownClue(board.below(board.below(box)))) {
+                    (ClueHelper.isPartOfDownClue(board.below(box)))) {
                     console.log('+ creating clue ' + box.down.clue + ' down');
                     return box.down.clue;
                 }
@@ -114,16 +114,6 @@ class ClueHelper {
     static updateClues(oldclues, newclues, creates, deletes) {
         var deletedAcrossClue = deletes.across != null ? oldclues.across[deletes.across] : null;
         var deletedDownClue = deletes.down != null ? oldclues.down[deletes.down] : null;
-
-        // todo: this is wrong, we need to delete at the same time
-        if (deletes.across && deletes.down && deletes.across < deletes.down) {
-            oldclues = ClueHelper.deleteClue('down', deletes.down, oldclues);
-            oldclues = ClueHelper.deleteClue('across', deletes.across, oldclues);
-        } else {
-            oldclues = ClueHelper.deleteClue('across', deletes.across, oldclues);
-            oldclues = ClueHelper.deleteClue('down', deletes.down, oldclues);
-        }
-
         var createdDownClue = null;
         if (creates.down != null) {
             createdDownClue = new Clue('down', creates.down);
@@ -132,21 +122,47 @@ class ClueHelper {
             }
         }
         var createdAcrossClue = creates.across != null ? new Clue('across', creates.across) : null;
+        var createdClues = {
+            across: createdAcrossClue,
+            down: createdDownClue
+        };
+        var work = [];
 
-        // todo: this is wrong, we need to create at the same time
-        if (createdDownClue != null && createdAcrossClue != null && createdDownClue.number < createdAcrossClue.number) {
-            if (createdDownClue != null) {
-                oldclues = ClueHelper.createClue(createdDownClue, oldclues);
+        for (let key in creates) {
+            if (creates.hasOwnProperty(key)) {
+                if (creates[key] != null) {
+                    work[creates[key]] = {creates: [], deletes: []};
+                    work[creates[key]].creates.push(key);
+                }
             }
-            if (createdAcrossClue != null) {
-                oldclues = ClueHelper.createClue(createdAcrossClue, oldclues);
+        }
+
+        for (let key in deletes) {
+            if (deletes.hasOwnProperty(key)) {
+                if (deletes[key] != null) {
+                    if (work[deletes[key]] == null) {
+                        work[deletes[key]] = {creates: [], deletes: []};
+                    }
+                    work[deletes[key]].deletes.push(key);
+                }
             }
-        } else {
-            if (createdAcrossClue != null) {
-                oldclues = ClueHelper.createClue(createdAcrossClue, oldclues);
-            }
-            if (createdDownClue != null) {
-                oldclues = ClueHelper.createClue(createdDownClue, oldclues);
+        }
+
+        console.log(work);
+
+        for (let i = 0; i <= work.length; i++) {
+            if (work[i] != null) {
+                if (work[i].creates.length > 0) {
+                    for (let j = 0; j <= work[i].creates.length; j++) {
+                        oldclues = ClueHelper.createClue(createdClues[work[i].creates[j]], oldclues);
+                    }
+                }
+                if (work[i].deletes.length > 0) {
+                    for (let j = 0; j <= work[i].deletes.length; j++) {
+                        oldclues = ClueHelper.deleteClue(work[i].deletes[j], i, oldclues);
+                    }
+
+                }
             }
         }
 
@@ -176,7 +192,7 @@ class ClueHelper {
                     for (let num in clues[direction]) {
                         if (clues[direction].hasOwnProperty(num)) {
                             if (!(key == direction && number == num)) {
-                                if (num > number && deleted) {
+                                if (num > number) {
                                     clues[direction][num].number = num - 1;
                                     result[direction][num - 1] = clues[direction][num];
                                 } else {
@@ -192,6 +208,9 @@ class ClueHelper {
     }
 
     static createClue(clue, clues) {
+        if (clue == null) {
+            return clues;
+        }
         var result = {};
         var created = (function() {
             let count = 0;
@@ -202,7 +221,6 @@ class ClueHelper {
             }
             return count == 0;
         })();
-
         for (let direction in clues) {
             if (clues.hasOwnProperty(direction)) {
                 result[direction] = {};

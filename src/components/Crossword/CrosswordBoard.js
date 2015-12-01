@@ -2,9 +2,9 @@
  * Created by alex on 11/27/15.
  */
 
-let React = require('react');
-let CrosswordBox = require('./../Crossword/CrosswordBox.js');
-let Board = require('./../../objects/board.js');
+import React from 'react';
+import CrosswordBox from './../Crossword/CrosswordBox.js';
+import Board from './../../objects/board.js';
 
 class CrosswordBoard extends React.Component {
 

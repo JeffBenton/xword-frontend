@@ -2,9 +2,8 @@
  * Created by alex on 11/27/15.
  */
 
-let React = require('react');
-let CrosswordClue = require('./../Crossword/CrosswordClue.js');
-
+import React from 'react';
+import CrosswordClue from './../Crossword/CrosswordClue.js';
 
 class CrosswordClues extends React.Component {
 

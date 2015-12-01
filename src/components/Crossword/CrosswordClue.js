@@ -2,7 +2,7 @@
  * Created by alex on 11/28/15.
  */
 
-let React = require('react');
+import React from 'react';
 
 class CrosswordClue extends React.Component {
 

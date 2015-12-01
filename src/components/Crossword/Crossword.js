@@ -1,8 +1,8 @@
-let React = require('react');
-let CrosswordBoard = require('./../Crossword/CrosswordBoard.js');
-let CrosswordClues = require('./../Crossword/CrosswordClues.js');
-let Game = require('./../../objects/game.js');
-let Clue = require('./../../objects/clue.js');
+import React from 'react';
+import CrosswordBoard from './../Crossword/CrosswordBoard.js';
+import CrosswordClues from './../Crossword/CrosswordClues.js';
+import Game from './../../objects/game.js';
+import Clue from './../../objects/clue.js';
 
 class Crossword extends React.Component {
 

@@ -1,5 +1,5 @@
-let Board = require('./board.js');
-let ClueHelper = require('./cluehelper.js');
+import Board from './board.js';
+import ClueHelper from './cluehelper.js';
 
 /**
  * The Game object contains logic to manipulate the state of the crossword puzzle.

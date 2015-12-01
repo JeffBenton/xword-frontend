@@ -1,5 +1,5 @@
-let React = require('react');
-let Crossword = require('./../Crossword/Crossword');
+import React from 'react';
+import Crossword from './../Crossword/Crossword.js';
 
 class App extends React.Component {
 

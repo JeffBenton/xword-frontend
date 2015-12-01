@@ -1,6 +1,6 @@
-let React = require('react');
+import React from 'react';
+import Box from './../../objects/box.js';
 
-let Box = require('./../../objects/box.js');
 class CrosswordBox extends React.Component {
 
     constructor(props) {
