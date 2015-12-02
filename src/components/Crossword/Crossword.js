@@ -67,8 +67,8 @@ Crossword.propTypes = {
 };
 
 Crossword.defaultProps = {
-    width: 4,
-    height: 4,
+    width: 8,
+    height: 8,
     mode: 'EDIT'
 };
 

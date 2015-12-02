@@ -229,8 +229,17 @@ class ClueHelper {
             }
         }
 
-        ClueHelper.verifyClues(oldclues, newclues);
-        return oldclues;
+        try {
+            ClueHelper.verifyClues(oldclues, newclues);
+            return oldclues;
+        } catch (e) {
+            console.info('we lost clue data due to this error');
+            console.info('the work log was: ');
+            console.info(work);
+            console.info('the board was: ');
+            console.info(board);
+            return newclues;
+        }
     }
 
     static verifyClues(oldclues, newclues) {
@@ -238,15 +247,15 @@ class ClueHelper {
             if (oldclues.hasOwnProperty(direction)) {
                 if (newclues[direction] == null) {
                     console.error('ERROR!! invalid clue state!');
-                    console.log(oldclues);
-                    console.log(newclues);
+                    console.info(oldclues);
+                    console.info(newclues);
                     throw 'ERROR!! invalid clue state!';
                 }
                 for (let number in oldclues[direction]) {
                     if (newclues[direction][number] == null) {
                         console.error('ERROR!! invalid clue state!');
-                        console.log(oldclues);
-                        console.log(newclues);
+                        console.info(oldclues);
+                        console.info(newclues);
                         throw 'ERROR!! invalid clue state!';
                     }
                 }
@@ -257,15 +266,15 @@ class ClueHelper {
             if (newclues.hasOwnProperty(direction)) {
                 if (oldclues[direction] == null) {
                     console.error('ERROR!! invalid clue state!');
-                    console.log(oldclues);
-                    console.log(newclues);
+                    console.info(oldclues);
+                    console.info(newclues);
                     throw 'ERROR!! invalid clue state!';
                 }
                 for (let number in newclues[direction]) {
                     if (oldclues[direction][number] == null) {
                         console.error('ERROR!! invalid clue state!');
-                        console.log(oldclues);
-                        console.log(newclues);
+                        console.info(oldclues);
+                        console.info(newclues);
                         throw 'ERROR!! invalid clue state!';
                     }
                 }
@@ -336,14 +345,6 @@ class ClueHelper {
 
     static isPartOfAcrossClue(box) {
         return box != null && box.isPartOfAcrossClue();
-    }
-
-    static emptyAcross(box) {
-        return box != null && !box.isBlackBox && box.across == null;
-    }
-
-    static emptyDown(box) {
-        return box != null && !box.isBlackBox && box.down == null;
     }
 }
 
