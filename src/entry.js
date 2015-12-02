@@ -1,6 +1,6 @@
-let ReactDOM = require('react-dom');
-let React = require('react');
-let App = require('./components/App/App.js');
+import ReactDOM from 'react-dom';
+import React from 'react';
+import App from './components/App/App.js'
 
 const root = document.getElementById('root');
 const app = {};

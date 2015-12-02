@@ -1,4 +1,5 @@
-let React = require('react');
+import React from 'react';
+import Box from './../../objects/box.js';
 
 class CrosswordBox extends React.Component {
 
@@ -64,7 +65,7 @@ class CrosswordBox extends React.Component {
 
 
 CrosswordBox.propTypes = {
-    box: React.PropTypes.object.isRequired,
+    box: React.PropTypes.instanceOf(Box).isRequired,
     onClick: React.PropTypes.func.isRequired,
     size: React.PropTypes.number
 };
