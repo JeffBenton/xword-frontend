@@ -1,5 +1,6 @@
 import Board from './board.js';
 import ClueHelper from './cluehelper.js';
+import {directions, boxState} from './constants.js';
 
 /**
  * The Game object contains logic to manipulate the state of the crossword puzzle.
@@ -27,17 +28,51 @@ class Game {
      * @param y
      */
     toggleBoxStatus(x, y) {
+        this.clearSelectedClues();
+
         // toggle the status of the box
         var box = this.board.get(x,y);
 
         let deletes = ClueHelper.determineDeletedClues(this.board, box);
-        box.isBlackBox = !box.isBlackBox;
+
+        box.toggleBlackBoxState();
 
         let state = this.board.generateStateFromBoard();
         let creates = ClueHelper.determineCreatedClues(this.board, box);
 
         this.puzzle = state.puzzle;
         this.clues = ClueHelper.updateClues(this.clues, state.clues, creates, deletes);
+    }
+
+    /**
+     * Select a clue.
+     *
+     * @param clue
+     */
+    selectClue(clue, state = boxState.SELECTED) {
+        for (let i = 0; i < this.puzzle[clue.direction][clue.number].length; i++) {
+            this.puzzle[clue.direction][clue.number][i].state = state;
+        }
+        this.clues[clue.direction][clue.number].isSelected = true;
+    }
+
+    /**
+     * Deselect all selected clues.
+     */
+    clearSelectedClues() {
+        for (let dir in directions) {
+            if (directions.hasOwnProperty(dir)) {
+                let direction = directions[dir];
+                for (let number in this.puzzle[direction]) {
+                    if (this.puzzle[direction].hasOwnProperty(number)) {
+                        for (let i = 0; i < this.puzzle[direction][number].length; i++) {
+                            this.puzzle[direction][number][i].state = boxState.NORMAL;
+                        }
+                        this.clues[direction][number].isSelected = false;
+                    }
+                }
+            }
+        }
     }
 }
 

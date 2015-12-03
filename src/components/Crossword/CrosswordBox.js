@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from './../../objects/box.js';
+import {boxState} from './../../objects/constants.js';
 
 class CrosswordBox extends React.Component {
 
@@ -8,17 +9,48 @@ class CrosswordBox extends React.Component {
     }
 
     getBoxStyle() {
-        return {
-            height: this.props.size + 'px',
-            width: this.props.size + 'px',
-            border: '1px black solid'
-        };
+        switch (this.props.box.state) {
+            case boxState.NORMAL:
+                return {
+                    height: this.props.size + 'px',
+                    width: this.props.size + 'px',
+                    border: '1px black solid'
+                };
+            case boxState.FOCUSED:
+                return {
+                    height: this.props.size + 'px',
+                    width: this.props.size + 'px',
+                    border: '1px black solid',
+                    backgroundColor: '#CBCBFF'
+                };
+            case boxState.SELECTED:
+                return {
+                    height: this.props.size + 'px',
+                    width: this.props.size + 'px',
+                    border: '1px black solid',
+                    backgroundColor: '#EBEBEB'
+                };
+            case boxState.ACTIVE:
+                return {
+                    height: this.props.size + 'px',
+                    width: this.props.size + 'px',
+                    border: '1px black solid',
+                    backgroundColor: '#FFF0CB'
+                };
+            case boxState.BLACKBOX:
+                return {
+                    height: this.props.size + 'px',
+                    width: this.props.size + 'px',
+                    border: '1px black solid',
+                    backgroundColor: 'black'
+                };
+        }
     }
 
     getNumberStyle() {
         return {
             fontSize: Math.floor(this.props.size/3.3) + 'px',
-            padding: '1px',
+            padding: '1px'
         };
     }
 
@@ -42,8 +74,8 @@ class CrosswordBox extends React.Component {
             </div>
         ) : null;
 
-        if (this.props.box.isBlackBox) {
-            boxStyle.backgroundColor = 'black';
+        if (this.props.box.isBlackBox()) {
+            // do nothing
         } else if (this.props.box.across != null && this.props.box.across.char === 0) {
             clueNumber = (
                 <div style={numberStyle}>

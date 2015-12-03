@@ -3,6 +3,7 @@ import CrosswordBoard from './../Crossword/CrosswordBoard.js';
 import CrosswordClues from './../Crossword/CrosswordClues.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
+import {directions, boxState, otherDirection} from './../../objects/constants.js';
 
 class Crossword extends React.Component {
 
@@ -14,10 +15,11 @@ class Crossword extends React.Component {
             board: this.game.board,
             puzzle: this.game.puzzle,
             clues: this.game.clues,
-            selected: null
+            selectedClue: {across: null, down: null, focused: null}
         };
 
         this.handleBoxClick = this.handleBoxClick.bind(this);
+        this.handleClueClick = this.handleClueClick.bind(this);
         this.handleKeypress = this.handleKeypress.bind(this);
     }
 
@@ -30,7 +32,9 @@ class Crossword extends React.Component {
                     {
                         board: this.game.board,
                         puzzle: this.game.puzzle,
-                        clues: this.game.clues
+                        clues: this.game.clues,
+                        selectedBox: null,
+                        selectedClue: {across: null, down: null, focused: null}
                     }
                 );
                 break;
@@ -45,8 +49,34 @@ class Crossword extends React.Component {
         console.log(key);
     }
 
+    selectBox(box) {
+        if (this.state.selectedBox != null && this.state.selectedBox.state == boxState.ACTIVE) {
+            this.state.selectedBox.state = boxState.NORMAL;
+        }
+        box.state = boxState.ACTIVE;
+        this.setState({
+            selectedBox: box
+        });
+    }
+
     handleClueClick(clue) {
-        console.log(clue);
+        this.game.clearSelectedClues();
+        var crossClue = this.game.clues[otherDirection(clue.direction)][this.game.puzzle[clue.direction][clue.number][0][otherDirection(clue.direction)].clue];
+
+        this.game.selectClue(crossClue, boxState.SELECTED);
+        this.game.selectClue(clue, boxState.FOCUSED);
+        this.selectBox(this.game.puzzle[clue.direction][clue.number][0]);
+
+        let selected = {across: null, down: null, focused: null};
+        selected[clue.direction] = clue.number;
+        selected[crossClue.direction] = crossClue.number;
+        selected.focused = clue.direction;
+
+        this.setState(
+            {
+                selectedClue: selected
+            }
+        );
     }
 
     render() {
@@ -67,8 +97,8 @@ Crossword.propTypes = {
 };
 
 Crossword.defaultProps = {
-    width: 8,
-    height: 8,
+    width: 15,
+    height: 15,
     mode: 'EDIT'
 };
 

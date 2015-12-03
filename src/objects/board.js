@@ -128,7 +128,7 @@ class Board {
 
         var shouldMakeDownClue = function(x, y, context) {
             let box = context.get(x,y);
-            return (box.down == null && context.height > y+1 && !(context.get(x, y+1).isBlackBox));
+            return (box.down == null && context.height > y+1 && !(context.get(x, y+1).isBlackBox()));
         };
 
         var makeDownClue = function(x, y, context) {
@@ -144,7 +144,7 @@ class Board {
                     box.down = null;
                     box.version = context.version;
                 }
-                if (box.isBlackBox) {
+                if (box.isBlackBox()) {
                     break;
                 }
                 box.down = {
@@ -172,12 +172,12 @@ class Board {
                     box.down = null;
                     box.version = this.version;
                 }
-                if (box.isBlackBox) {
+                if (box.isBlackBox()) {
                     finishAcrossClue(acrossClue, acrossClueCount);
                     acrossClueCount = clueCount;
                     acrossClue = [];
                 } else {
-                    if (!(acrossClue.length === 0 && (x+1 >= row.length || row[x+1].isBlackBox))) {
+                    if (!(acrossClue.length === 0 && (x+1 >= row.length || row[x+1].isBlackBox()))) {
                         box.across = {
                             clue: acrossClueCount,
                             char: acrossClue.length
