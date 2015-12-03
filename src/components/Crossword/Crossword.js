@@ -75,25 +75,66 @@ class Crossword extends React.Component {
      * @param e
      */
     handleKeydown(event) {
+        let selected = this.state.selectedClue;
+        console.log(selected);
         switch (event.which) {
             case 8: // backspace
                 event.preventDefault();
                 break;
             case 38: // up
                 event.preventDefault();
+                if (selected.across && selected.focused == 'across') {
+                    if (selected.down) {
+                        selected.focused = 'down';
+                        this.game.clearSelectedClues();
+                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.SELECTED);
+                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.FOCUSED);
+                        this.selectBox(this.state.selectedBox);
+                        this.setState({selectedClue: selected});
+                    }
+                }
                 break;
             case 39: // right
                 event.preventDefault();
+                if (selected.down && selected.focused == 'down') {
+                    if (selected.across) {
+                        selected.focused = 'across';
+                        this.game.clearSelectedClues();
+                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.SELECTED);
+                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.FOCUSED);
+                        this.selectBox(this.state.selectedBox);
+                        this.setState({selectedClue: selected});
+                    }
+                }
                 break;
             case 40: // down
                 event.preventDefault();
+                if (selected.across && selected.focused == 'across') {
+                    if (selected.down) {
+                        selected.focused = 'down';
+                        this.game.clearSelectedClues();
+                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.SELECTED);
+                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.FOCUSED);
+                        this.selectBox(this.state.selectedBox);
+                        this.setState({selectedClue: selected});
+                    }
+                }
                 break;
             case 37: // left
                 event.preventDefault();
+                if (selected.down && selected.focused == 'down') {
+                    if (selected.across) {
+                        selected.focused = 'across';
+                        this.game.clearSelectedClues();
+                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.SELECTED);
+                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.FOCUSED);
+                        this.selectBox(this.state.selectedBox);
+                        this.setState({selectedClue: selected});
+                    }
+                }
                 break;
 
         }
-        console.log(event);
     }
 
     selectBox(box) {
