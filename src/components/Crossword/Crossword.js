@@ -21,8 +21,18 @@ class Crossword extends React.Component {
         this.handleBoxClick = this.handleBoxClick.bind(this);
         this.handleClueClick = this.handleClueClick.bind(this);
         this.handleKeypress = this.handleKeypress.bind(this);
+        this.handleKeydown = this.handleKeydown.bind(this);
     }
 
+    componentDidMount() {
+        window.addEventListener('keydown', this.handleKeydown);
+        window.addEventListener('keypress', this.handleKeypress);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleKeydown);
+        window.removeEventListener('keypress', this.handleKeypress);
+    }
 
     handleBoxClick(box) {
         switch (this.props.mode) {
@@ -45,8 +55,45 @@ class Crossword extends React.Component {
 
     }
 
-    handleKeypress(key) {
-        console.log(key);
+    /**
+     * Callback when a character key is pressed.
+     *
+     * @param e
+     */
+    handleKeypress(event) {
+        console.log(event);
+        var char = String.fromCharCode(event.keyCode || event.which);
+        if (char) {
+            event.preventDefault();
+            console.log(char);
+        }
+    }
+
+    /**
+     * Callback when a keyboard button (non-character, ex: backspace or arrow keys) is pressed.
+     *
+     * @param e
+     */
+    handleKeydown(event) {
+        switch (event.which) {
+            case 8: // backspace
+                event.preventDefault();
+                break;
+            case 38: // up
+                event.preventDefault();
+                break;
+            case 39: // right
+                event.preventDefault();
+                break;
+            case 40: // down
+                event.preventDefault();
+                break;
+            case 37: // left
+                event.preventDefault();
+                break;
+
+        }
+        console.log(event);
     }
 
     selectBox(box) {
@@ -80,7 +127,7 @@ class Crossword extends React.Component {
     }
 
     render() {
-        return (<div className="crossword-container">
+        return (<div className="crossword-container" onKeyDown={this.handleKeypress}>
             <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick} board={this.state.board} /></div>
             <div className="crossword-clues-container">
                 <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
