@@ -50,6 +50,9 @@ class Game {
      * @param clue
      */
     selectClue(clue, state = boxState.SELECTED) {
+        if (clue == null) {
+            return;
+        }
         for (let i = 0; i < this.puzzle[clue.direction][clue.number].length; i++) {
             this.puzzle[clue.direction][clue.number][i].state = state;
         }

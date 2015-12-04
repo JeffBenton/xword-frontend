@@ -87,11 +87,13 @@ class Crossword extends React.Component {
                     if (selected.down) {
                         selected.focused = 'down';
                         this.game.clearSelectedClues();
-                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.SELECTED);
-                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.FOCUSED);
+                        this.game.selectClue(this.game.clues['across'][selected.across]);
+                        this.game.selectClue(this.game.clues['down'][selected.down]);
                         this.selectBox(this.state.selectedBox);
                         this.setState({selectedClue: selected});
                     }
+                } else if (selected.down && selected.focused == 'down') {
+                    this.selectBox(this.game.board.above(this.state.selectedBox));
                 }
                 break;
             case 39: // right
@@ -100,11 +102,13 @@ class Crossword extends React.Component {
                     if (selected.across) {
                         selected.focused = 'across';
                         this.game.clearSelectedClues();
-                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.SELECTED);
-                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.FOCUSED);
+                        this.game.selectClue(this.game.clues['down'][selected.down]);
+                        this.game.selectClue(this.game.clues['across'][selected.across]);
                         this.selectBox(this.state.selectedBox);
                         this.setState({selectedClue: selected});
                     }
+                } else if (selected.across && selected.focused == 'across') {
+                    this.selectBox(this.game.board.right(this.state.selectedBox));
                 }
                 break;
             case 40: // down
@@ -113,11 +117,13 @@ class Crossword extends React.Component {
                     if (selected.down) {
                         selected.focused = 'down';
                         this.game.clearSelectedClues();
-                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.SELECTED);
-                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.FOCUSED);
+                        this.game.selectClue(this.game.clues['across'][selected.across]);
+                        this.game.selectClue(this.game.clues['down'][selected.down]);
                         this.selectBox(this.state.selectedBox);
                         this.setState({selectedClue: selected});
                     }
+                } else if (selected.down && selected.focused == 'down') {
+                    this.selectBox(this.game.board.below(this.state.selectedBox));
                 }
                 break;
             case 37: // left
@@ -126,11 +132,13 @@ class Crossword extends React.Component {
                     if (selected.across) {
                         selected.focused = 'across';
                         this.game.clearSelectedClues();
-                        this.game.selectClue(this.game.clues['down'][selected.down], boxState.SELECTED);
-                        this.game.selectClue(this.game.clues['across'][selected.across], boxState.FOCUSED);
+                        this.game.selectClue(this.game.clues['down'][selected.down]);
+                        this.game.selectClue(this.game.clues['across'][selected.across]);
                         this.selectBox(this.state.selectedBox);
                         this.setState({selectedClue: selected});
                     }
+                } else if (selected.across && selected.focused == 'across') {
+                    this.selectBox(this.game.board.left(this.state.selectedBox));
                 }
                 break;
 
@@ -138,33 +146,44 @@ class Crossword extends React.Component {
     }
 
     selectBox(box) {
-        if (this.state.selectedBox != null && this.state.selectedBox.state == boxState.ACTIVE) {
-            this.state.selectedBox.state = boxState.NORMAL;
+        if (box == null || box.isBlackBox()) {
+            return;
         }
+        var focusedDirection = (function(box, selectedClue) {
+            let dir = directions[0];
+            if (selectedClue != null && selectedClue.focused != null) {
+                dir = selectedClue.focused;
+            }
+            if (box[dir] == null) {
+                dir = otherDirection(dir);
+            }
+            if (box[dir] == null) {
+                return null;
+            }
+            return dir;
+        })(box, this.state.selectedClue);
+
+        var crossClue = box[otherDirection(focusedDirection)] != null ? this.game.clues[otherDirection(focusedDirection)][box[otherDirection(focusedDirection)].clue] : null;
+        var clue = box[focusedDirection] != null ? this.game.clues[focusedDirection][box[focusedDirection].clue] : null;
+
+        this.game.clearSelectedClues();
+        this.game.selectClue(crossClue);
+        this.game.selectClue(clue, boxState.FOCUSED);
+
+        let selected = {across: null, down: null, focused: null};
+        selected[clue.direction] = clue != null ? clue.number : null;
+        selected[crossClue.direction] = crossClue != null ? crossClue.number : null;
+        selected.focused = focusedDirection;
+
         box.state = boxState.ACTIVE;
         this.setState({
-            selectedBox: box
+            selectedBox: box,
+            selectedClue: selected
         });
     }
 
     handleClueClick(clue) {
-        this.game.clearSelectedClues();
-        var crossClue = this.game.clues[otherDirection(clue.direction)][this.game.puzzle[clue.direction][clue.number][0][otherDirection(clue.direction)].clue];
-
-        this.game.selectClue(crossClue, boxState.SELECTED);
-        this.game.selectClue(clue, boxState.FOCUSED);
         this.selectBox(this.game.puzzle[clue.direction][clue.number][0]);
-
-        let selected = {across: null, down: null, focused: null};
-        selected[clue.direction] = clue.number;
-        selected[crossClue.direction] = crossClue.number;
-        selected.focused = clue.direction;
-
-        this.setState(
-            {
-                selectedClue: selected
-            }
-        );
     }
 
     render() {
