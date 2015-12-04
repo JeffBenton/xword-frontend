@@ -1,3 +1,4 @@
+import {boxState} from './constants.js';
 
 class Box {
 
@@ -6,19 +7,37 @@ class Box {
         this.x = x;
         this.y = y;
         this.value = null;
-        this.isBlackBox = false;
-        this.isSelected = false;
-        this.version = version;
+        this.state = boxState.NORMAL;
         this.across = null;
         this.down = null;
+        this.version = version;
+    }
+
+    isBlackBox() {
+        return this.state === boxState.BLACKBOX;
+    }
+
+    toggleBlackBoxState() {
+        if (this.isBlackBox()) {
+            this.state = boxState.NORMAL;
+        } else {
+            this.state = boxState.BLACKBOX;
+            this.value = null;
+            this.across = null;
+            this.down = null;
+        }
+    }
+
+    isSelected() {
+        return this.state === boxState.SELECTED || this.state === boxState.FOCUSED || this.state === boxState.ACTIVE;
     }
 
     isPartOfAcrossClue() {
-        return !this.isBlackBox && this.across != null;
+        return !this.isBlackBox() && this.across != null;
     }
 
     isPartOfDownClue() {
-        return !this.isBlackBox && this.down != null;
+        return !this.isBlackBox() && this.down != null;
     }
 }
 

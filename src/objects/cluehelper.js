@@ -29,7 +29,7 @@ class ClueHelper {
     }
     static determineDeletedClues(board, box) {
         var determineDeletedDownClues = function() {
-            if (!box.isBlackBox) {
+            if (!box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfDownClue(box)) {
                     if (board.above(box) == null || !ClueHelper.isPartOfDownClue(board.above(box)) || !ClueHelper.isPartOfDownClue(board.above(board.above(box)))) {
@@ -47,7 +47,7 @@ class ClueHelper {
             return null;
         };
         var determineDeletedAcrossClues = function() {
-            if (!box.isBlackBox) {
+            if (!box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfAcrossClue(board.right(box))) {
                     if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
@@ -95,7 +95,7 @@ class ClueHelper {
 
     static determineCreatedClues(board, box) {
         var determineCreatedDownClues = function() {
-            if (box.isBlackBox) {
+            if (box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfDownClue(board.below(box))) {
                     console.log('+ creating clue ' + board.below(box).down.clue + ' down');
@@ -112,7 +112,7 @@ class ClueHelper {
             return null;
         };
         var determineCreatedAcrossClues = function() {
-            if (box.isBlackBox) {
+            if (box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfAcrossClue(board.right(box))) {
                     console.log('+ creating clue ' + board.right(box).across.clue + ' across');
