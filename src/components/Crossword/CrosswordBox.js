@@ -50,13 +50,15 @@ class CrosswordBox extends React.Component {
     getNumberStyle() {
         return {
             fontSize: Math.floor(this.props.size/3.3) + 'px',
-            padding: '1px'
+            padding: '1px',
+            position: 'absolute'
         };
     }
 
     getValueStyle() {
         return {
-
+            lineHeight: this.props.size + 'px',
+            textAlign: 'center'
         };
     }
 

@@ -25,5 +25,11 @@ module.exports = {
         } else {
             return null;
         }
+    },
+
+    toLetter(code) {
+        if ((code > 64 && code < 91) || (code > 96 && code < 123)) {
+            return String.fromCharCode(code).toUpperCase();
+        }
     }
 };
