@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import CrosswordBox from './../Crossword/CrosswordBox.js';
+import CrosswordBox from './CrosswordBox.js';
 import Board from './../../objects/board.js';
 
 class CrosswordBoard extends React.Component {

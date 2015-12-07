@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import CrosswordClue from './../Crossword/CrosswordClue.js';
+import CrosswordClue from './CrosswordClue.js';
 
 class CrosswordClues extends React.Component {
 

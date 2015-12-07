@@ -1,6 +1,7 @@
 import React from 'react';
-import CrosswordBoard from './../Crossword/CrosswordBoard.js';
-import CrosswordClues from './../Crossword/CrosswordClues.js';
+import CrosswordBoard from './CrosswordBoard.js';
+import CrosswordClues from './CrosswordClues.js';
+import CrosswordHeader from './CrosswordHeader.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
 import {directions, boxState, otherDirection, toLetter} from './../../objects/constants.js';
@@ -50,6 +51,7 @@ class Crossword extends React.Component {
                 break;
             case 'SOLVE':
                 // should select the clue we clicked on
+                this.selectBox(box);
                 break;
         }
 
@@ -233,8 +235,24 @@ class Crossword extends React.Component {
         this.selectBox(this.game.puzzle[clue.direction][clue.number][0], clue.direction);
     }
 
+    getHeaderItems() {
+        return [{
+            name: "create",
+            onClick: function() {
+                console.log("clicked create");
+            }
+        },
+        {
+            name: "solve",
+            onClick: function() {
+                console.log("clicked solve");
+            }
+        }]
+    }
+
     render() {
         return (<div className="crossword-container" onKeyDown={this.handleKeypress}>
+            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()} /></div>
             <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick} board={this.state.board} /></div>
             <div className="crossword-clues-container">
                 <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
