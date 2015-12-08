@@ -33,12 +33,7 @@ class CrosswordClue extends React.Component {
 }
 
 CrosswordClue.propTypes = {
-    clue: React.PropTypes.instanceOf(Clue).isRequired,
-    isEditing: React.PropTypes.bool
-};
-
-CrosswordClue.defaultProps = {
-    isEditing: false
+    clue: React.PropTypes.instanceOf(Clue).isRequired
 };
 
 module.exports = CrosswordClue;

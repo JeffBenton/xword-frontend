@@ -6,14 +6,19 @@ import React from 'react';
 class CrosswordHeaderItem extends React.Component {
 
     render() {
-        return (<div onClick={this.props.item.onClick}>{this.props.item.name}</div>);
+        if (this.props.item.isClicked) {
+            return (<div onClick={this.props.item.onClick}>{this.props.item.name}</div>);
+        } else {
+            return (<div onClick={this.props.item.onClick}><a>{this.props.item.name}</a></div>);
+        }
     }
 }
 
 CrosswordHeaderItem.propTypes = {
     item: React.PropTypes.shape({
         name: React.PropTypes.string,
-        onClick: React.PropTypes.func
+        onClick: React.PropTypes.func,
+        isClicked: React.PropTypes.bool
     })
 };
 

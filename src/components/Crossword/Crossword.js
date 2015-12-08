@@ -246,22 +246,31 @@ class Crossword extends React.Component {
     }
 
     getHeaderItems() {
-        return [{
-            name: "create",
-            onClick: function(context) {
-                return function() {
-                    context.setState({clickAction: 'CREATEBOX'});
-                }
-            }(this)
-        },
-        {
-            name: "select",
-            onClick: function(context) {
-                return function() {
-                    context.setState({clickAction: 'SELECT'});
-                }
-            }(this)
-        }]
+        switch(this.props.mode) {
+            case 'CREATE':
+                return [{
+                    name: "create",
+                    onClick: function(context) {
+                        return function() {
+                            context.setState({clickAction: 'CREATEBOX'});
+                        };
+                    }(this),
+                    isClicked: this.state.clickAction == 'CREATEBOX'
+                },
+                    {
+                        name: "select",
+                        onClick: function(context) {
+                            return function() {
+                                context.setState({clickAction: 'SELECT'});
+                            };
+                        }(this),
+                        isClicked: this.state.clickAction == 'SELECT'
+                    }];
+            case 'SOLVE':
+                return [];
+            default:
+                return [];
+        }
     }
 
     render() {
@@ -269,8 +278,8 @@ class Crossword extends React.Component {
             <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()} /></div>
             <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick} board={this.state.board} /></div>
             <div className="crossword-clues-container">
-                <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
-                <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
+                <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} mode={this.props.mode}/>
+                <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} mode={this.props.mode} />
             </div>
         </div>);
     }
