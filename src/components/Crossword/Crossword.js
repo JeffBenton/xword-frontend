@@ -16,7 +16,8 @@ class Crossword extends React.Component {
             board: this.game.board,
             puzzle: this.game.puzzle,
             clues: this.game.clues,
-            selectedClue: null
+            selectedClue: null,
+            clickAction: 'CREATEBOX'
         };
 
         this.handleBoxClick = this.handleBoxClick.bind(this);
@@ -37,17 +38,26 @@ class Crossword extends React.Component {
 
     handleBoxClick(box) {
         switch (this.props.mode) {
-            case 'EDIT':
-                this.game.toggleBoxStatus(box.x, box.y);
-                this.setState(
-                    {
-                        board: this.game.board,
-                        puzzle: this.game.puzzle,
-                        clues: this.game.clues,
-                        selectedBox: null,
-                        selectedClue: {across: null, down: null, focused: null}
-                    }
-                );
+            case 'CREATE':
+                switch(this.state.clickAction) {
+                    case 'CREATEBOX':
+                        this.game.toggleBoxStatus(box.x, box.y);
+                        this.setState(
+                            {
+                                board: this.game.board,
+                                puzzle: this.game.puzzle,
+                                clues: this.game.clues,
+                                selectedBox: null,
+                                selectedClue: {across: null, down: null, focused: null}
+                            }
+                        );
+                        break;
+                    case 'SELECT':
+                        // should select the clue we clicked on
+                        this.selectBox(box);
+                        break;
+
+                }
                 break;
             case 'SOLVE':
                 // should select the clue we clicked on
@@ -238,15 +248,19 @@ class Crossword extends React.Component {
     getHeaderItems() {
         return [{
             name: "create",
-            onClick: function() {
-                console.log("clicked create");
-            }
+            onClick: function(context) {
+                return function() {
+                    context.setState({clickAction: 'CREATEBOX'});
+                }
+            }(this)
         },
         {
-            name: "solve",
-            onClick: function() {
-                console.log("clicked solve");
-            }
+            name: "select",
+            onClick: function(context) {
+                return function() {
+                    context.setState({clickAction: 'SELECT'});
+                }
+            }(this)
         }]
     }
 
@@ -271,7 +285,7 @@ Crossword.propTypes = {
 Crossword.defaultProps = {
     width: 15,
     height: 15,
-    mode: 'EDIT'
+    mode: 'CREATE'
 };
 
 module.exports = Crossword;
