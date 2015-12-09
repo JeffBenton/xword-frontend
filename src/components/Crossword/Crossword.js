@@ -1,6 +1,7 @@
 import React from 'react';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordClues from './CrosswordClues.js';
+import EditableCrosswordClues from './EditableCrosswordClues.js';
 import CrosswordHeader from './CrosswordHeader.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
@@ -73,7 +74,9 @@ class Crossword extends React.Component {
      * @param e
      */
     handleKeypress(event) {
-        console.log(event);
+        if (event.target.tagName == 'INPUT') {
+            return;
+        }
         var char = toLetter(event.keyCode || event.which);
         if (char) {
             event.preventDefault();
@@ -106,6 +109,10 @@ class Crossword extends React.Component {
      * @param e
      */
     handleKeydown(event) {
+        if (event.target.tagName == 'INPUT') {
+            return;
+        }
+
         let selected = this.state.selectedClue;
         let selectedBox = this.state.selectedBox;
 
@@ -274,14 +281,31 @@ class Crossword extends React.Component {
     }
 
     render() {
-        return (<div className="crossword-container" onKeyDown={this.handleKeypress}>
-            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()} /></div>
-            <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick} board={this.state.board} /></div>
-            <div className="crossword-clues-container">
-                <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} mode={this.props.mode}/>
-                <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} mode={this.props.mode} />
-            </div>
-        </div>);
+        if (this.props.mode == 'CREATE') {
+            return (<div className="crossword-container" >
+                <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+                <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
+                                                                           board={this.state.board}/></div>
+                <div className="crossword-clues-container">
+                    <EditableCrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across}
+                                    mode={this.props.mode}/>
+                    <EditableCrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down}
+                                    mode={this.props.mode}/>
+                </div>
+            </div>);
+        } else {
+            return (<div className="crossword-container" >
+                <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+                <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
+                                                                           board={this.state.board}/></div>
+                <div className="crossword-clues-container">
+                    <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across}
+                                            mode={this.props.mode}/>
+                    <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down}
+                                            mode={this.props.mode}/>
+                </div>
+            </div>);
+        }
     }
 }
 

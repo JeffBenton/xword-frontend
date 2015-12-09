@@ -10,35 +10,49 @@ class EditableCrosswordClue extends CrosswordClue {
 
     constructor(props) {
         super(props);
-        console.log('hi');
+        this.clue = this.props.clue;
         this.state = {
-            isEditing: false
+            value: this.props.clue.text
         };
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    onClick() {
-        if (this.props.clue.isSelected) {
-            this.setState({isEditing: true});
-        } else {
-            this.props.onClick(this.props.clue);
-        }
+    componentWillReceiveProps(props) {
+        this.state = {
+            value: props.clue.text
+        };
+        this.clue = props.clue;
     }
 
     getEditingClueStyle() {
         return {};
     }
 
+    handleChange(event) {
+        this.setState({value: event.target.value});
+        this.clue.text = event.target.value;
+    }
+
     render() {
-        if (this.state.isEditing) {
-            return (<div style={this.getEditingClueStyle()}><b>{this.props.clue.number}</b></div>);
+        var value = this.state.value;
+        if (this.props.isEditing) {
+            return (<div style={this.getEditingClueStyle()}><b>{this.props.clue.number}</b><input type="text" ref="edit" value={value} onChange={this.handleChange} /></div>);
         } else {
             return super.render();
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.isEditing) {
+            console.log('update');
+            this.refs.edit.focus();
         }
     }
 }
 
 EditableCrosswordClue.propTypes = {
     clue: React.PropTypes.instanceOf(Clue).isRequired,
+    isEditing: React.PropTypes.bool
 };
 
 module.exports = EditableCrosswordClue;
