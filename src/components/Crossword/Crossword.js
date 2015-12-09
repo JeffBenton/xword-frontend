@@ -1,6 +1,8 @@
 import React from 'react';
-import CrosswordBoard from './../Crossword/CrosswordBoard.js';
-import CrosswordClues from './../Crossword/CrosswordClues.js';
+import CrosswordBoard from './CrosswordBoard.js';
+import CrosswordClues from './CrosswordClues.js';
+import EditableCrosswordClues from './EditableCrosswordClues.js';
+import CrosswordHeader from './CrosswordHeader.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
 import {directions, boxState, otherDirection, toLetter} from './../../objects/constants.js';
@@ -15,7 +17,8 @@ class Crossword extends React.Component {
             board: this.game.board,
             puzzle: this.game.puzzle,
             clues: this.game.clues,
-            selectedClue: null
+            selectedClue: null,
+            clickAction: 'CREATEBOX'
         };
 
         this.handleBoxClick = this.handleBoxClick.bind(this);
@@ -36,20 +39,30 @@ class Crossword extends React.Component {
 
     handleBoxClick(box) {
         switch (this.props.mode) {
-            case 'EDIT':
-                this.game.toggleBoxStatus(box.x, box.y);
-                this.setState(
-                    {
-                        board: this.game.board,
-                        puzzle: this.game.puzzle,
-                        clues: this.game.clues,
-                        selectedBox: null,
-                        selectedClue: {across: null, down: null, focused: null}
-                    }
-                );
+            case 'CREATE':
+                switch(this.state.clickAction) {
+                    case 'CREATEBOX':
+                        this.game.toggleBoxStatus(box.x, box.y);
+                        this.setState(
+                            {
+                                board: this.game.board,
+                                puzzle: this.game.puzzle,
+                                clues: this.game.clues,
+                                selectedBox: null,
+                                selectedClue: {across: null, down: null, focused: null}
+                            }
+                        );
+                        break;
+                    case 'SELECT':
+                        // should select the clue we clicked on
+                        this.selectBox(box);
+                        break;
+
+                }
                 break;
             case 'SOLVE':
                 // should select the clue we clicked on
+                this.selectBox(box);
                 break;
         }
 
@@ -61,7 +74,9 @@ class Crossword extends React.Component {
      * @param e
      */
     handleKeypress(event) {
-        console.log(event);
+        if (event.target.tagName == 'INPUT') {
+            return;
+        }
         var char = toLetter(event.keyCode || event.which);
         if (char) {
             event.preventDefault();
@@ -94,13 +109,17 @@ class Crossword extends React.Component {
      * @param e
      */
     handleKeydown(event) {
+        if (event.target.tagName == 'INPUT') {
+            return;
+        }
+
         let selected = this.state.selectedClue;
+        let selectedBox = this.state.selectedBox;
+
         switch (event.which) {
             case 8: // backspace
                 event.preventDefault();
-                let selectedClue = this.state.selectedClue;
-                let selectedBox = this.state.selectedBox;
-                if (selectedClue == null || selectedBox == null) {
+                if (selected == null || selectedBox == null) {
                     return;
                 }
                 if (selectedBox.value != null) {
@@ -109,7 +128,7 @@ class Crossword extends React.Component {
                         selectedBox: selectedBox
                     });
                 } else {
-                    switch (selectedClue.focused) {
+                    switch (selected.focused) {
                         case 'across':
                             this.selectBox(this.game.board.left(selectedBox));
                             break;
@@ -131,10 +150,10 @@ class Crossword extends React.Component {
                 }
                 if (selected.across && selected.focused == 'across') {
                     if (selected.down) {
-                        this.selectBox(this.state.selectedBox, 'down');
+                        this.selectBox(selectedBox, 'down');
                     }
                 } else if (selected.down && selected.focused == 'down') {
-                    this.selectBox(this.game.board.above(this.state.selectedBox));
+                    this.selectBox(this.game.board.above(selectedBox));
                 }
                 break;
             case 39: // right
@@ -145,10 +164,10 @@ class Crossword extends React.Component {
                 }
                 if (selected.down && selected.focused == 'down') {
                     if (selected.across) {
-                        this.selectBox(this.state.selectedBox, 'across');
+                        this.selectBox(selectedBox, 'across');
                     }
                 } else if (selected.across && selected.focused == 'across') {
-                    this.selectBox(this.game.board.right(this.state.selectedBox));
+                    this.selectBox(this.game.board.right(selectedBox));
                 }
                 break;
             case 40: // down
@@ -159,10 +178,10 @@ class Crossword extends React.Component {
                 }
                 if (selected.across && selected.focused == 'across') {
                     if (selected.down) {
-                        this.selectBox(this.state.selectedBox, 'down');
+                        this.selectBox(selectedBox, 'down');
                     }
                 } else if (selected.down && selected.focused == 'down') {
-                    this.selectBox(this.game.board.below(this.state.selectedBox));
+                    this.selectBox(this.game.board.below(selectedBox));
                 }
                 break;
             case 37: // left
@@ -173,10 +192,10 @@ class Crossword extends React.Component {
                 }
                 if (selected.down && selected.focused == 'down') {
                     if (selected.across) {
-                        this.selectBox(this.state.selectedBox, 'across');
+                        this.selectBox(selectedBox, 'across');
                     }
                 } else if (selected.across && selected.focused == 'across') {
-                    this.selectBox(this.game.board.left(this.state.selectedBox));
+                    this.selectBox(this.game.board.left(selectedBox));
                 }
                 break;
 
@@ -233,14 +252,60 @@ class Crossword extends React.Component {
         this.selectBox(this.game.puzzle[clue.direction][clue.number][0], clue.direction);
     }
 
+    getHeaderItems() {
+        switch(this.props.mode) {
+            case 'CREATE':
+                return [{
+                    name: "create",
+                    onClick: function(context) {
+                        return function() {
+                            context.setState({clickAction: 'CREATEBOX'});
+                        };
+                    }(this),
+                    isClicked: this.state.clickAction == 'CREATEBOX'
+                },
+                    {
+                        name: "select",
+                        onClick: function(context) {
+                            return function() {
+                                context.setState({clickAction: 'SELECT'});
+                            };
+                        }(this),
+                        isClicked: this.state.clickAction == 'SELECT'
+                    }];
+            case 'SOLVE':
+                return [];
+            default:
+                return [];
+        }
+    }
+
     render() {
-        return (<div className="crossword-container" onKeyDown={this.handleKeypress}>
-            <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick} board={this.state.board} /></div>
-            <div className="crossword-clues-container">
-                <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
-                <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
-            </div>
-        </div>);
+        if (this.props.mode == 'CREATE') {
+            return (<div className="crossword-container" >
+                <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+                <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
+                                                                           board={this.state.board}/></div>
+                <div className="crossword-clues-container">
+                    <EditableCrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across}
+                                    mode={this.props.mode}/>
+                    <EditableCrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down}
+                                    mode={this.props.mode}/>
+                </div>
+            </div>);
+        } else {
+            return (<div className="crossword-container" >
+                <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+                <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
+                                                                           board={this.state.board}/></div>
+                <div className="crossword-clues-container">
+                    <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across}
+                                            mode={this.props.mode}/>
+                    <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down}
+                                            mode={this.props.mode}/>
+                </div>
+            </div>);
+        }
     }
 }
 
@@ -253,7 +318,7 @@ Crossword.propTypes = {
 Crossword.defaultProps = {
     width: 15,
     height: 15,
-    mode: 'EDIT'
+    mode: 'CREATE'
 };
 
 module.exports = Crossword;

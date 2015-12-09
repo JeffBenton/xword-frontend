@@ -3,14 +3,16 @@
  */
 
 import React from 'react';
-import CrosswordClue from './../Crossword/CrosswordClue.js';
+import CrosswordClue from './CrosswordClue.js';
 
 class CrosswordClues extends React.Component {
 
     render() {
         var clues = [];
         for (var number in this.props.clues) {
-            clues.push(<CrosswordClue clue = {this.props.clues[number]} key={number} onClick={this.props.onClick}/>);
+            if (this.props.clues.hasOwnProperty(number)) {
+                clues.push(<CrosswordClue clue={this.props.clues[number]} key={number} onClick={this.props.onClick}/>);
+            }
         }
         return (
             <div>
