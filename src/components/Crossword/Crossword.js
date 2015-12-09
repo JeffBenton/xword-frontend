@@ -1,7 +1,6 @@
 import React from 'react';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordClues from './CrosswordClues.js';
-import EditableCrosswordClues from './EditableCrosswordClues.js';
 import CrosswordHeader from './CrosswordHeader.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
@@ -17,8 +16,7 @@ class Crossword extends React.Component {
             board: this.game.board,
             puzzle: this.game.puzzle,
             clues: this.game.clues,
-            selectedClue: null,
-            clickAction: 'CREATEBOX'
+            selectedClue: null
         };
 
         this.handleBoxClick = this.handleBoxClick.bind(this);
@@ -38,34 +36,7 @@ class Crossword extends React.Component {
     }
 
     handleBoxClick(box) {
-        switch (this.props.mode) {
-            case 'CREATE':
-                switch(this.state.clickAction) {
-                    case 'CREATEBOX':
-                        this.game.toggleBoxStatus(box.x, box.y);
-                        this.setState(
-                            {
-                                board: this.game.board,
-                                puzzle: this.game.puzzle,
-                                clues: this.game.clues,
-                                selectedBox: null,
-                                selectedClue: {across: null, down: null, focused: null}
-                            }
-                        );
-                        break;
-                    case 'SELECT':
-                        // should select the clue we clicked on
-                        this.selectBox(box);
-                        break;
-
-                }
-                break;
-            case 'SOLVE':
-                // should select the clue we clicked on
-                this.selectBox(box);
-                break;
-        }
-
+        this.selectBox(box);
     }
 
     /**
@@ -253,72 +224,30 @@ class Crossword extends React.Component {
     }
 
     getHeaderItems() {
-        switch(this.props.mode) {
-            case 'CREATE':
-                return [{
-                    name: "create",
-                    onClick: function(context) {
-                        return function() {
-                            context.setState({clickAction: 'CREATEBOX'});
-                        };
-                    }(this),
-                    isClicked: this.state.clickAction == 'CREATEBOX'
-                },
-                    {
-                        name: "select",
-                        onClick: function(context) {
-                            return function() {
-                                context.setState({clickAction: 'SELECT'});
-                            };
-                        }(this),
-                        isClicked: this.state.clickAction == 'SELECT'
-                    }];
-            case 'SOLVE':
-                return [];
-            default:
-                return [];
-        }
+        return [];
     }
 
     render() {
-        if (this.props.mode == 'CREATE') {
-            return (<div className="crossword-container" >
-                <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
-                <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
-                                                                           board={this.state.board}/></div>
-                <div className="crossword-clues-container">
-                    <EditableCrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across}
-                                    mode={this.props.mode}/>
-                    <EditableCrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down}
-                                    mode={this.props.mode}/>
-                </div>
-            </div>);
-        } else {
-            return (<div className="crossword-container" >
-                <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
-                <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
-                                                                           board={this.state.board}/></div>
-                <div className="crossword-clues-container">
-                    <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across}
-                                            mode={this.props.mode}/>
-                    <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down}
-                                            mode={this.props.mode}/>
-                </div>
-            </div>);
-        }
+        return (<div className="crossword-container" >
+            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+            <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
+                                                                       board={this.state.board}/></div>
+            <div className="crossword-clues-container">
+                <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
+                <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
+            </div>
+        </div>);
     }
 }
 
 Crossword.propTypes = {
     width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    mode: React.PropTypes.string
+    height: React.PropTypes.number
 };
 
 Crossword.defaultProps = {
     width: 15,
-    height: 15,
-    mode: 'CREATE'
+    height: 15
 };
 
 module.exports = Crossword;

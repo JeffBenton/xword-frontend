@@ -47,8 +47,7 @@ class EditableCrosswordClues extends CrosswordClues {
 EditableCrosswordClues.propTypes = {
     type: React.PropTypes.string.isRequired,
     onClick: React.PropTypes.func.isRequired,
-    clues: React.PropTypes.object.isRequired,
-    mode: React.PropTypes.string.isRequired
+    clues: React.PropTypes.object.isRequired
 };
 
 module.exports = EditableCrosswordClues;
