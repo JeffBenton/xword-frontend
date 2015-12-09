@@ -3,7 +3,8 @@
  */
 
 import React from 'react';
-import CrosswordHeaderItem from './CrosswordHeaderItem.js'
+import CrosswordHeaderItem from './CrosswordHeaderItem.js';
+
 class CrosswordHeader extends React.Component {
 
     render() {

@@ -18,9 +18,9 @@ module.exports = {
     },
 
     otherDirection: function(direction) {
-        if (direction == 'across') {
+        if (direction === 'across') {
             return 'down';
-        } else if (direction == 'down') {
+        } else if (direction === 'down') {
             return 'across';
         } else {
             return null;
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     toLetter(code) {
-        if ((code == 32) || (code > 64 && code < 91) || (code > 96 && code < 123)) {
+        if ((code === 32) || (code > 64 && code < 91) || (code > 96 && code < 123)) {
             return String.fromCharCode(code).toUpperCase();
         }
     }

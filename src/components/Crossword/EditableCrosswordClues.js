@@ -33,7 +33,7 @@ class EditableCrosswordClues extends CrosswordClues {
         var clues = [];
         for (var number in this.props.clues) {
             if (this.props.clues.hasOwnProperty(number)) {
-                clues.push(<EditableCrosswordClue clue={this.props.clues[number]} key={number} onClick={this.onClick} isEditing={this.state.editing == this.props.clues[number]}/>);
+                clues.push(<EditableCrosswordClue clue={this.props.clues[number]} key={number} onClick={this.onClick} isEditing={this.state.editing === this.props.clues[number]}/>);
             }
         }
         return (

@@ -37,7 +37,7 @@ class EditableCrosswordClue extends CrosswordClue {
     }
 
     handleKeydown(event) {
-        if (event.which == 13) {
+        if (event.which === 13) {
             this.setState({isEditing: false});
         }
     }

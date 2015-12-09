@@ -5,7 +5,7 @@ import EditableCrossword from './../Crossword/EditableCrossword.js';
 class App extends React.Component {
 
     render() {
-        if (this.props.mode == 'CREATE') {
+        if (this.props.mode === 'CREATE') {
             return (<div><EditableCrossword /></div>);
         } else {
             return (<div><Crossword /></div>);

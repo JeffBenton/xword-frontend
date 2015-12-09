@@ -67,10 +67,10 @@ class CrosswordBox extends React.Component {
         var numberStyle = this.getNumberStyle();
         var valueStyle = this.getValueStyle();
         var onClick = (function(that) {
-            return function() {that.props.onClick(that.props.box)};
+            return function() {that.props.onClick(that.props.box);};
         })(this);
         var clueNumber = null;
-        var value = this.props.box.value != null ? (
+        var value = this.props.box.value !== null ? (
             <div style={valueStyle}>
                 {this.props.box.value}
             </div>
@@ -78,12 +78,12 @@ class CrosswordBox extends React.Component {
 
         if (this.props.box.isBlackBox()) {
             // do nothing
-        } else if (this.props.box.across != null && this.props.box.across.char === 0) {
+        } else if (this.props.box.across !== null && this.props.box.across.char === 0) {
             clueNumber = (
                 <div style={numberStyle}>
                     {this.props.box.across.clue}
                 </div>);
-        } else if (this.props.box.down != null && this.props.box.down.char === 0) {
+        } else if (this.props.box.down !== null && this.props.box.down.char === 0) {
             clueNumber = (
                 <div style={numberStyle}>
                     {this.props.box.down.clue}

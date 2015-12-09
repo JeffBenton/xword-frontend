@@ -61,7 +61,7 @@ class Board {
     }
 
     above(box) {
-        if (box == null || box.x == null || box.y == null) {
+        if (box === null || box.x === null || box.y === null) {
             return null;
         } else {
             return this.get(box.x, box.y - 1);
@@ -69,7 +69,7 @@ class Board {
     }
 
     left(box) {
-        if (box == null || box.x == null || box.y == null) {
+        if (box === null || box.x === null || box.y === null) {
             return null;
         } else {
             return this.get(box.x - 1, box.y);
@@ -77,7 +77,7 @@ class Board {
     }
 
     below(box) {
-        if (box == null || box.x == null || box.y == null) {
+        if (box === null || box.x === null || box.y === null) {
             return null;
         } else {
             return this.get(box.x, box.y + 1);
@@ -85,7 +85,7 @@ class Board {
     }
 
     right(box) {
-        if (box == null || box.x == null || box.y == null) {
+        if (box === null || box.x === null || box.y === null) {
             return null;
         } else {
             return this.get(box.x + 1, box.y);
@@ -128,18 +128,18 @@ class Board {
 
         var shouldMakeDownClue = function(x, y, context) {
             let box = context.get(x,y);
-            return (box.down == null && context.height > y+1 && !(context.get(x, y+1).isBlackBox()));
+            return (box.down === null && context.height > y+1 && !(context.get(x, y+1).isBlackBox()));
         };
 
         var makeDownClue = function(x, y, context) {
             let downClue = [];
             let start = context.get(x,y);
-            let isNewClue = (start.across == null || start.across.char != 0);
-            let downClueNumber = isNewClue ? (start.across == null) ?  clueCount : clueCount + 1 : start.across.clue;
+            let isNewClue = (start.across === null || start.across.char !== 0);
+            let downClueNumber = isNewClue ? (start.across === null) ?  clueCount : clueCount + 1 : start.across.clue;
 
             for (let i = y; i < context.height; i++) {
                 let box = context.get(x,i);
-                if (box.version != context.version) {
+                if (box.version !== context.version) {
                     box.across = null;
                     box.down = null;
                     box.version = context.version;
@@ -167,7 +167,7 @@ class Board {
             let acrossClue = [];
             let acrossClueCount = clueCount;
             for (let x = 0, box=row[x]; x < row.length; x++, box=row[x]) {
-                if (box.version != this.version) {
+                if (box.version !== this.version) {
                     box.across = null;
                     box.down = null;
                     box.version = this.version;

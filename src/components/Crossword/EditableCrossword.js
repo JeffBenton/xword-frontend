@@ -45,7 +45,7 @@ class EditableCrossword extends Crossword {
                     context.setState({clickAction: 'CREATEBOX'});
                 };
             }(this),
-            isClicked: this.state.clickAction == 'CREATEBOX'
+            isClicked: this.state.clickAction === 'CREATEBOX'
         },
             {
                 name: "select",
@@ -54,7 +54,7 @@ class EditableCrossword extends Crossword {
                         context.setState({clickAction: 'SELECT'});
                     };
                 }(this),
-                isClicked: this.state.clickAction == 'SELECT'
+                isClicked: this.state.clickAction === 'SELECT'
             }];
     }
 

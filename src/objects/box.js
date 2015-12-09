@@ -33,11 +33,11 @@ class Box {
     }
 
     isPartOfAcrossClue() {
-        return !this.isBlackBox() && this.across != null;
+        return !this.isBlackBox() && this.across !== null;
     }
 
     isPartOfDownClue() {
-        return !this.isBlackBox() && this.down != null;
+        return !this.isBlackBox() && this.down !== null;
     }
 }
 

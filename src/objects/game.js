@@ -48,9 +48,10 @@ class Game {
      * Select a clue.
      *
      * @param clue
+     * @param state (default: boxState.SELECTED)
      */
     selectClue(clue, state = boxState.SELECTED) {
-        if (clue == null) {
+        if (clue === null) {
             return;
         }
         for (let i = 0; i < this.puzzle[clue.direction][clue.number].length; i++) {
