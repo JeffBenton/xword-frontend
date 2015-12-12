@@ -158,6 +158,7 @@ class ClueHelper {
     }
 
     static updateClues(oldclues, newclues, creates, deletes) {
+        debugger;
         var deletedAcrossClue = deletes.across !== null ? oldclues.across[deletes.across.clue] : null;
         var deletedDownClue = deletes.down !== null ? oldclues.down[deletes.down.clue] : null;
         var createdDownClue = null;

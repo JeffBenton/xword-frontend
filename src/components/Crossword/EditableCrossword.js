@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Game from './../../objects/game.js';
 import Crossword from './Crossword.js';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordHeader from './CrosswordHeader.js';
@@ -19,12 +20,12 @@ class EditableCrossword extends Crossword {
     handleBoxClick(box) {
         switch (this.state.clickAction) {
             case 'CREATEBOX':
-                this.game.toggleBoxStatus(box.x, box.y);
+                this.props.game.toggleBoxStatus(box.x, box.y);
                 this.setState(
                     {
-                        board: this.game.board,
-                        puzzle: this.game.puzzle,
-                        clues: this.game.clues,
+                        board: this.props.game.board,
+                        puzzle: this.props.game.puzzle,
+                        clues: this.props.game.clues,
                         selectedBox: null,
                         selectedClue: {across: null, down: null, focused: null}
                     }
@@ -59,6 +60,7 @@ class EditableCrossword extends Crossword {
     }
 
     render() {
+        console.log(this.props);
         return (<div className="crossword-container" >
             <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
             <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
@@ -70,5 +72,9 @@ class EditableCrossword extends Crossword {
         </div>);
     }
 }
+
+EditableCrossword.propTypes = {
+    game: React.PropTypes.instanceOf(Game).isRequired
+};
 
 module.exports = EditableCrossword;
