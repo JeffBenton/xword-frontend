@@ -7,24 +7,22 @@ import Clue from './clue.js';
 class ClueHelper {
 
     static _makeClueResult(box, direction, board) {
-        if (box === null) {
+        if (box == null) {
             return null;
         }
         switch (direction) {
             case 'down':
-                if (box.down.char === 0) {
-                    return {clue: box.down.clue, direction: direction, flag: (box.across !== null && box.across.char === 0)};
+                if (box.down.char == 0) {
+                    return {clue: box.down.clue, direction: direction, flag: (box.across != null && box.across.char == 0)};
                 } else {
                     return ClueHelper._makeClueResult(board.above(box), direction, board);
                 }
-                break;
             case 'across':
-                if (box.across.char === 0) {
-                    return {clue: box.across.clue, direction: direction, flag: (box.down !== null && box.down.char === 0)};
+                if (box.across.char == 0) {
+                    return {clue: box.across.clue, direction: direction, flag: (box.down != null && box.down.char == 0)};
                 } else {
                     return ClueHelper._makeClueResult(board.left(box), direction, board);
                 }
-                break;
             default:
                 return null;
         }
@@ -34,15 +32,15 @@ class ClueHelper {
             if (!box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfDownClue(box)) {
-                    if (board.above(box) === null || !ClueHelper.isPartOfDownClue(board.above(box)) || !ClueHelper.isPartOfDownClue(board.above(board.above(box)))) {
-                        //console.log('- deleting clue ' + box.down.clue + ' down');
+                    if (board.above(box) == null || !ClueHelper.isPartOfDownClue(board.above(box)) || !ClueHelper.isPartOfDownClue(board.above(board.above(box)))) {
+                        console.log('- deleting clue ' + box.down.clue + ' down');
                         return ClueHelper._makeClueResult(box, 'down', board);
                     }
                 }
             } else {
                 // this means we're removing a black box.
                 if (ClueHelper.isPartOfDownClue(board.below(box))) {
-                    //console.log('- deleting clue ' + board.below(box).down.clue + ' down');
+                    console.log('- deleting clue ' + board.below(box).down.clue + ' down');
                     return ClueHelper._makeClueResult(board.below(box), 'down', board);
                 }
             }
@@ -55,34 +53,34 @@ class ClueHelper {
                     if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                         if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box))) &&
                             !ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                            //console.log('- deleting clue ' + box.across.clue + ' across');
+                            console.log('- deleting clue ' + box.across.clue + ' across');
                             return ClueHelper._makeClueResult(box, 'across', board);
                         } else if (!ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                            //console.log('- deleting clue ' + box.across.clue + ' across');
+                            console.log('- deleting clue ' + box.across.clue + ' across');
                             return ClueHelper._makeClueResult(box, 'across', board);
                         }
                     } else if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box)))) {
-                        //console.log('- deleting clue ' + box.across.clue + ' across');
+                        console.log('- deleting clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 } else if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                     if (!ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                        //console.log('- deleting clue ' + box.across.clue + ' across');
+                        console.log('- deleting clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 }
                 if (ClueHelper.isPartOfAcrossClue(box) && !ClueHelper.isPartOfAcrossClue(board.left(box))) {
-                    //console.log('- deleting clue ' + box.across.clue + ' across');
+                    console.log('- deleting clue ' + box.across.clue + ' across');
                     return ClueHelper._makeClueResult(box, 'across');
                 }
             } else {
                 // this means we're removing a black box.
                 if (ClueHelper.isPartOfAcrossClue(board.left(box)) && ClueHelper.isPartOfAcrossClue(board.right(box))) {
-                    //console.log('- deleting clue ' + board.right(box).across.clue + ' across');
+                    console.log('- deleting clue ' + board.right(box).across.clue + ' across');
                     return ClueHelper._makeClueResult(board.right(box), 'across', board);
                 }
                 if (ClueHelper.isPartOfAcrossClue(board.right(box))) {
-                    //console.log('- deleting clue ' + board.right(box).across.clue + ' across');
+                    console.log('- deleting clue ' + board.right(box).across.clue + ' across');
                     return ClueHelper._makeClueResult(board.right(box), 'across', board);
                 }
             }
@@ -100,14 +98,14 @@ class ClueHelper {
             if (box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfDownClue(board.below(box))) {
-                    //console.log('+ creating clue ' + board.below(box).down.clue + ' down');
+                    console.log('+ creating clue ' + board.below(box).down.clue + ' down');
                     return ClueHelper._makeClueResult(board.below(box), 'down', board);
                 }
             } else {
                 // this means we're removing a black box.
                 if ((ClueHelper.isPartOfDownClue(board.above(box)) && !ClueHelper.isPartOfDownClue(board.above(board.above(box)))) ||
                     ((ClueHelper.isPartOfDownClue(board.below(box))) && !ClueHelper.isPartOfDownClue(board.above(box)))) {
-                    //console.log('+ creating clue ' + box.down.clue + ' down');
+                    console.log('+ creating clue ' + box.down.clue + ' down');
                     return ClueHelper._makeClueResult(box, 'down', board);
                 }
             }
@@ -117,7 +115,7 @@ class ClueHelper {
             if (box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfAcrossClue(board.right(box))) {
-                    //console.log('+ creating clue ' + board.right(box).across.clue + ' across');
+                    console.log('+ creating clue ' + board.right(box).across.clue + ' across');
                     return ClueHelper._makeClueResult(board.right(box), 'across', board);
                 }
             } else {
@@ -126,25 +124,25 @@ class ClueHelper {
                     if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                         if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box))) &&
                             !ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                            //console.log('+ creating clue ' + box.across.clue + ' across');
+                            console.log('+ creating clue ' + box.across.clue + ' across');
                             return ClueHelper._makeClueResult(box, 'across', board);
                         }
                     } else if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box)))) {
-                        //console.log('+ creating clue ' + box.across.clue + ' across');
+                        console.log('+ creating clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 } else if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                     if (!ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                        //console.log('+ creating clue ' + box.across.clue + ' across');
+                        console.log('+ creating clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 }
                 if (ClueHelper.isPartOfAcrossClue(box) && !ClueHelper.isPartOfAcrossClue(board.left(box))) {
-                    //console.log('+ creating clue ' + box.across.clue + ' across');
+                    console.log('+ creating clue ' + box.across.clue + ' across');
                     return ClueHelper._makeClueResult(box, 'across', board);
                 }
                 if (ClueHelper.isPartOfAcrossClue(box) && ClueHelper.isPartOfAcrossClue(board.left(box)) && !ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                    //console.log('+ creating clue ' + box.across.clue + ' across');
+                    console.log('+ creating clue ' + box.across.clue + ' across');
                     return ClueHelper._makeClueResult(box, 'across', board);
                 }
             }
@@ -157,22 +155,21 @@ class ClueHelper {
         };
     }
 
-    static updateClues(oldclues, newclues, creates, deletes) {
-        debugger;
-        var deletedAcrossClue = deletes.across !== null ? oldclues.across[deletes.across.clue] : null;
-        var deletedDownClue = deletes.down !== null ? oldclues.down[deletes.down.clue] : null;
+    static updateClues(oldclues, newclues, creates, deletes, board) {
+        var deletedAcrossClue = deletes.across != null ? oldclues.across[deletes.across.clue] : null;
+        var deletedDownClue = deletes.down != null ? oldclues.down[deletes.down.clue] : null;
         var createdDownClue = null;
 
-        if (creates.down !== null) {
+        if (creates.down != null) {
             createdDownClue = new Clue(creates.down.direction, creates.down.clue);
-            if (deletedDownClue !== null) {
+            if (deletedDownClue != null) {
                 createdDownClue.text = deletedDownClue.text;
             }
         }
         var createdAcrossClue = null;
-        if (creates.across !== null) {
+        if (creates.across != null) {
             createdAcrossClue = new Clue(creates.across.direction, creates.across.clue);
-            if (deletedAcrossClue !== null) {
+            if (deletedAcrossClue != null) {
                 createdAcrossClue.text = deletedAcrossClue.text;
             }
         }
@@ -184,8 +181,8 @@ class ClueHelper {
 
         for (let key in creates) {
             if (creates.hasOwnProperty(key)) {
-                if (creates[key] !== null) {
-                    if (work[creates[key].clue] === null) {
+                if (creates[key] != null) {
+                    if (work[creates[key].clue] == null) {
                         work[creates[key].clue] = {creates: [], deletes: []};
                     }
                     work[creates[key].clue].creates.push({key: key, flag: creates[key].flag});
@@ -195,8 +192,8 @@ class ClueHelper {
 
         for (let key in deletes) {
             if (deletes.hasOwnProperty(key)) {
-                if (deletes[key] !== null) {
-                    if (work[deletes[key].clue] === null) {
+                if (deletes[key] != null) {
+                    if (work[deletes[key].clue] == null) {
                         work[deletes[key].clue] = {creates: [], deletes: []};
                     }
                     work[deletes[key].clue].deletes.push({key: key, flag: deletes[key].flag});
@@ -206,8 +203,8 @@ class ClueHelper {
 
         let deleteOffset = 0;
         for (let i = 0; i <= work.length; i++) {
-            if (work[i] !== null) {
-                if (work[i].deletes.length === 2) {
+            if (work[i] != null) {
+                if (work[i].deletes.length == 2) {
                     work[i].deletes[1].flag = false;
                 }
                 if (work[i].deletes.length > 0) {
@@ -219,7 +216,7 @@ class ClueHelper {
                     }
                 }
                 if (work[i].creates.length > 0) {
-                    if (work[i].creates.length === 2) {
+                    if (work[i].creates.length == 2) {
                         work[i].creates[0].flag = false;
                     }
                     for (let j = 0; j < work[i].creates.length; j++) {
@@ -236,11 +233,11 @@ class ClueHelper {
             ClueHelper.verifyClues(oldclues, newclues);
             return oldclues;
         } catch (e) {
-            //console.info('we lost clue data due to this error');
-            //console.info('the work log was: ');
-            //console.info(work);
-            //console.info('the board was: ');
-            //console.info(board);
+            console.info('we lost clue data due to this error');
+            console.info('the work log was: ');
+            console.info(work);
+            console.info('the board was: ');
+            console.info(board);
             return newclues;
         }
     }
@@ -248,17 +245,17 @@ class ClueHelper {
     static verifyClues(oldclues, newclues) {
         for (let direction in oldclues) {
             if (oldclues.hasOwnProperty(direction)) {
-                if (newclues[direction] === null) {
-                    //console.error('ERROR!! invalid clue state!');
-                    //console.info(oldclues);
-                    //console.info(newclues);
+                if (newclues[direction] == null) {
+                    console.error('ERROR!! invalid clue state!');
+                    console.info(oldclues);
+                    console.info(newclues);
                     throw 'ERROR!! invalid clue state!';
                 }
                 for (let number in oldclues[direction]) {
-                    if (oldclues[direction].hasOwnProperty(number) && newclues[direction][number] === null) {
-                        //console.error('ERROR!! invalid clue state!');
-                        //console.info(oldclues);
-                        //console.info(newclues);
+                    if (newclues[direction][number] == null) {
+                        console.error('ERROR!! invalid clue state!');
+                        console.info(oldclues);
+                        console.info(newclues);
                         throw 'ERROR!! invalid clue state!';
                     }
                 }
@@ -267,17 +264,17 @@ class ClueHelper {
 
         for (let direction in newclues) {
             if (newclues.hasOwnProperty(direction)) {
-                if (oldclues[direction] === null) {
-                    //console.error('ERROR!! invalid clue state!');
-                    //console.info(oldclues);
-                    //console.info(newclues);
+                if (oldclues[direction] == null) {
+                    console.error('ERROR!! invalid clue state!');
+                    console.info(oldclues);
+                    console.info(newclues);
                     throw 'ERROR!! invalid clue state!';
                 }
                 for (let number in newclues[direction]) {
-                    if (newclues[direction].hasOwnProperty(number) && oldclues[direction][number] === null) {
-                        //console.error('ERROR!! invalid clue state!');
-                        //console.info(oldclues);
-                        //console.info(newclues);
+                    if (oldclues[direction][number] == null) {
+                        console.error('ERROR!! invalid clue state!');
+                        console.info(oldclues);
+                        console.info(newclues);
                         throw 'ERROR!! invalid clue state!';
                     }
                 }
@@ -286,19 +283,19 @@ class ClueHelper {
     }
 
     static deleteClue(del, number, clues) {
-        if (del === null || number === null) {
+        if (del == null || number == null) {
             return clues;
         }
         var key = del.key;
         var result = {};
         var deleted = !del.flag;
-        if (clues[key][number] !== null) {
+        if (clues[key][number] != null) {
             for (let direction in clues) {
                 if (clues.hasOwnProperty(direction)) {
                     result[direction] = {};
                     for (let num in clues[direction]) {
                         if (clues[direction].hasOwnProperty(num)) {
-                            if (!(key === direction && number === num)) {
+                            if (!(key == direction && number == num)) {
                                 if (num > number && deleted) {
                                     clues[direction][num].number = num - 1;
                                     result[direction][num - 1] = clues[direction][num];
@@ -315,7 +312,7 @@ class ClueHelper {
     }
 
     static createClue(clue, clues, flag) {
-        if (clue === null) {
+        if (clue == null) {
             return clues;
         }
 
@@ -343,11 +340,11 @@ class ClueHelper {
     }
 
     static isPartOfDownClue(box) {
-        return box !== null && box.isPartOfDownClue();
+        return box != null && box.isPartOfDownClue();
     }
 
     static isPartOfAcrossClue(box) {
-        return box !== null && box.isPartOfAcrossClue();
+        return box != null && box.isPartOfAcrossClue();
     }
 }
 
