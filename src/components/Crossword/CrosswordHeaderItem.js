@@ -9,7 +9,7 @@ class CrosswordHeaderItem extends React.Component {
         return {
             color: 'rgba(0,0,0,.34)',
             width: this.props.width + 'px',
-            display: "inline-flex",
+            display: "inline-block",
             cursor: "default"
         };
     }
@@ -17,7 +17,7 @@ class CrosswordHeaderItem extends React.Component {
     getStyle() {
         return {
             width: this.props.width + 'px',
-            display: "inline-flex",
+            display: "inline-block",
             cursor: "pointer"
         };
     }
@@ -42,7 +42,7 @@ CrosswordHeaderItem.propTypes = {
 };
 
 CrosswordHeaderItem.defaultProps = {
-    width: 30
+    width: 24
 }
 
 module.exports = CrosswordHeaderItem;

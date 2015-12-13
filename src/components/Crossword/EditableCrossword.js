@@ -40,7 +40,7 @@ class EditableCrossword extends Crossword {
 
     getHeaderItems() {
         return [
-            {
+            [{
                 name: "create",
                 onClick: function(context) {
                     return function() {
@@ -59,7 +59,38 @@ class EditableCrossword extends Crossword {
                 }(this),
                 isClicked: this.state.clickAction === 'SELECT',
                 icon: "touch_app"
-            }];
+            }],
+            [{
+                name: "resize",
+                onClick: function(context) {
+                    return function() {
+                        console.log("resize button clicked");
+                    };
+                }(this),
+                isClicked: false,
+                icon: "zoom_out_map"
+            }],
+            [{
+                name: "save",
+                onClick: function(context) {
+                    return function() {
+                        console.log("save button clicked");
+                    };
+                }(this),
+                isClicked: false,
+                icon: "save"
+            },
+            {
+                name: "clear",
+                onClick: function(context) {
+                    return function() {
+                        console.log("clear button clicked");
+                    };
+                }(this),
+                isClicked: false,
+                icon: "clear"
+            }]
+        ];
     }
 
     render() {
