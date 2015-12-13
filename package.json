@@ -22,8 +22,10 @@
     "reflux": "^0.3.0"
   },
   "babel": {
-    "presets": ["es2015", "react"]
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
-
   "private": true
 }

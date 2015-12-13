@@ -11,6 +11,7 @@ class EditableCrosswordClues extends CrosswordClues {
     constructor(props) {
         super(props);
         this.onClick = this.onClick.bind(this);
+        this.onFinishEditing = this.onFinishEditing.bind(this);
         this.state = {
             editing: null
         };
@@ -29,11 +30,17 @@ class EditableCrosswordClues extends CrosswordClues {
         }
     }
 
+    onFinishEditing(clue) {
+        this.setState({
+            editing: null
+        });
+    }
+
     render() {
         var clues = [];
         for (var number in this.props.clues) {
             if (this.props.clues.hasOwnProperty(number)) {
-                clues.push(<EditableCrosswordClue clue={this.props.clues[number]} key={number} onClick={this.onClick} isEditing={this.state.editing === this.props.clues[number]}/>);
+                clues.push(<EditableCrosswordClue clue={this.props.clues[number]} key={number} onClick={this.onClick} isEditing={this.state.editing === this.props.clues[number]} onFinishEditing={this.onFinishEditing}/>);
             }
         }
         return (

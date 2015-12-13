@@ -39,15 +39,17 @@ class EditableCrossword extends Crossword {
     }
 
     getHeaderItems() {
-        return [{
-            name: "create",
-            onClick: function(context) {
-                return function() {
-                    context.setState({clickAction: 'CREATEBOX'});
-                };
-            }(this),
-            isClicked: this.state.clickAction === 'CREATEBOX'
-        },
+        return [
+            {
+                name: "create",
+                onClick: function(context) {
+                    return function() {
+                        context.setState({clickAction: 'CREATEBOX'});
+                    };
+                }(this),
+                isClicked: this.state.clickAction === 'CREATEBOX',
+                icon: 'add_box'
+            },
             {
                 name: "select",
                 onClick: function(context) {
@@ -55,12 +57,12 @@ class EditableCrossword extends Crossword {
                         context.setState({clickAction: 'SELECT'});
                     };
                 }(this),
-                isClicked: this.state.clickAction === 'SELECT'
+                isClicked: this.state.clickAction === 'SELECT',
+                icon: "touch_app"
             }];
     }
 
     render() {
-        console.log(this.props);
         return (<div className="crossword-container" >
             <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
             <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
