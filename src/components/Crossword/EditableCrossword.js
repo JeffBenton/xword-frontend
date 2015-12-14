@@ -75,6 +75,7 @@ class EditableCrossword extends Crossword {
                 onClick: function(context) {
                     return function() {
                         console.log("save button clicked");
+                        context.props.onSave();
                     };
                 }(this),
                 isClicked: false,
@@ -95,7 +96,7 @@ class EditableCrossword extends Crossword {
 
     render() {
         return (<div className="crossword-container" >
-            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()} /></div>
             <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
                                                                        board={this.state.board}/></div>
             <div className="crossword-clues-container">

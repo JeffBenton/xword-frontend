@@ -1,6 +1,6 @@
 import React from 'react';
 import Crossword from './../Crossword/Crossword.js';
-import EditableCrossword from './../Crossword/EditableCrossword.js';
+import EditableCrosswordController from './../Crossword/EditableCrosswordController.js';
 import Game from './../../objects/game.js';
 
 class App extends React.Component {
@@ -14,7 +14,7 @@ class App extends React.Component {
 
     render() {
         if (this.props.mode === 'CREATE') {
-            return (<div><EditableCrossword game={this.state.game} /></div>);
+            return (<div><EditableCrosswordController game={this.state.game} /></div>);
         } else {
             return (<div><Crossword game={this.state.game} /></div>);
         }
