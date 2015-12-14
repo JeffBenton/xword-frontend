@@ -33,14 +33,14 @@ class ClueHelper {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfDownClue(box)) {
                     if (board.above(box) == null || !ClueHelper.isPartOfDownClue(board.above(box)) || !ClueHelper.isPartOfDownClue(board.above(board.above(box)))) {
-                        console.log('- deleting clue ' + box.down.clue + ' down');
+                        console.info('- deleting clue ' + box.down.clue + ' down');
                         return ClueHelper._makeClueResult(box, 'down', board);
                     }
                 }
             } else {
                 // this means we're removing a black box.
                 if (ClueHelper.isPartOfDownClue(board.below(box))) {
-                    console.log('- deleting clue ' + board.below(box).down.clue + ' down');
+                    console.info('- deleting clue ' + board.below(box).down.clue + ' down');
                     return ClueHelper._makeClueResult(board.below(box), 'down', board);
                 }
             }
@@ -53,34 +53,34 @@ class ClueHelper {
                     if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                         if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box))) &&
                             !ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                            console.log('- deleting clue ' + box.across.clue + ' across');
+                            console.info('- deleting clue ' + box.across.clue + ' across');
                             return ClueHelper._makeClueResult(box, 'across', board);
                         } else if (!ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                            console.log('- deleting clue ' + box.across.clue + ' across');
+                            console.info('- deleting clue ' + box.across.clue + ' across');
                             return ClueHelper._makeClueResult(box, 'across', board);
                         }
                     } else if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box)))) {
-                        console.log('- deleting clue ' + box.across.clue + ' across');
+                        console.info('- deleting clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 } else if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                     if (!ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                        console.log('- deleting clue ' + box.across.clue + ' across');
+                        console.info('- deleting clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 }
                 if (ClueHelper.isPartOfAcrossClue(box) && !ClueHelper.isPartOfAcrossClue(board.left(box))) {
-                    console.log('- deleting clue ' + box.across.clue + ' across');
+                    console.info('- deleting clue ' + box.across.clue + ' across');
                     return ClueHelper._makeClueResult(box, 'across');
                 }
             } else {
                 // this means we're removing a black box.
                 if (ClueHelper.isPartOfAcrossClue(board.left(box)) && ClueHelper.isPartOfAcrossClue(board.right(box))) {
-                    console.log('- deleting clue ' + board.right(box).across.clue + ' across');
+                    console.info('- deleting clue ' + board.right(box).across.clue + ' across');
                     return ClueHelper._makeClueResult(board.right(box), 'across', board);
                 }
                 if (ClueHelper.isPartOfAcrossClue(board.right(box))) {
-                    console.log('- deleting clue ' + board.right(box).across.clue + ' across');
+                    console.info('- deleting clue ' + board.right(box).across.clue + ' across');
                     return ClueHelper._makeClueResult(board.right(box), 'across', board);
                 }
             }
@@ -98,14 +98,14 @@ class ClueHelper {
             if (box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfDownClue(board.below(box))) {
-                    console.log('+ creating clue ' + board.below(box).down.clue + ' down');
+                    console.info('+ creating clue ' + board.below(box).down.clue + ' down');
                     return ClueHelper._makeClueResult(board.below(box), 'down', board);
                 }
             } else {
                 // this means we're removing a black box.
                 if ((ClueHelper.isPartOfDownClue(board.above(box)) && !ClueHelper.isPartOfDownClue(board.above(board.above(box)))) ||
                     ((ClueHelper.isPartOfDownClue(board.below(box))) && !ClueHelper.isPartOfDownClue(board.above(box)))) {
-                    console.log('+ creating clue ' + box.down.clue + ' down');
+                    console.info('+ creating clue ' + box.down.clue + ' down');
                     return ClueHelper._makeClueResult(box, 'down', board);
                 }
             }
@@ -115,7 +115,7 @@ class ClueHelper {
             if (box.isBlackBox()) {
                 // this means we're creating a black box.
                 if (ClueHelper.isPartOfAcrossClue(board.right(box))) {
-                    console.log('+ creating clue ' + board.right(box).across.clue + ' across');
+                    console.info('+ creating clue ' + board.right(box).across.clue + ' across');
                     return ClueHelper._makeClueResult(board.right(box), 'across', board);
                 }
             } else {
@@ -124,25 +124,25 @@ class ClueHelper {
                     if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                         if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box))) &&
                             !ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                            console.log('+ creating clue ' + box.across.clue + ' across');
+                            console.info('+ creating clue ' + box.across.clue + ' across');
                             return ClueHelper._makeClueResult(box, 'across', board);
                         }
                     } else if (!ClueHelper.isPartOfAcrossClue(board.right(board.right(box)))) {
-                        console.log('+ creating clue ' + box.across.clue + ' across');
+                        console.info('+ creating clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 } else if (ClueHelper.isPartOfAcrossClue(board.left(box))) {
                     if (!ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                        console.log('+ creating clue ' + box.across.clue + ' across');
+                        console.info('+ creating clue ' + box.across.clue + ' across');
                         return ClueHelper._makeClueResult(box, 'across', board);
                     }
                 }
                 if (ClueHelper.isPartOfAcrossClue(box) && !ClueHelper.isPartOfAcrossClue(board.left(box))) {
-                    console.log('+ creating clue ' + box.across.clue + ' across');
+                    console.info('+ creating clue ' + box.across.clue + ' across');
                     return ClueHelper._makeClueResult(box, 'across', board);
                 }
                 if (ClueHelper.isPartOfAcrossClue(box) && ClueHelper.isPartOfAcrossClue(board.left(box)) && !ClueHelper.isPartOfAcrossClue(board.left(board.left(box)))) {
-                    console.log('+ creating clue ' + box.across.clue + ' across');
+                    console.info('+ creating clue ' + box.across.clue + ' across');
                     return ClueHelper._makeClueResult(box, 'across', board);
                 }
             }
