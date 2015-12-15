@@ -31,5 +31,7 @@ module.exports = {
         if ((code === 32) || (code > 64 && code < 91) || (code > 96 && code < 123)) {
             return String.fromCharCode(code).toUpperCase();
         }
-    }
+    },
+
+    API_URL: "https://xword-backend.herokuapp.com/"
 };

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "watch": "webpack --progress --colors --watch",
-    "dev": "webpack-dev-server --progress --colors --content-base static/"
+    "dev": "webpack-dev-server --port 8079 --progress --colors --content-base static/"
   },
   "author": "alex benton",
   "devDependencies": {
@@ -17,13 +17,19 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "es6-promise": "^3.0.2",
+    "exports-loader": "^0.6.2",
+    "imports-loader": "^0.6.5",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "reflux": "^0.3.0"
+    "reflux": "^0.3.0",
+    "whatwg-fetch": "^0.10.1"
   },
   "babel": {
-    "presets": ["es2015", "react"]
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
-
   "private": true
 }

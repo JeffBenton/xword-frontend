@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Game from './../../objects/game.js';
 import Crossword from './Crossword.js';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordHeader from './CrosswordHeader.js';
@@ -19,12 +20,12 @@ class EditableCrossword extends Crossword {
     handleBoxClick(box) {
         switch (this.state.clickAction) {
             case 'CREATEBOX':
-                this.game.toggleBoxStatus(box.x, box.y);
+                this.props.game.toggleBoxStatus(box.x, box.y);
                 this.setState(
                     {
-                        board: this.game.board,
-                        puzzle: this.game.puzzle,
-                        clues: this.game.clues,
+                        board: this.props.game.board,
+                        puzzle: this.props.game.puzzle,
+                        clues: this.props.game.clues,
                         selectedBox: null,
                         selectedClue: {across: null, down: null, focused: null}
                     }
@@ -38,15 +39,17 @@ class EditableCrossword extends Crossword {
     }
 
     getHeaderItems() {
-        return [{
-            name: "create",
-            onClick: function(context) {
-                return function() {
-                    context.setState({clickAction: 'CREATEBOX'});
-                };
-            }(this),
-            isClicked: this.state.clickAction === 'CREATEBOX'
-        },
+        return [
+            [{
+                name: "create",
+                onClick: function(context) {
+                    return function() {
+                        context.setState({clickAction: 'CREATEBOX'});
+                    };
+                }(this),
+                isClicked: this.state.clickAction === 'CREATEBOX',
+                icon: 'add_box'
+            },
             {
                 name: "select",
                 onClick: function(context) {
@@ -54,13 +57,46 @@ class EditableCrossword extends Crossword {
                         context.setState({clickAction: 'SELECT'});
                     };
                 }(this),
-                isClicked: this.state.clickAction === 'SELECT'
-            }];
+                isClicked: this.state.clickAction === 'SELECT',
+                icon: "touch_app"
+            }],
+            [{
+                name: "resize",
+                onClick: function(context) {
+                    return function() {
+                        console.log("resize button clicked");
+                    };
+                }(this),
+                isClicked: false,
+                icon: "zoom_out_map"
+            }],
+            [{
+                name: "save",
+                onClick: function(context) {
+                    return function() {
+                        console.log("save button clicked");
+                        context.props.onSave();
+                    };
+                }(this),
+                isClicked: false,
+                icon: "save"
+            },
+            {
+                name: "clear",
+                onClick: function(context) {
+                    return function() {
+                        console.log("clear button clicked");
+                    };
+                }(this),
+                isClicked: false,
+                icon: "clear"
+            }]
+        ];
     }
 
     render() {
         return (<div className="crossword-container" >
-            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()} /></div>
             <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
                                                                        board={this.state.board}/></div>
             <div className="crossword-clues-container">
@@ -70,5 +106,9 @@ class EditableCrossword extends Crossword {
         </div>);
     }
 }
+
+EditableCrossword.propTypes = {
+    game: React.PropTypes.instanceOf(Game).isRequired
+};
 
 module.exports = EditableCrossword;

@@ -195,6 +195,29 @@ class Board {
         return {puzzle: puzzle, clues: clues};
     }
 
+    /**
+     * Returns a 2-dimensional array containing all the values of this board.
+     *
+     * A null value indicates a black box, a "" value indicates an empty box.
+     */
+    values() {
+        var result = [];
+        for (let y = 0; y < this.height; y++) {
+            result[y] = [];
+            for (let x = 0; x < this.width; x++) {
+                let box = this.get(x,y);
+                if (box.isBlackBox()) {
+                    result[y][x] = null;
+                } else if (box.value === null) {
+                    result[y][x] = "";
+                } else {
+                    result[y][x] = box.value;
+                }
+            }
+        }
+        return result;
+    }
+
 
 }
 
