@@ -89,8 +89,6 @@ class Game {
      * }
      */
     getSaveState() {
-        console.log(this.puzzle);
-        console.log(this.clues);
         var response = {
             board: this.board.values(),
             clues: (function (clues, puzzle) {

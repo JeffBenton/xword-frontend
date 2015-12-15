@@ -14,7 +14,6 @@ class EditableCrosswordController extends React.Component {
     }
 
     save() {
-        console.log('hi');
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         var url = API_URL + 'puzzle/';
