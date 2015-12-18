@@ -9,6 +9,8 @@ const app = {};
  *
  */
 function run() {
+    console.log(window.location.pathname);
+
     // create the app
     ReactDOM.render(React.createElement(App), root);
 }
