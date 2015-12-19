@@ -7,6 +7,21 @@ import CrosswordClue from './CrosswordClue.js';
 
 class CrosswordClues extends React.Component {
 
+    getCluesStyle() {
+        return {
+            WebkitColumnWidth: "150px",
+            MozColumnWidth: "150px",
+            columnWidth: "150px"
+        };
+    }
+
+    getHeaderStyle() {
+        return {
+            WebkitColumnSpan: "all",
+            columnSpan: "all"
+        };
+    }
+
     render() {
         var clues = [];
         for (var number in this.props.clues) {
@@ -15,8 +30,8 @@ class CrosswordClues extends React.Component {
             }
         }
         return (
-            <div>
-                <h4>{this.props.type}</h4>
+            <div style={this.getCluesStyle()}>
+                <h4 style={this.getHeaderStyle()}>{this.props.type}</h4>
                 {clues}
             </div>);
     }

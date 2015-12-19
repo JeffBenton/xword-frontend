@@ -222,12 +222,26 @@ class Crossword extends React.Component {
         return [];
     }
 
+    getBoardContainerStyle() {
+        return {
+            float: "right",
+            marginRight: "5%",
+            marginTop: "3%",
+            marginLeft: "10px"
+        };
+    }
+
+    getCluesContainerStyle() {
+        return {
+        };
+    }
+
     render() {
         return (<div className="crossword-container" >
             <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
-            <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
+            <div className="crossword-board-container" style={this.getBoardContainerStyle()}><CrosswordBoard onClick={this.handleBoxClick}
                                                                        board={this.state.board}/></div>
-            <div className="crossword-clues-container">
+            <div className="crossword-clues-container" style={this.getCluesContainerStyle()}>
                 <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
                 <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
             </div>

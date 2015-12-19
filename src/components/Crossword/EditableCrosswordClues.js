@@ -44,8 +44,8 @@ class EditableCrosswordClues extends CrosswordClues {
             }
         }
         return (
-            <div>
-                <h4>{this.props.type}</h4>
+            <div style={this.getCluesStyle()}>
+                <h4 style={this.getHeaderStyle()}>{this.props.type}</h4>
                 {clues}
             </div>);
     }
