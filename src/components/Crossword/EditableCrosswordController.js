@@ -5,7 +5,6 @@
 import React from 'react';
 import EditableCrossword from './EditableCrossword.js';
 import {API_URL} from './../../objects/constants.js';
-import history from './../../history.js';
 
 class EditableCrosswordController extends React.Component {
 
@@ -37,7 +36,7 @@ class EditableCrosswordController extends React.Component {
                         id: data.id,
                         editId: data.editId
                     });
-                    history.replaceState(data, "", "/edit/" + data.editId);
+                    window.history.replaceState(data, "", "/edit/" + data.editId);
                 } catch (e) {
                     console.error(e);
                 }
@@ -60,7 +59,6 @@ class EditableCrosswordController extends React.Component {
                         editId: data.editId
                     });
                     window.history.replaceState(data, "", "/edit/" + data.editId);
-
                 } catch (e) {
                     console.error(e);
                 }
