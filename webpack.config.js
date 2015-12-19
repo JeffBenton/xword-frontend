@@ -1,7 +1,10 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: "./src/entry.js",
+    entry: [
+        "babel-polyfill",
+        "./src/entry.js"
+        ],
     output: {
         path: __dirname + "/static",
         filename: "bundle.js"
