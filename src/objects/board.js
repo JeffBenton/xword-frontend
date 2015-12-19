@@ -1,11 +1,44 @@
 import Clue from './clue.js';
 import Box from './box.js';
+import {boxState} from './constants.js';
 
 /**
  * Represents a crossword board.
  */
 class Board {
 
+    /**
+     * Create a Board object from a saved board.
+     *
+     * Board.fromValues(board.values()) should result in the same 'board.'
+     *
+     * @param values
+     * @returns {Board}
+     */
+    static fromValues(values = []) {
+        if (values.length < 1 && values[0].length < 1) {
+            throw "couldn't create board from values";
+        }
+        let b = new Board(values[0].length, values.length);
+        let board = [];
+
+        for (let y = 0; y < b.height; y++) {
+            board[y] = [];
+            for (let x = 0; x < b.width; x++) {
+                let box = new Box((y*b.height) + x, b.version, x, y);
+                if (values[y][x] == null) {
+                    box.state = boxState.BLACKBOX;
+                } else {
+                    box.value = values[y][x];
+                }
+                board[y][x] = box;
+            }
+        }
+
+        b.board = board;
+        return b;
+
+    }
     /**
      * Construct a blank Board with specified width and height.
      *
@@ -198,7 +231,7 @@ class Board {
     /**
      * Returns a 2-dimensional array containing all the values of this board.
      *
-     * A null value indicates a black box, a "" value indicates an empty box.
+     * A null value indicates a black box, a " " value indicates an empty box.
      */
     values() {
         var result = [];
@@ -209,7 +242,7 @@ class Board {
                 if (box.isBlackBox()) {
                     result[y][x] = null;
                 } else if (box.value === null) {
-                    result[y][x] = "";
+                    result[y][x] = " ";
                 } else {
                     result[y][x] = box.value;
                 }
@@ -217,8 +250,6 @@ class Board {
         }
         return result;
     }
-
-
 }
 
 module.exports = Board;

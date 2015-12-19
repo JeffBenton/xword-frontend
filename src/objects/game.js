@@ -7,6 +7,35 @@ import {directions, boxState} from './constants.js';
  */
 class Game {
 
+    /**
+     * Create a Game object from a saved puzzle.
+     *
+     * @param board the saved board
+     * @param clues the saved clues
+     * @returns {Game}
+     */
+    static fromSavedPuzzle(board = [], clues = []) {
+        if (board.length < 1) {
+            throw "error while creating game from saved puzzle. board height must be > 0.";
+        }
+        let g = new Game(board[0].length, board.length);
+        g.board = Board.fromValues(board);
+        var state = g.board.generateStateFromBoard();
+
+        g.puzzle = state.puzzle;
+        for (let i = 0; i < clues.length; i++) {
+            state.clues[clues[i].direction.toLowerCase()][clues[i].number].text = clues[i].text;
+        }
+        g.clues = state.clues;
+        return g;
+    }
+
+    /**
+     * Create a blank crossword puzzle with the specified width and height.
+     *
+     * @param width
+     * @param height
+     */
     constructor(width, height) {
         // initialize the board
         this.board = new Board(width, height);
