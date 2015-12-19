@@ -37,7 +37,7 @@ class App extends React.Component {
                             console.log("clicked resume edit");
                         };
                     })(this),
-                    icon: "edit"
+                    icon: "border_all"
                 });
             }
             let solveItem = window.localStorage.getItem("solveItem");
@@ -49,7 +49,7 @@ class App extends React.Component {
                             console.log("clicked resume solve");
                         };
                     })(this),
-                    icon: "border_all"
+                    icon: "edit"
                 });
             }
         }

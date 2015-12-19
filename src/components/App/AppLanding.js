@@ -14,7 +14,7 @@ class AppLanding extends React.Component {
     render() {
         return (
         <div>
-            <div id="hello" style={{display:"block", width:"100%", paddingTop:"10%"}}></div>
+            <div style={{display:"block", width:"100%", paddingTop:"10%"}}></div>
             {this.props.children}
         </div>)
     }
