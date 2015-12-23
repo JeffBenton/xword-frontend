@@ -6,6 +6,7 @@
 import React from 'react';
 import EditableCrosswordController from './../Crossword/EditableCrosswordController.js';
 import Game from './../../objects/game.js';
+import AppLoading from './AppLoading.js';
 import {API_URL} from './../../objects/constants.js';
 
 class AppEdit extends React.Component {
@@ -56,7 +57,7 @@ class AppEdit extends React.Component {
 
     render() {
         if (this.state.isLoading){
-            return (<div>loading...</div>);
+            return (<div><AppLoading /></div>);
         } else {
             return (<div><EditableCrosswordController game={this.state.game} params={this.state.params}/></div>);
         }
