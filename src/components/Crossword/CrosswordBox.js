@@ -49,7 +49,7 @@ class CrosswordBox extends React.Component {
 
     getNumberStyle() {
         return {
-            fontSize: Math.floor(this.props.size/3.3) + 'px',
+            fontSize: Math.floor(this.props.size/3.5) + 'px',
             padding: '1px',
             position: 'absolute'
         };
@@ -58,7 +58,8 @@ class CrosswordBox extends React.Component {
     getValueStyle() {
         return {
             lineHeight: this.props.size + 'px',
-            textAlign: 'center'
+            textAlign: 'center',
+            fontFamily: "'Raleway', sans-serif"
         };
     }
 

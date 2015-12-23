@@ -18,7 +18,8 @@ class CrosswordClues extends React.Component {
     getHeaderStyle() {
         return {
             WebkitColumnSpan: "all",
-            columnSpan: "all"
+            columnSpan: "all",
+            fontFamily: "'Arvo', serif"
         };
     }
 
@@ -31,7 +32,7 @@ class CrosswordClues extends React.Component {
         }
         return (
             <div style={this.getCluesStyle()}>
-                <h4 style={this.getHeaderStyle()}>{this.props.type}</h4>
+                <h4 style={this.getHeaderStyle()}>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }
