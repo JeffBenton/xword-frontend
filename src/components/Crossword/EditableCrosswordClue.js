@@ -28,7 +28,10 @@ class EditableCrosswordClue extends CrosswordClue {
     }
 
     getEditingClueStyle() {
-        return {};
+        return {
+            fontFamily: "'Open Sans', sans-serif",
+            fontSize: "13px"
+        };
     }
 
     getEditBoxStyle() {
@@ -37,7 +40,8 @@ class EditableCrosswordClue extends CrosswordClue {
             backgroundColor: "#DDDDDD",
             marginLeft: "5px",
             width: "calc(100% - 45px)",
-            fontSize: "12px"
+            fontFamily: "'Open Sans', sans-serif",
+            fontSize: "13px"
         };
     }
 

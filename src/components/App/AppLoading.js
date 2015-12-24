@@ -26,18 +26,21 @@ class AppLoading extends React.Component {
     }
 
     render() {
-        return (<div className='AppLoading-frame'>
-            <div className='AppLoading-animation-class' style={{transform: 'scale(0.59)'}}>
-                <div><div></div></div>
-                <div><div></div></div>
-                <div><div></div></div>
-                <div><div></div></div>
-                <div><div></div></div>
-                <div><div></div></div>
-                <div><div></div></div>
-                <div><div></div></div>
+        return (
+            <div className='AppLoading-container'>
+                <div className='AppLoading-frame'>
+                    <div className='AppLoading-animation-class' style={{transform: 'scale(0.75)'}}>
+                        <div><div></div></div>
+                        <div><div></div></div>
+                        <div><div></div></div>
+                        <div><div></div></div>
+                        <div><div></div></div>
+                        <div><div></div></div>
+                        <div><div></div></div>
+                        <div><div></div></div>
+                    </div>
+                {this.state.isTooLong ? "waking up heroku..." : "loading..."}
             </div>
-            {this.state.isTooLong ? "waking up heroku..." : "loading..."}
         </div>);
     }
 }
