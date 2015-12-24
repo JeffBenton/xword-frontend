@@ -12,7 +12,8 @@ class CrosswordBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            boxSize: 30
+            height: 30 * this.props.board.height,
+            width: 30 * this.props.board.width
         };
         this.handleResize = this.handleResize.bind(this);
     }
@@ -20,7 +21,8 @@ class CrosswordBoard extends React.Component {
     componentDidMount() {
         window.addEventListener('resize', this.handleResize);
         this.setState({
-           boxSize: ReactDOM.findDOMNode(this).offsetWidth / this.props.board.height
+           height: ReactDOM.findDOMNode(this).offsetWidth / this.props.board.width * this.props.board.height,
+            width: ReactDOM.findDOMNode(this).offsetWidth
         });
     }
 
@@ -30,21 +32,24 @@ class CrosswordBoard extends React.Component {
 
     handleResize() {
         this.setState({
-            boxSize: ReactDOM.findDOMNode(this).offsetWidth / this.props.board.height
+            height: ReactDOM.findDOMNode(this).offsetWidth / this.props.board.width * this.props.board.height,
+            width: ReactDOM.findDOMNode(this).offsetWidth
         });
     }
 
     render() {
+        var boxHeight = this.state.height / this.props.board.height;
+        var boxWidth = this.state.width / this.props.board.width;
         var crosswordStyle = {
-            height: this.state.boxSize*this.props.board.height + 'px',
-            //width: this.props.boxSize*this.props.board.width + 'px',
+            height: this.state.height + 'px',
             width: '100%',
-            border: '1px black solid',
+            border: '2px black solid',
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            boxSizing: "border-box"
         };
         var crosswordRowStyle = {
-            height: this.state.boxSize + 'px',
+            height: boxHeight + 'px',
             width: '100%',
             display: 'flex'
         };
@@ -53,7 +58,7 @@ class CrosswordBoard extends React.Component {
             {this.props.board.board.map(function (row, index) {
                 return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
                     {row.map(function (box) {
-                        return (<CrosswordBox onClick={this.props.onClick} box={box} key={box.id} size={this.state.boxSize}/>);
+                        return (<CrosswordBox onClick={this.props.onClick} box={box} key={box.id} height={boxHeight} width={boxWidth}/>);
                     }, this)}
                 </div>);
             }, this)}
