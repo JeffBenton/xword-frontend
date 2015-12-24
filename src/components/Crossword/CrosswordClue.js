@@ -20,13 +20,13 @@ class CrosswordClue extends React.Component {
         if (this.props.clue.isSelected) {
             return {
                 fontFamily: "'Open Sans', sans-serif",
-                fontSize: "13px",
+                fontSize: "15px",
                 backgroundColor: '#E4E4F8'
             }
         } else {
             return {
                 fontFamily: "'Open Sans', sans-serif",
-                fontSize: "13px"
+                fontSize: "15px"
             };
         }
     }

@@ -6,14 +6,14 @@ class AppLoading extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isTooLong: false
+            message: "loading..."
         }
         this.onTimerExpire = this.onTimerExpire.bind(this);
     }
 
     onTimerExpire() {
         this.setState({
-            isTooLong: true
+            message: "waking up heroku..."
         });
     }
 
@@ -39,7 +39,7 @@ class AppLoading extends React.Component {
                         <div><div></div></div>
                         <div><div></div></div>
                     </div>
-                {this.state.isTooLong ? "waking up heroku..." : "loading..."}
+                {this.state.message}
             </div>
         </div>);
     }

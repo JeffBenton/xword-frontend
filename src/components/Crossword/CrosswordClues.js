@@ -9,16 +9,12 @@ class CrosswordClues extends React.Component {
 
     getCluesStyle() {
         return {
-            WebkitColumnWidth: "150px",
-            MozColumnWidth: "150px",
-            columnWidth: "150px"
+            width: "100%"
         };
     }
 
     getHeaderStyle() {
         return {
-            WebkitColumnSpan: "all",
-            columnSpan: "all",
             fontFamily: "'Arvo', serif"
         };
     }

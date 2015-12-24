@@ -1,0 +1,29 @@
+.crossword-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.crossword-container .crossword-column-small {
+    width: 25%;
+    display: inline-block;
+}
+
+.crossword-container .crossword-column-big {
+    width: 50%;
+    display: inline-block;
+}
+
+.crossword-board-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #EBEBEB;
+    height: 45px;
+    margin-bottom: 15px;
+    border: #B1B1B1 1px solid;
+}
+
+.crossword-container .crossword-clues-container {
+    width: 250px;
+}

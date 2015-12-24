@@ -5,6 +5,7 @@ import CrosswordHeader from './CrosswordHeader.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
 import {directions, boxState, otherDirection, toLetter} from './../../objects/constants.js';
+import './Crossword.css';
 
 class Crossword extends React.Component {
 
@@ -224,10 +225,6 @@ class Crossword extends React.Component {
 
     getBoardContainerStyle() {
         return {
-            float: "right",
-            marginRight: "5%",
-            marginTop: "3%",
-            marginLeft: "10px"
         };
     }
 
@@ -238,9 +235,12 @@ class Crossword extends React.Component {
 
     render() {
         return (<div className="crossword-container" >
-            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
-            <div className="crossword-board-container" style={this.getBoardContainerStyle()}><CrosswordBoard onClick={this.handleBoxClick}
-                                                                       board={this.state.board}/></div>
+            <div className="crossword-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
+            <div className="crossword-column-small" ></div>
+            <div className="crossword-column-big" ></div>
+            <div className="crossword-column-small" ></div>
+            <div className="crossword-board-container" style={this.getBoardContainerStyle()}>
+                <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/></div>
             <div className="crossword-clues-container" style={this.getCluesContainerStyle()}>
                 <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
                 <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
