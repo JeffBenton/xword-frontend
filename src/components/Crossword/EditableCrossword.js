@@ -101,17 +101,17 @@ class EditableCrossword extends Crossword {
         </div>
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
-                    <div className="crossword-clues-container" style={{float: "right"}}>
+                    <div className="crossword-clues-container" style={{marginRight: "25px", float: "right"}}>
                         <EditableCrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
-                        </div>
                     </div>
+                </div>
                 <div className="crossword-column-big" >
                     <div className="crossword-board-container" style={this.getBoardContainerStyle()}>
                         <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
                     </div>
                 </div>
                 <div className="crossword-column-small" >
-                    <div className="crossword-clues-container" style={{marginLeft: "35px"}}>
+                    <div className="crossword-clues-container" style={{marginLeft: "25px"}}>
                         <EditableCrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
                     </div>
                 </div>

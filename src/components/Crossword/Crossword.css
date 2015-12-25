@@ -6,6 +6,7 @@
 
 .crossword-container .crossword-column-small {
     width: 25%;
+    min-width: 285px;
     display: inline-block;
 }
 

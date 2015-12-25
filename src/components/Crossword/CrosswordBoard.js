@@ -49,7 +49,6 @@ class CrosswordBoard extends React.Component {
         var crosswordBoardStyle = {
             height: this.state.height + 'px',
             width: this.state.width + 'px',
-            border: '1px black solid',
             marginLeft: "auto",
             marginRight: "auto"
         };
@@ -64,7 +63,15 @@ class CrosswordBoard extends React.Component {
             {this.props.board.board.map(function (row, index) {
                 return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
                     {row.map(function (box) {
-                        return (<CrosswordBox onClick={this.props.onClick} box={box} key={box.id} height={boxHeight} width={boxWidth}/>);
+                        return (<CrosswordBox
+                            onClick={this.props.onClick}
+                            box={box}
+                            key={box.id}
+                            height={boxHeight}
+                            width={boxWidth}
+                            maxHeight={this.props.board.height}
+                            maxWidth={this.props.board.width}
+                        />);
                     }, this)}
                 </div>);
             }, this)}
@@ -75,7 +82,7 @@ class CrosswordBoard extends React.Component {
 
 CrosswordBoard.propTypes = {
     board: React.PropTypes.instanceOf(Board).isRequired,
-    onClick: React.PropTypes.func.isRequired,
+    onClick: React.PropTypes.func.isRequired
 };
 
 module.exports = CrosswordBoard;
