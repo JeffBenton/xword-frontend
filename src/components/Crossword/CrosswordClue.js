@@ -21,7 +21,7 @@ class CrosswordClue extends React.Component {
             return {
                 fontFamily: "'Open Sans', sans-serif",
                 fontSize: "15px",
-                backgroundColor: '#E4E4F8'
+                backgroundColor: '#CBCBFF'
             }
         } else {
             return {

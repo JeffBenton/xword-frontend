@@ -9,9 +9,7 @@ import './CrosswordClues.css';
 class CrosswordClues extends React.Component {
 
     getCluesStyle() {
-        return {
-            width: "100%"
-        };
+
     }
 
     getHeaderStyle() {

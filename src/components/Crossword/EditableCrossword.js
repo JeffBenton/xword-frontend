@@ -15,6 +15,7 @@ class EditableCrossword extends Crossword {
     constructor(props) {
         super(props);
         this.state.clickAction = "CREATEBOX";
+        this.handleClueUpdate = this.handleClueUpdate.bind(this);
     }
 
     handleBoxClick(box) {
@@ -94,25 +95,25 @@ class EditableCrossword extends Crossword {
         ];
     }
 
+    handleClueUpdate(clue) {
+        this.setState({
+            selectedClue: this.state.selectedClue
+        });
+    }
+
     render() {
         return (<div>
-        <div className="crossword-board-header">
             <CrosswordHeader headerItems={this.getHeaderItems()} />
-        </div>
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
-                    <div className="crossword-clues-container" style={{marginRight: "25px", float: "right"}}>
-                        <EditableCrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
-                    </div>
+                    <EditableCrosswordClues style={{marginRight: "25px", float: "right"}} type='across' onClick={this.handleClueClick} onUpdate={this.handleClueUpdate} clues={this.state.clues.across} />
                 </div>
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
                 </div>
                 <div className="crossword-column-small" >
-                    <div className="crossword-clues-container" style={{marginLeft: "25px", float: "left"}}>
-                        <EditableCrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
-                    </div>
+                    <EditableCrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} onUpdate={this.handleClueUpdate}/>
                 </div>
             </div>
         </div>);
