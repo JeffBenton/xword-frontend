@@ -12,35 +12,35 @@ class CrosswordBox extends React.Component {
         switch (this.props.box.state) {
             case boxState.NORMAL:
                 return {
-                    height: this.props.size + 'px',
-                    width: '100%',
+                    height: this.props.height + 'px',
+                    width: this.props.width + 'px',
                     border: '1px black solid'
                 };
             case boxState.FOCUSED:
                 return {
                     height: this.props.size + 'px',
-                    width: '100%',
+                    width: this.props.width + 'px',
                     border: '1px black solid',
                     backgroundColor: '#CBCBFF'
                 };
             case boxState.SELECTED:
                 return {
-                    height: this.props.size + 'px',
-                    width: '100%',
+                    height: this.props.height + 'px',
+                    width: this.props.width + 'px',
                     border: '1px black solid',
                     backgroundColor: '#EBEBEB'
                 };
             case boxState.ACTIVE:
                 return {
-                    height: this.props.size + 'px',
-                    width: '100%',
+                    height: this.props.height + 'px',
+                    width: this.props.width + 'px',
                     border: '1px black solid',
                     backgroundColor: '#FFF0CB'
                 };
             case boxState.BLACKBOX:
                 return {
-                    height: this.props.size + 'px',
-                    width: '100%',
+                    height: this.props.height + 'px',
+                    width: this.props.width + 'px',
                     border: '1px black solid',
                     backgroundColor: 'black'
                 };
@@ -49,7 +49,7 @@ class CrosswordBox extends React.Component {
 
     getNumberStyle() {
         return {
-            fontSize: Math.floor(this.props.size/3.5) + 'px',
+            fontSize: Math.floor(this.props.height/3.5) + 'px',
             padding: '1px',
             position: 'absolute'
         };
@@ -57,7 +57,7 @@ class CrosswordBox extends React.Component {
 
     getValueStyle() {
         return {
-            lineHeight: this.props.size + 'px',
+            lineHeight: this.props.height + 'px',
             textAlign: 'center',
             fontFamily: "'Raleway', sans-serif"
         };
@@ -102,11 +102,13 @@ class CrosswordBox extends React.Component {
 CrosswordBox.propTypes = {
     box: React.PropTypes.instanceOf(Box).isRequired,
     onClick: React.PropTypes.func.isRequired,
-    size: React.PropTypes.number
+    height: React.PropTypes.number,
+    width: React.PropTypes.number
 };
 
 CrosswordBox.defaultProps = {
-    size: 30
+    height: 30,
+    width: 30
 };
 
 module.exports = CrosswordBox;
