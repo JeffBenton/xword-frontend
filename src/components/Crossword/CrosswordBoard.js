@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom';
 import CrosswordBox from './CrosswordBox.js';
 import Board from './../../objects/board.js';
 
+import './CrosswordBoard.css';
+
 class CrosswordBoard extends React.Component {
 
     constructor(props) {
@@ -31,7 +33,6 @@ class CrosswordBoard extends React.Component {
     }
 
     handleResize() {
-        console.log(ReactDOM.findDOMNode(this).offsetWidth / this.props.board.width * this.props.board.height);
         this.setState({
             height: ReactDOM.findDOMNode(this).offsetWidth / this.props.board.width * this.props.board.height,
             width: ReactDOM.findDOMNode(this).offsetWidth
@@ -39,7 +40,6 @@ class CrosswordBoard extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         var boxHeight = this.state.height / this.props.board.height;
         var boxWidth = this.state.width / this.props.board.width;
         var crosswordStyle = {
@@ -58,7 +58,9 @@ class CrosswordBoard extends React.Component {
             display: 'flex'
         };
 
-        return (<div className='crossword' style={crosswordStyle}>
+        return (
+            <div className="crossword-board-container" style={crosswordStyle}>
+
             <div className='crossword-board' style={crosswordBoardStyle}>
             {this.props.board.board.map(function (row, index) {
                 return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
@@ -76,7 +78,7 @@ class CrosswordBoard extends React.Component {
                 </div>);
             }, this)}
             </div>
-        </div>);
+                </div>);
     }
 }
 

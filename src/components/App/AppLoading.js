@@ -27,9 +27,9 @@ class AppLoading extends React.Component {
 
     render() {
         return (
-            <div className='AppLoading-container'>
-                <div className='AppLoading-frame'>
-                    <div className='AppLoading-animation-class' style={{transform: 'scale(0.75)'}}>
+            <div className='app-loading-container'>
+                <div className='app-loading-frame'>
+                    <div className='app-loading-animation-class' style={{transform: 'scale(0.75)'}}>
                         <div><div></div></div>
                         <div><div></div></div>
                         <div><div></div></div>

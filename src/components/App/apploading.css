@@ -1,18 +1,18 @@
-/* the container for the AppLoading element */
+/* the container for the app-loading element */
 
-.AppLoading-container {
+.app-loading-container {
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-.AppLoading-frame {
+.app-loading-frame {
     text-align: center;
     font-family: 'Raleway', sans-serif;
     cursor: wait;
 }
 
-@-webkit-keyframes AppLoading-animation {
+@-webkit-keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -29,7 +29,7 @@
         background-color: #ffffff;
     }
 }
-@-webkit-keyframes AppLoading-animation {
+@-webkit-keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -46,7 +46,7 @@
         background-color: #ffffff;
     }
 }
-@-moz-keyframes AppLoading-animation {
+@-moz-keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -63,7 +63,7 @@
         background-color: #ffffff;
     }
 }
-@-ms-keyframes AppLoading-animation {
+@-ms-keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -80,7 +80,7 @@
         background-color: #ffffff;
     }
 }
-@-moz-keyframes AppLoading-animation {
+@-moz-keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -97,7 +97,7 @@
         background-color: #ffffff;
     }
 }
-@-webkit-keyframes AppLoading-animation {
+@-webkit-keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -114,7 +114,7 @@
         background-color: #ffffff;
     }
 }
-@-o-keyframes AppLoading-animation {
+@-o-keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -131,7 +131,7 @@
         background-color: #ffffff;
     }
 }
-@keyframes AppLoading-animation {
+@keyframes app-loading-animation {
     0% {
         background-color: #ffffff;
     }
@@ -148,7 +148,7 @@
         background-color: #ffffff;
     }
 }
-.AppLoading-animation-class {
+.app-loading-animation-class {
     background: none;
     position: relative;
     width: 200px;
@@ -156,107 +156,107 @@
     margin-left: auto;
     margin-right: auto;
 }
-.AppLoading-animation-class div {
+.app-loading-animation-class div {
     position: absolute;
     z-index: 1;
     width: 40px;
     height: 40px;
     background-color: #ffffff;
 }
-.AppLoading-animation-class div > div {
+.app-loading-animation-class div > div {
     position: absolute;
     top: 0;
     left: 0;
-    -ms-animation: AppLoading-animation 2s linear infinite;
-    -moz-animation: AppLoading-animation 2s linear infinite;
-    -webkit-animation: AppLoading-animation 2s linear infinite;
-    -o-animation: AppLoading-animation 2s linear infinite;
-    animation: AppLoading-animation 2s linear infinite;
+    -ms-animation: app-loading-animation 2s linear infinite;
+    -moz-animation: app-loading-animation 2s linear infinite;
+    -webkit-animation: app-loading-animation 2s linear infinite;
+    -o-animation: app-loading-animation 2s linear infinite;
+    animation: app-loading-animation 2s linear infinite;
     width: 40px;
     height: 40px;
 }
-.AppLoading-animation-class > div:nth-of-type(1) {
+.app-loading-animation-class > div:nth-of-type(1) {
     top: 30px;
     left: 30px;
 }
-.AppLoading-animation-class > div:nth-of-type(1) > div {
+.app-loading-animation-class > div:nth-of-type(1) > div {
     -ms-animation-delay: 0s;
     -moz-animation-delay: 0s;
     -webkit-animation-delay: 0s;
     -o-animation-delay: 0s;
     animation-delay: 0s;
 }
-.AppLoading-animation-class > div:nth-of-type(2) {
+.app-loading-animation-class > div:nth-of-type(2) {
     top: 30px;
     left: 80px;
 }
-.AppLoading-animation-class > div:nth-of-type(2) > div {
+.app-loading-animation-class > div:nth-of-type(2) > div {
     -ms-animation-delay: 0.25s;
     -moz-animation-delay: 0.25s;
     -webkit-animation-delay: 0.25s;
     -o-animation-delay: 0.25s;
     animation-delay: 0.25s;
 }
-.AppLoading-animation-class > div:nth-of-type(3) {
+.app-loading-animation-class > div:nth-of-type(3) {
     top: 30px;
     left: 130px;
 }
-.AppLoading-animation-class > div:nth-of-type(3) > div {
+.app-loading-animation-class > div:nth-of-type(3) > div {
     -ms-animation-delay: 0.5s;
     -moz-animation-delay: 0.5s;
     -webkit-animation-delay: 0.5s;
     -o-animation-delay: 0.5s;
     animation-delay: 0.5s;
 }
-.AppLoading-animation-class > div:nth-of-type(4) {
+.app-loading-animation-class > div:nth-of-type(4) {
     top: 80px;
     left: 130px;
 }
-.AppLoading-animation-class > div:nth-of-type(4) > div {
+.app-loading-animation-class > div:nth-of-type(4) > div {
     -ms-animation-delay: 0.75s;
     -moz-animation-delay: 0.75s;
     -webkit-animation-delay: .75s;
     -o-animation-delay: 0.75s;
     animation-delay: 0.75s;
 }
-.AppLoading-animation-class > div:nth-of-type(5) {
+.app-loading-animation-class > div:nth-of-type(5) {
     top: 130px;
     left: 130px;
 }
-.AppLoading-animation-class > div:nth-of-type(5) > div {
+.app-loading-animation-class > div:nth-of-type(5) > div {
     -ms-animation-delay: 1s;
     -moz-animation-delay: 1s;
     -webkit-animation-delay: 1s;
     -o-animation-delay: 1s;
     animation-delay: 1s;
 }
-.AppLoading-animation-class > div:nth-of-type(6) {
+.app-loading-animation-class > div:nth-of-type(6) {
     top: 130px;
     left: 80px;
 }
-.AppLoading-animation-class > div:nth-of-type(6) > div {
+.app-loading-animation-class > div:nth-of-type(6) > div {
     -ms-animation-delay: 1.25s;
     -moz-animation-delay: 1.25s;
     -webkit-animation-delay: 1.25s;
     -o-animation-delay: 1.25s;
     animation-delay: 1.25s;
 }
-.AppLoading-animation-class > div:nth-of-type(7) {
+.app-loading-animation-class > div:nth-of-type(7) {
     top: 130px;
     left: 30px;
 }
-.AppLoading-animation-class > div:nth-of-type(7) > div {
+.app-loading-animation-class > div:nth-of-type(7) > div {
     -ms-animation-delay: 1.5s;
     -moz-animation-delay: 1.5s;
     -webkit-animation-delay: 1.5s;
     -o-animation-delay: 1.5s;
     animation-delay: 1.5s;
 }
-.AppLoading-animation-class > div:nth-of-type(8) {
+.app-loading-animation-class > div:nth-of-type(8) {
     top: 80px;
     left: 30px;
 }
-.AppLoading-animation-class > div:nth-of-type(8) > div {
+.app-loading-animation-class > div:nth-of-type(8) > div {
     -ms-animation-delay: 1.75s;
     -moz-animation-delay: 1.75s;
     -webkit-animation-delay: 1.75s;
