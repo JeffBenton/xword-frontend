@@ -4,6 +4,7 @@
 
 import React from 'react';
 import CrosswordClue from './CrosswordClue.js';
+import './CrosswordClues.css';
 
 class CrosswordClues extends React.Component {
 

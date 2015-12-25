@@ -219,6 +219,16 @@ class Crossword extends React.Component {
         this.selectBox(this.props.game.puzzle[clue.direction][clue.number][0], clue.direction);
     }
 
+    getSelectedClue() {
+        if (this.state.selectedClue !== null) {
+            if (this.state.selectedClue.focused) {
+                return this.state.clues[this.state.selectedClue.focused][this.state.selectedClue[this.state.selectedClue.focused]];
+            }
+        }
+
+        return null;
+    }
+
     getHeaderItems() {
         return [];
     }

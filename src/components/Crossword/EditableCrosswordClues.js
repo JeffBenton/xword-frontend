@@ -24,9 +24,7 @@ class EditableCrosswordClues extends CrosswordClues {
             });
         } else {
             this.props.onClick(clue);
-            this.setState({
-                editing: null
-            });
+            this.onFinishEditing();
         }
     }
 

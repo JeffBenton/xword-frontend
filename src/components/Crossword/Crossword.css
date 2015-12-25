@@ -6,6 +6,7 @@
 
 .crossword-container .crossword-column-small {
     width: 25%;
+    min-width: 285px;
     display: inline-block;
 }
 
@@ -26,4 +27,6 @@
 
 .crossword-container .crossword-clues-container {
     width: 250px;
+    background-color: #e9e9e9;
+    padding-left: 10px;
 }
