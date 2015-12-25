@@ -14,15 +14,13 @@ class CrosswordBox extends React.Component {
                 return {
                     height: this.props.height + 'px',
                     width: this.props.width + 'px',
-                    border: '1px black solid',
-                    boxSizing: 'border-box'
+                    border: '1px black solid'
                 };
             case boxState.FOCUSED:
                 return {
-                    height: this.props.height + 'px',
+                    height: this.props.size + 'px',
                     width: this.props.width + 'px',
                     border: '1px black solid',
-                    boxSizing: 'border-box',
                     backgroundColor: '#CBCBFF'
                 };
             case boxState.SELECTED:
@@ -30,7 +28,6 @@ class CrosswordBox extends React.Component {
                     height: this.props.height + 'px',
                     width: this.props.width + 'px',
                     border: '1px black solid',
-                    boxSizing: 'border-box',
                     backgroundColor: '#EBEBEB'
                 };
             case boxState.ACTIVE:
@@ -38,7 +35,6 @@ class CrosswordBox extends React.Component {
                     height: this.props.height + 'px',
                     width: this.props.width + 'px',
                     border: '1px black solid',
-                    boxSizing: 'border-box',
                     backgroundColor: '#FFF0CB'
                 };
             case boxState.BLACKBOX:
@@ -46,7 +42,6 @@ class CrosswordBox extends React.Component {
                     height: this.props.height + 'px',
                     width: this.props.width + 'px',
                     border: '1px black solid',
-                    boxSizing: 'border-box',
                     backgroundColor: 'black'
                 };
         }

@@ -31,6 +31,7 @@ class CrosswordBoard extends React.Component {
     }
 
     handleResize() {
+        console.log(ReactDOM.findDOMNode(this).offsetWidth / this.props.board.width * this.props.board.height);
         this.setState({
             height: ReactDOM.findDOMNode(this).offsetWidth / this.props.board.width * this.props.board.height,
             width: ReactDOM.findDOMNode(this).offsetWidth
@@ -38,23 +39,28 @@ class CrosswordBoard extends React.Component {
     }
 
     render() {
+        console.log(this.state);
         var boxHeight = this.state.height / this.props.board.height;
         var boxWidth = this.state.width / this.props.board.width;
         var crosswordStyle = {
             height: this.state.height + 'px',
-            width: '100%',
-            border: '2px black solid',
+            width: '100%'
+        };
+        var crosswordBoardStyle = {
+            height: this.state.height + 'px',
+            width: this.state.width + 'px',
+            border: '1px black solid',
             marginLeft: "auto",
-            marginRight: "auto",
-            boxSizing: "border-box"
+            marginRight: "auto"
         };
         var crosswordRowStyle = {
             height: boxHeight + 'px',
-            width: '100%',
+            width: this.state.width + 'px',
             display: 'flex'
         };
 
         return (<div className='crossword' style={crosswordStyle}>
+            <div className='crossword-board' style={crosswordBoardStyle}>
             {this.props.board.board.map(function (row, index) {
                 return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
                     {row.map(function (box) {
@@ -62,6 +68,7 @@ class CrosswordBoard extends React.Component {
                     }, this)}
                 </div>);
             }, this)}
+            </div>
         </div>);
     }
 }
