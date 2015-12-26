@@ -4,7 +4,6 @@
 
 import React from 'react';
 import CrosswordHeaderItem from './CrosswordHeaderItem.js';
-import CrosswordHeaderDivider from './CrosswordHeaderDivider.js';
 import './CrosswordHeader.css';
 
 class CrosswordHeader extends React.Component {

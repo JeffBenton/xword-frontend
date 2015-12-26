@@ -7,6 +7,7 @@ import React from 'react';
 import CrosswordController from './../Crossword/CrosswordController.js';
 import Game from './../../objects/game.js';
 import AppLoading from './AppLoading.js';
+import AppHeader from './AppHeader.js';
 import {API_URL} from './../../objects/constants.js';
 
 class AppSolve extends React.Component {
@@ -58,7 +59,7 @@ class AppSolve extends React.Component {
         if (this.state.isLoading){
             return (<div><AppLoading /></div>);
         } else {
-            return (<div><CrosswordController game={this.state.game} params={this.state.params}/></div>);
+            return (<div><AppHeader /><CrosswordController game={this.state.game} params={this.state.params}/></div>);
         }
     }
 }

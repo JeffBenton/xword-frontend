@@ -2,6 +2,7 @@
     height: 45px;
     margin-bottom: 15px;
     margin-top: 15px;
+    display: flex;
 }
 
 .crossword-header .crossword-column-small {
@@ -13,6 +14,7 @@
 .crossword-header .crossword-column-big {
     width: 50%;
     display: inline-block;
+    min-width: 300px;
 }
 
 .crossword-header .crossword-header-items-container {
