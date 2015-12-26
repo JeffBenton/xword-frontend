@@ -59,7 +59,6 @@ class EditableCrosswordController extends React.Component {
                         editId: data.editId
                     });
                     window.history.replaceState(data, "", "/edit/" + data.editId);
-
                 } catch (e) {
                     console.error(e);
                 }

@@ -19,10 +19,15 @@ class CrosswordClue extends React.Component {
     getClueStyle() {
         if (this.props.clue.isSelected) {
             return {
-                backgroundColor: '#E4E4F8'
+                fontFamily: "'Open Sans', sans-serif",
+                fontSize: "15px",
+                backgroundColor: '#CBCBFF'
             }
         } else {
-            return {};
+            return {
+                fontFamily: "'Open Sans', sans-serif",
+                fontSize: "15px"
+            };
         }
     }
 

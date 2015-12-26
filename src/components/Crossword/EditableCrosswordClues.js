@@ -23,10 +23,8 @@ class EditableCrosswordClues extends CrosswordClues {
                 editing: clue
             });
         } else {
+            this.onFinishEditing(clue);
             this.props.onClick(clue);
-            this.setState({
-                editing: null
-            });
         }
     }
 
@@ -34,6 +32,10 @@ class EditableCrosswordClues extends CrosswordClues {
         this.setState({
             editing: null
         });
+
+        if (this.props.onUpdate) {
+            this.props.onUpdate(clue);
+        }
     }
 
     render() {
@@ -43,9 +45,10 @@ class EditableCrosswordClues extends CrosswordClues {
                 clues.push(<EditableCrosswordClue clue={this.props.clues[number]} key={number} onClick={this.onClick} isEditing={this.state.editing === this.props.clues[number]} onFinishEditing={this.onFinishEditing}/>);
             }
         }
+
         return (
-            <div>
-                <h4>{this.props.type}</h4>
+            <div className="crossword-clues-container" style={Object.assign({}, this.props.style, this.getCluesStyle())}>
+                <h4 style={this.getHeaderStyle()}>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }
@@ -54,7 +57,8 @@ class EditableCrosswordClues extends CrosswordClues {
 EditableCrosswordClues.propTypes = {
     type: React.PropTypes.string.isRequired,
     onClick: React.PropTypes.func.isRequired,
-    clues: React.PropTypes.object.isRequired
+    clues: React.PropTypes.object.isRequired,
+    onUpdate: React.PropTypes.func
 };
 
 module.exports = EditableCrosswordClues;

@@ -1,0 +1,23 @@
+.crossword-selected-clue-container {
+    min-height: 40px;
+    margin-bottom: 5px;
+    background-color: #e9e9e9;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+}
+.crossword-selected-clue-container.active {
+    background-color: #CBCBFF;
+}
+
+.crossword-selected-clue-container .clue-name {
+    font-family: 'Arvo', sans-serif;
+    font-size: 26px;
+    display: inline-table;
+}
+
+.crossword-selected-clue-container .clue-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    margin-left: 5px;
+}

@@ -7,7 +7,7 @@ import Game from './../../objects/game.js';
 import Crossword from './Crossword.js';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordHeader from './CrosswordHeader.js';
-
+import CrosswordSelectedClue from './CrosswordSelectedClue';
 import EditableCrosswordClues from './EditableCrosswordClues.js';
 
 class EditableCrossword extends Crossword {
@@ -15,6 +15,7 @@ class EditableCrossword extends Crossword {
     constructor(props) {
         super(props);
         this.state.clickAction = "CREATEBOX";
+        this.handleClueUpdate = this.handleClueUpdate.bind(this);
     }
 
     handleBoxClick(box) {
@@ -41,7 +42,7 @@ class EditableCrossword extends Crossword {
     getHeaderItems() {
         return [
             [{
-                name: "create",
+                name: "add box",
                 onClick: function(context) {
                     return function() {
                         context.setState({clickAction: 'CREATEBOX'});
@@ -94,14 +95,26 @@ class EditableCrossword extends Crossword {
         ];
     }
 
+    handleClueUpdate(clue) {
+        this.setState({
+            selectedClue: this.state.selectedClue
+        });
+    }
+
     render() {
-        return (<div className="crossword-container" >
-            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()} /></div>
-            <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
-                                                                       board={this.state.board}/></div>
-            <div className="crossword-clues-container">
-                <EditableCrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
-                <EditableCrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
+        return (<div>
+            <CrosswordHeader headerItems={this.getHeaderItems()} />
+            <div className="crossword-container" >
+                <div className="crossword-column-small" >
+                    <EditableCrosswordClues style={{marginRight: "25px", float: "right"}} type='across' onClick={this.handleClueClick} onUpdate={this.handleClueUpdate} clues={this.state.clues.across} />
+                </div>
+                <div className="crossword-column-big" >
+                    <CrosswordSelectedClue clue={this.getSelectedClue()} />
+                    <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
+                </div>
+                <div className="crossword-column-small" >
+                    <EditableCrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} onUpdate={this.handleClueUpdate}/>
+                </div>
             </div>
         </div>);
     }

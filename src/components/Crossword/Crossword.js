@@ -2,9 +2,11 @@ import React from 'react';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordClues from './CrosswordClues.js';
 import CrosswordHeader from './CrosswordHeader.js';
+import CrosswordSelectedClue from './CrosswordSelectedClue';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
 import {directions, boxState, otherDirection, toLetter} from './../../objects/constants.js';
+import './Crossword.css';
 
 class Crossword extends React.Component {
 
@@ -218,18 +220,34 @@ class Crossword extends React.Component {
         this.selectBox(this.props.game.puzzle[clue.direction][clue.number][0], clue.direction);
     }
 
+    getSelectedClue() {
+        if (this.state.selectedClue !== null) {
+            if (this.state.selectedClue.focused) {
+                return this.state.clues[this.state.selectedClue.focused][this.state.selectedClue[this.state.selectedClue.focused]];
+            }
+        }
+
+        return null;
+    }
+
     getHeaderItems() {
         return [];
     }
 
     render() {
-        return (<div className="crossword-container" >
-            <div className="crossword-board-header"><CrosswordHeader headerItems={this.getHeaderItems()}/></div>
-            <div className="crossword-board-container"><CrosswordBoard onClick={this.handleBoxClick}
-                                                                       board={this.state.board}/></div>
-            <div className="crossword-clues-container">
-                <CrosswordClues type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
-                <CrosswordClues type='down' onClick={this.handleClueClick} clues={this.state.clues.down} />
+        return (<div>
+            <CrosswordHeader headerItems={this.getHeaderItems()} />
+            <div className="crossword-container" >
+                <div className="crossword-column-small" >
+                    <CrosswordClues style={{marginRight: "25px", float: "right"}} type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
+                </div>
+                <div className="crossword-column-big" >
+                    <CrosswordSelectedClue clue={this.getSelectedClue()} />
+                    <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
+                </div>
+                <div className="crossword-column-small" >
+                    <CrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} />
+                </div>
             </div>
         </div>);
     }
