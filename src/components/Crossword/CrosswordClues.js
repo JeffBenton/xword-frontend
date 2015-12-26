@@ -22,11 +22,12 @@ class CrosswordClues extends React.Component {
         var clues = [];
         for (var number in this.props.clues) {
             if (this.props.clues.hasOwnProperty(number)) {
-                clues.push(<CrosswordClue clue={this.props.clues[number]} key={number} onClick={this.props.onClick}/>);
+                clues.push(<CrosswordClue clue={this.props.clues[number]} key={number} onClick={this.props.onClick} />);
             }
         }
+
         return (
-            <div style={this.getCluesStyle()}>
+            <div className="crossword-clues-container" style={Object.assign({}, this.props.style, this.getCluesStyle())}>
                 <h4 style={this.getHeaderStyle()}>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
