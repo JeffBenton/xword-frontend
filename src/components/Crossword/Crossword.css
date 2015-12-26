@@ -14,13 +14,3 @@
     width: 50%;
     display: inline-block;
 }
-
-.crossword-board-header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: #EBEBEB;
-    height: 45px;
-    margin-bottom: 15px;
-    border: #B1B1B1 1px solid;
-}

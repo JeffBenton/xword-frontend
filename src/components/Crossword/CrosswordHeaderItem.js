@@ -3,31 +3,17 @@
  */
 
 import React from 'react';
+import './CrosswordHeaderItem.css';
+
 class CrosswordHeaderItem extends React.Component {
 
-    getSelectedStyle() {
-        return {
-            color: 'rgba(0,0,0,.34)',
-            width: this.props.width + 'px',
-            display: "inline-block",
-            cursor: "default"
-        };
-    }
-
-    getStyle() {
-        return {
-            width: this.props.width + 'px',
-            display: "inline-block",
-            cursor: "pointer"
-        };
-    }
-
     render() {
-        if (this.props.item.isClicked) {
-            return (<div onClick={this.props.item.onClick} style={this.getSelectedStyle()}><i className="material-icons">{this.props.item.icon}</i></div>);
-        } else {
-            return (<div onClick={this.props.item.onClick} style={this.getStyle()}><i className="material-icons">{this.props.item.icon}</i></div>);
-        }
+        return (
+            <div className={'crossword-header-item' + (this.props.item.isClicked ? ' selected' : '')} onClick={this.props.item.onClick} style={{width: this.props.width + 'px'}}>
+                <i className="material-icons">{this.props.item.icon}</i>
+                <span className='item-description'>{this.props.item.name}</span>
+            </div>
+        );
     }
 }
 
@@ -42,7 +28,7 @@ CrosswordHeaderItem.propTypes = {
 };
 
 CrosswordHeaderItem.defaultProps = {
-    width: 24
+    width: 48
 }
 
 module.exports = CrosswordHeaderItem;

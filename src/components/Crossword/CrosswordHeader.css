@@ -1,0 +1,26 @@
+.crossword-header {
+    height: 45px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.crossword-header .crossword-column-small {
+    width: 25%;
+    min-width: 285px;
+    display: inline-block;
+}
+
+.crossword-header .crossword-column-big {
+    width: 50%;
+    display: inline-block;
+}
+
+.crossword-header .crossword-header-items-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.crossword-header-items-container table {
+    width: 100%;
+}

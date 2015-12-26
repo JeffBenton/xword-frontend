@@ -42,7 +42,7 @@ class EditableCrossword extends Crossword {
     getHeaderItems() {
         return [
             [{
-                name: "create",
+                name: "add box",
                 onClick: function(context) {
                     return function() {
                         context.setState({clickAction: 'CREATEBOX'});
