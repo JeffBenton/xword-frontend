@@ -47,8 +47,8 @@ class EditableCrosswordClues extends CrosswordClues {
         }
 
         return (
-            <div className="crossword-clues-container" style={Object.assign({}, this.props.style, this.getCluesStyle())}>
-                <h4 style={this.getHeaderStyle()}>{this.props.type.toUpperCase()}</h4>
+            <div className="crossword-clues-container" style={this.props.style}>
+                <h4>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }
