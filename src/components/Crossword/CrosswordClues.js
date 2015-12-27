@@ -18,7 +18,7 @@ class CrosswordClues extends React.Component {
 
         return (
             <div className="crossword-clues-container" style={this.props.style}>
-                <h4 style={this.getHeaderStyle()}>{this.props.type.toUpperCase()}</h4>
+                <h4>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }
