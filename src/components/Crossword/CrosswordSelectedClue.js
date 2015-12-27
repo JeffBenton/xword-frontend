@@ -39,18 +39,18 @@ class CrosswordSelectedClue extends React.Component {
             let clueName = (
                 <span className="clue-name">{this.props.clue.number + " " + this.props.clue.direction + " |"}</span>);
             let clueText = (<span className="clue-text">{this.props.clue.text ? this.props.clue.text : <i>(no clue text)</i>}</span>);
-            let element = <div className={"crossword-selected-clue-container active" + (this.state.isFloating ? " ghost" : "")}>
-                {clueName}
-                {clueText}
-            </div>;
             if (this.state.isFloating) {
                 let floatbar = <div className="crossword-selected-clue-container-floating">{clueName}{clueText}</div>;
+                let element = (<div className={"crossword-selected-clue-container"}></div>);
                 return (<div>
                     {floatbar}
                     {element}
                 </div>);
             } else {
-                return element;
+                return <div className={"crossword-selected-clue-container active" + (this.state.isFloating ? " ghost" : "")}>
+                    {clueName}
+                    {clueText}
+                </div>;
             }
         } else {
             return (<div className={"crossword-selected-clue-container"}></div>);

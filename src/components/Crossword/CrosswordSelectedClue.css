@@ -1,5 +1,5 @@
 .crossword-selected-clue-container {
-    min-height: 40px;
+    min-height: 50px;
     margin-bottom: 5px;
     background-color: #e9e9e9;
     display: flex;
@@ -48,5 +48,7 @@
 .crossword-selected-clue-container .clue-text {
     font-family: 'Open Sans', sans-serif;
     font-size: 18px;
-    margin-left: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-right: 5px;
 }
