@@ -119,9 +119,11 @@ class Crossword extends React.Component {
                 if (selected.across && selected.focused === 'across') {
                     if (selected.down) {
                         this.selectBox(selectedBox, 'down');
+                    } else {
+                        this.selectBox(this.props.game.board.previous(selectedBox, 'down'), 'down');
                     }
                 } else if (selected.down && selected.focused === 'down') {
-                    this.selectBox(this.props.game.board.above(selectedBox));
+                    this.selectBox(this.props.game.board.previous(selectedBox, 'down'));
                 }
                 break;
             case 39: // right
@@ -133,9 +135,11 @@ class Crossword extends React.Component {
                 if (selected.down && selected.focused === 'down') {
                     if (selected.across) {
                         this.selectBox(selectedBox, 'across');
+                    } else {
+                        this.selectBox(this.props.game.board.next(selectedBox, 'across'), 'across');
                     }
                 } else if (selected.across && selected.focused === 'across') {
-                    this.selectBox(this.props.game.board.right(selectedBox));
+                    this.selectBox(this.props.game.board.next(selectedBox, 'across'));
                 }
                 break;
             case 40: // down
@@ -147,9 +151,11 @@ class Crossword extends React.Component {
                 if (selected.across && selected.focused === 'across') {
                     if (selected.down) {
                         this.selectBox(selectedBox, 'down');
+                    } else {
+                        this.selectBox(this.props.game.board.next(selectedBox, 'down'), 'down');
                     }
                 } else if (selected.down && selected.focused === 'down') {
-                    this.selectBox(this.props.game.board.below(selectedBox));
+                    this.selectBox(this.props.game.board.next(selectedBox, 'down'));
                 }
                 break;
             case 37: // left
@@ -161,9 +167,11 @@ class Crossword extends React.Component {
                 if (selected.down && selected.focused === 'down') {
                     if (selected.across) {
                         this.selectBox(selectedBox, 'across');
+                    } else {
+                        this.selectBox(this.props.game.board.previous(selectedBox, 'across'), 'across');
                     }
                 } else if (selected.across && selected.focused === 'across') {
-                    this.selectBox(this.props.game.board.left(selectedBox));
+                    this.selectBox(this.props.game.board.previous(selectedBox, 'across'));
                 }
                 break;
 
@@ -177,9 +185,11 @@ class Crossword extends React.Component {
             });
             return;
         }
-        var focusedDirection = direction || (function(box, selectedClue) {
+        var focusedDirection = (function(box, selectedClue) {
             let dir = directions[0];
-            if (selectedClue !== null && selectedClue.focused !== null) {
+            if (direction) {
+                dir = direction;
+            } else if (selectedClue !== null && selectedClue.focused !== null) {
                 dir = selectedClue.focused;
             }
             if (box[dir] === null) {
