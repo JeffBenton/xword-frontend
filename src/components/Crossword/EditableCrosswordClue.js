@@ -17,6 +17,7 @@ class EditableCrosswordClue extends CrosswordClue {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleKeydown = this.handleKeydown.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -45,6 +46,13 @@ class EditableCrosswordClue extends CrosswordClue {
         };
     }
 
+    handleBlur(event) {
+        this.setState({isEditing: false});
+        if (this.props.onFinishEditing) {
+            this.props.onFinishEditing(this.clue);
+        }
+    }
+
     handleChange(event) {
         this.setState({value: event.target.value});
         this.clue.text = event.target.value;
@@ -56,13 +64,25 @@ class EditableCrosswordClue extends CrosswordClue {
             if (this.props.onFinishEditing) {
                 this.props.onFinishEditing(this.clue);
             }
+        } else if (event.which === 38) { //up
+            event.preventDefault();
+            this.setState({isEditing: false});
+            if (this.props.onNavigateClue) {
+                this.props.onNavigateClue(this.clue, 'down');
+            }
+        } else if (event.which === 40) { //down
+            event.preventDefault();
+            this.setState({isEditing: false});
+            if (this.props.onNavigateClue) {
+                this.props.onNavigateClue(this.clue, 'up');
+            }
         }
     }
 
     render() {
         var value = this.state.value;
         if (this.state.isEditing) {
-            return (<div style={this.getEditingClueStyle()}><b>{this.props.clue.number}</b><input type="text" ref="edit" value={value} onChange={this.handleChange} onKeyDown={this.handleKeydown} style={this.getEditBoxStyle()}/></div>);
+            return (<div style={this.getEditingClueStyle()}><b>{this.props.clue.number}</b><input type="text" ref="edit" value={value} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} style={this.getEditBoxStyle()}/></div>);
         } else {
             return super.render();
         }
@@ -83,7 +103,8 @@ class EditableCrosswordClue extends CrosswordClue {
 EditableCrosswordClue.propTypes = {
     clue: React.PropTypes.instanceOf(Clue).isRequired,
     isEditing: React.PropTypes.bool,
-    onFinishEditing: React.PropTypes.func
+    onFinishEditing: React.PropTypes.func,
+    onNavigateClue: React.PropTypes.func
 };
 
 module.exports = EditableCrosswordClue;
