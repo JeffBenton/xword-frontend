@@ -125,6 +125,92 @@ class Board {
         }
     }
 
+    next(box, direction) {
+        if (box === null || direction === null) {
+            return null;
+        }
+
+        switch (direction) {
+            case 'across':
+                let getNextBoxFromRow = function(originalBox, row, startX = 0) {
+                    for (let i = startX; i < row.length; i++) {
+                        if (row[i] === originalBox || !row[i].isBlackBox()) {
+                            return row[i];
+                        }
+                    }
+                    return null;
+                };
+                let acrossBox = getNextBoxFromRow(box, this.row(box.y), box.x+1);
+                if (acrossBox) {
+                    return acrossBox;
+                } else {
+                    let y = box.y;
+                    while (!acrossBox) {
+                        y = (y + 1) % this.height;
+                        acrossBox = getNextBoxFromRow(box, this.row(y), 0);
+                    }
+                    return acrossBox;
+                }
+            case 'down':
+                let nextBox = this.below(box);
+                do {
+                    if (nextBox == null) {
+                        nextBox = this.get(box.x, 0);
+                    }
+                    if (!nextBox.isBlackBox()) {
+                        return nextBox;
+                    }
+                    nextBox = this.below(nextBox);
+                } while (nextBox !== box);
+                return nextBox;
+            default:
+                return null;
+        }
+    }
+
+    previous(box, direction) {
+        if (box === null || direction === null) {
+            return null;
+        }
+
+        switch (direction) {
+            case 'across':
+                let getPreviousBoxFromRow = function(originalBox, row, startX) {
+                    for (let i = startX; i >= 0; i--) {
+                        if (row[i] === originalBox || !row[i].isBlackBox()) {
+                            return row[i];
+                        }
+                    }
+                    return null;
+                };
+                let acrossBox = getPreviousBoxFromRow(box, this.row(box.y), box.x-1);
+                if (acrossBox) {
+                    return acrossBox;
+                } else {
+                    let y = box.y;
+                    while (!acrossBox) {
+                        y = y - 1 >= 0 ? y - 1 : this.height - 1;
+                        acrossBox = getPreviousBoxFromRow(box, this.row(y), this.width - 1);
+                    }
+                    return acrossBox;
+                }
+            case 'down':
+                let nextBox = this.above(box);
+                do {
+                    if (nextBox == null) {
+                        nextBox = this.get(box.x, this.height - 1);
+                    }
+                    if (!nextBox.isBlackBox()) {
+                        return nextBox;
+                    }
+                    nextBox = this.above(nextBox);
+                } while (nextBox !== box);
+                return nextBox;
+            default:
+                return null;
+        }
+    }
+
     /**
      * Set the value of the specified (x,y) position of the Board to the provided Box.
      *

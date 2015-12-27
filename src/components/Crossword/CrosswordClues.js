@@ -8,16 +8,6 @@ import './CrosswordClues.css';
 
 class CrosswordClues extends React.Component {
 
-    getCluesStyle() {
-
-    }
-
-    getHeaderStyle() {
-        return {
-            fontFamily: "'Arvo', serif"
-        };
-    }
-
     render() {
         var clues = [];
         for (var number in this.props.clues) {
@@ -27,8 +17,8 @@ class CrosswordClues extends React.Component {
         }
 
         return (
-            <div className="crossword-clues-container" style={Object.assign({}, this.props.style, this.getCluesStyle())}>
-                <h4 style={this.getHeaderStyle()}>{this.props.type.toUpperCase()}</h4>
+            <div className="crossword-clues-container" style={this.props.style}>
+                <h4>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }

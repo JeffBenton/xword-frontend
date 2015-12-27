@@ -12,6 +12,8 @@ class EditableCrosswordClues extends CrosswordClues {
         super(props);
         this.onClick = this.onClick.bind(this);
         this.onFinishEditing = this.onFinishEditing.bind(this);
+        this.onNavigateClue = this.onNavigateClue.bind(this);
+
         this.state = {
             editing: null
         };
@@ -38,17 +40,51 @@ class EditableCrosswordClues extends CrosswordClues {
         }
     }
 
+    onNavigateClue(clue, direction) {
+        switch (direction) {
+            case 'up':
+                this.onFinishEditing(clue);
+                for (var upNumber in this.props.clues) {
+                    if (this.props.clues.hasOwnProperty(upNumber)) {
+                        if (upNumber > clue.number) {
+                            this.setState({
+                                editing: this.props.clues[upNumber]
+                            });
+                            this.props.onClick(this.props.clues[upNumber]);
+                            return;
+                        }
+                    }
+                }
+                break;
+            case 'down':
+                this.onFinishEditing(clue);
+                for (var downNumber = clue.number - 1; downNumber > 0; downNumber --) {
+                    if (this.props.clues[downNumber]) {
+                        this.setState({
+                            editing: this.props.clues[downNumber]
+                        });
+                        this.props.onClick(this.props.clues[downNumber]);
+                        return;
+                    }
+                }
+                break;
+            case 'default':
+                this.onFinishEditing(clue);
+                break;
+        }
+    }
+
     render() {
         var clues = [];
         for (var number in this.props.clues) {
             if (this.props.clues.hasOwnProperty(number)) {
-                clues.push(<EditableCrosswordClue clue={this.props.clues[number]} key={number} onClick={this.onClick} isEditing={this.state.editing === this.props.clues[number]} onFinishEditing={this.onFinishEditing}/>);
+                clues.push(<EditableCrosswordClue clue={this.props.clues[number]} key={number} onClick={this.onClick} isEditing={this.state.editing === this.props.clues[number]} onFinishEditing={this.onFinishEditing} onNavigateClue={this.onNavigateClue} />);
             }
         }
 
         return (
-            <div className="crossword-clues-container" style={Object.assign({}, this.props.style, this.getCluesStyle())}>
-                <h4 style={this.getHeaderStyle()}>{this.props.type.toUpperCase()}</h4>
+            <div className="crossword-clues-container" style={this.props.style}>
+                <h4>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }
