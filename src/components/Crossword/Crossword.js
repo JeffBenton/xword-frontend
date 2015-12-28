@@ -83,23 +83,35 @@ class Crossword extends React.Component {
         if (event.target.tagName === 'INPUT') {
             return;
         }
-
         let selected = this.state.selectedClue;
         let selectedBox = this.state.selectedBox;
 
         switch (event.which) {
             case 8: // backspace
+                debugger;
                 event.preventDefault();
                 if (selected === null || selectedBox === null) {
                     break;
                 }
 
-                if (selectedBox.value !== null && this.lastKeyPress !== 8) {
-                    selectedBox.value = null;
-                    this.setState({
-                        selectedBox: selectedBox
-                    });
-                } else {
+                if (!selectedBox.value) {
+                    switch (selected.focused) {
+                        case 'across':
+                            selectedBox = this.props.game.board.left(selectedBox);
+                            selectedBox.value = null;
+                            this.selectBox(selectedBox);
+                            break;
+                        case 'down':
+                            selectedBox = this.selectBox(this.props.game.board.above(selectedBox));
+                            selectedBox.value = null;
+                            this.selectBox(selectedBox);
+                            break;
+                        default:
+                            this.setState({
+                                selectedBox: selectedBox
+                            });
+                    }
+                } else if (this.lastKeyPress === 8) {
                     selectedBox.value = null;
                     switch (selected.focused) {
                         case 'across':
@@ -113,6 +125,11 @@ class Crossword extends React.Component {
                                 selectedBox: selectedBox
                             });
                     }
+                } else {
+                    selectedBox.value = null;
+                    this.setState({
+                        selectedBox: selectedBox
+                    });
                 }
                 break;
             case 38: // up

@@ -28,6 +28,8 @@ class Board {
                 let box = new Box((y*b.height) + x, b.version, x, y);
                 if (values[y][x] == null) {
                     box.state = boxState.BLACKBOX;
+                } else if (values[y][x] == " ") {
+                    box.value = null;
                 } else {
                     box.value = values[y][x];
                 }
