@@ -1,6 +1,6 @@
 import Clue from './clue.js';
 import Box from './box.js';
-import {boxState} from './constants.js';
+import {boxState} from './../util/constants.js';
 
 /**
  * Represents a crossword board.

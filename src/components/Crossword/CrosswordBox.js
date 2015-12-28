@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from './../../objects/box.js';
-import {boxState} from './../../objects/constants.js';
+import {boxState} from './../../util/constants.js';
 import './CrosswordBox.css';
 
 class CrosswordBox extends React.Component {

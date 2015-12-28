@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './CrosswordSelectedClue.css';
-import {realWidth, fitTextToContainer} from './../../objects/util.js';
+import {realWidth, fitTextToContainer} from './../../util/util.js';
 
 class CrosswordSelectedClue extends React.Component {
 

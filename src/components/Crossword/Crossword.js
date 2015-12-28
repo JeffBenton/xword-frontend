@@ -5,8 +5,8 @@ import CrosswordHeader from './CrosswordHeader.js';
 import CrosswordSelectedClue from './CrosswordSelectedClue';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
-import {directions, boxState} from './../../objects/constants.js';
-import {otherDirection, toLetter} from './../../objects/util.js';
+import {directions, boxState} from './../../util/constants.js';
+import {otherDirection, toLetter} from './../../util/util.js';
 import './Crossword.css';
 
 class Crossword extends React.Component {

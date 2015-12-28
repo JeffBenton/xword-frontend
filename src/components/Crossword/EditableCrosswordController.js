@@ -4,7 +4,7 @@
 
 import React from 'react';
 import EditableCrossword from './EditableCrossword.js';
-import {API_URL} from './../../objects/constants.js';
+import {API_URL} from './../../util/constants.js';
 
 class EditableCrosswordController extends React.Component {
 

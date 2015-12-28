@@ -1,4 +1,4 @@
-import {boxState} from './constants.js';
+import {boxState} from './../util/constants.js';
 
 class Box {
 

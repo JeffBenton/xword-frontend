@@ -8,7 +8,7 @@ import CrosswordController from './../Crossword/CrosswordController.js';
 import Game from './../../objects/game.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
-import {API_URL} from './../../objects/constants.js';
+import {API_URL} from './../../util/constants.js';
 
 class AppSolve extends React.Component {
 

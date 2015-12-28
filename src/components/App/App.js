@@ -4,7 +4,7 @@ import AppOption from './AppOption.js';
 import AppLanding from './AppLanding.js';
 import Crossword from './../Crossword/Crossword.js';
 import Game from './../../objects/game.js';
-import {API_URL} from './../../objects/constants.js';
+import {API_URL} from './../../util/constants.js';
 import history from './../../history.js';
 
 class App extends React.Component {
