@@ -27,6 +27,7 @@
     background-color: #CBCBFF;
     z-index: 1;
     cursor: default;
+    visibility: visible;
 }
 
 .crossword-selected-clue-container-floating .clue-name {

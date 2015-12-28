@@ -35,7 +35,7 @@ class CrosswordSelectedClue extends React.Component {
     }
 
     handleResize() {
-        if (!this.state.isFloating && this.hasClue()) {
+        if (this.hasClue()) {
             let text = ReactDOM.findDOMNode(this).getElementsByClassName("clue-text")[0];
             let name = ReactDOM.findDOMNode(this).getElementsByClassName("clue-name")[0];
             let container = ReactDOM.findDOMNode(this);
@@ -72,22 +72,23 @@ class CrosswordSelectedClue extends React.Component {
         if (this.hasClue()) {
             let clueName = (
                 <span className="clue-name">{this.props.clue.number + " " + this.props.clue.direction + " |"}</span>);
-            let clueText = (<span className="clue-text">{this.props.clue.text ? this.props.clue.text : <i>(no clue text)</i>}</span>);
+            let clueText = (
+                <span className="clue-text">{this.props.clue.text ? this.props.clue.text : <i>(no clue text)</i>}</span>);
             if (this.state.isFloating) {
                 let floatbar = <div className="crossword-selected-clue-container-floating">{clueName}{clueText}</div>;
-                let element = (<div className={"crossword-selected-clue-container"}></div>);
-                return (<div>
+                return (
+                <div className="crossword-selected-clue-container active ghost">
                     {floatbar}
-                    {element}
+                    <div>{clueName}{clueText}</div>
                 </div>);
             } else {
-                return <div className={"crossword-selected-clue-container active" + (this.state.isFloating ? " ghost" : "")}>
+                return <div className="crossword-selected-clue-container active">
                     {clueName}
                     {clueText}
                 </div>;
             }
         } else {
-            return (<div className={"crossword-selected-clue-container"}></div>);
+            return (<div className="crossword-selected-clue-container"></div>);
         }
 
     }
