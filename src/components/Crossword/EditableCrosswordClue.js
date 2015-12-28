@@ -5,7 +5,7 @@
 import React from 'react';
 import Clue from './../../objects/clue.js';
 import CrosswordClue from './CrosswordClue.js';
-
+import './EditableCrosswordClue.css';
 class EditableCrosswordClue extends CrosswordClue {
 
     constructor(props) {
@@ -82,7 +82,7 @@ class EditableCrosswordClue extends CrosswordClue {
     render() {
         var value = this.state.value;
         if (this.state.isEditing) {
-            return (<div style={this.getEditingClueStyle()}><b>{this.props.clue.number}</b><input type="text" ref="edit" value={value} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} style={this.getEditBoxStyle()}/></div>);
+            return (<div className="crossword-clue"><b>{this.props.clue.number}</b><input type="text" ref="edit" value={value} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} /></div>);
         } else {
             return super.render();
         }

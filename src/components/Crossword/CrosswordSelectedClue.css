@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     padding: 5px 15px;
+    cursor: default;
 }
 .crossword-selected-clue-container.active {
     background-color: #CBCBFF;
@@ -25,6 +26,7 @@
     top: 0;
     background-color: #CBCBFF;
     z-index: 1;
+    cursor: default;
 }
 
 .crossword-selected-clue-container-floating .clue-name {

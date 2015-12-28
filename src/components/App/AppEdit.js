@@ -60,7 +60,11 @@ class AppEdit extends React.Component {
         if (this.state.isLoading){
             return (<div><AppLoading /></div>);
         } else {
-            return (<div><AppHeader /><EditableCrosswordController game={this.state.game} params={this.state.params}/></div>);
+            return (
+                <div>
+                    <AppHeader />
+                    <EditableCrosswordController game={this.state.game} params={this.state.params}/>
+                </div>);
         }
     }
 }

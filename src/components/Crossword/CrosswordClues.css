@@ -1,8 +1,13 @@
 .crossword-clues-container {
     background-color: #e9e9e9;
     padding-left: 10px;
+    padding-right: 10px;
     padding-bottom: 15px;
     min-width: 150px;
+    cursor: default;
+    position: absolute;
+    right: 0;
+    left: 0;
 }
 
 .crossword-clues-container h4 {

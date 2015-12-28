@@ -43,19 +43,16 @@ class CrosswordBoard extends React.Component {
         var boxHeight = this.state.height / this.props.board.height;
         var boxWidth = this.state.width / this.props.board.width;
         var crosswordStyle = {
-            height: this.state.height + 'px',
-            width: '100%'
+            height: this.state.height + 'px'
         };
         var crosswordBoardStyle = {
             height: this.state.height + 'px',
-            width: this.state.width + 'px',
-            marginLeft: "auto",
-            marginRight: "auto"
+            width: this.state.width + 'px'
         };
+
         var crosswordRowStyle = {
             height: boxHeight + 'px',
-            width: this.state.width + 'px',
-            display: 'flex'
+            width: this.state.width + 'px'
         };
 
         return (

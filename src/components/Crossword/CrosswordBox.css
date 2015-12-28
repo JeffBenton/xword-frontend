@@ -1,6 +1,7 @@
 .crossword-box {
     border: 1px black solid;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .crossword-box .value {
