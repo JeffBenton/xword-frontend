@@ -10,11 +10,11 @@ class EditableCrosswordTitle extends CrosswordTitle {
 
     constructor(props) {
         super(props);
-
+        console.log(props);
         this.DEFAULT_TITLE = "Untitled Crossword";
         this.state = {
             isEditing: false,
-            title: this.props.metadata != null ? this.props.metadata.title : ""
+            title: this.props.data != null ? this.props.data.title : ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleKeydown = this.handleKeydown.bind(this);
@@ -65,25 +65,29 @@ class EditableCrosswordTitle extends CrosswordTitle {
 
     render() {
         if (this.state.isEditing) {
-            return (<div className="crossword-title-container">
+            return (<div className="crossword-title-container editable">
                 <div className="title">
                 <input type="text" ref="edit" value={this.state.title} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder={this.DEFAULT_TITLE}/>
                 </div>
-                <div className="metadata">
-                    <span className="field">created by</span><span className="value">Alex</span>
-                    <span className="field">edited by</span><span className="value">Alex</span>
-                </div>
+                {this.props.data ? (<div className="metadata">
+                    {(this.props.data && this.props.data.author) ?
+                        (<div><span className="field">created by</span><span className="value">{this.props.data.author}</span></div>) : ""}
+                    {(this.props.data && this.props.data.editor) ?
+                        (<div><span className="field">edited by</span><span className="value">{this.props.data.author}</span></div>) : ""}
+                </div>) : ""}
             </div>);
 
         } else {
-            return (<div className="crossword-title-container">
+            return (<div className="crossword-title-container editable">
                 <div className="title">
                     <span onClick={this.onClick}>{this.state.title || this.DEFAULT_TITLE}</span>
                 </div>
-                <div className="metadata">
-                    <span className="field">created by</span><span className="value">Alex</span>
-                    <span className="field">edited by</span><span className="value">Alex</span>
-                </div>
+                {this.props.data ? (<div className="metadata">
+                    {(this.props.data && this.props.data.author) ?
+                        (<div><span className="field">created by</span><span className="value">{this.props.data.author}</span></div>) : ""}
+                    {(this.props.data && this.props.data.editor) ?
+                        (<div><span className="field">edited by</span><span className="value">{this.props.data.author}</span></div>) : ""}
+                </div>) : ""}
             </div>);
         }
     }
