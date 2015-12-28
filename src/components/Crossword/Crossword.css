@@ -6,12 +6,12 @@
 
 .crossword-container .crossword-column-small {
     width: 25%;
-    min-width: 285px;
+    min-width: 150px;
     display: inline-block;
 }
 
 .crossword-container .crossword-column-big {
     width: 50%;
-    display: inline-block;
     min-width: 300px;
+    display: inline-block;
 }

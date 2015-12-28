@@ -21,7 +21,6 @@ class Crossword extends React.Component {
             selectedClue: null
         };
 
-        this.lastKeyPress = null;
         this.handleBoxClick = this.handleBoxClick.bind(this);
         this.handleClueClick = this.handleClueClick.bind(this);
         this.handleKeypress = this.handleKeypress.bind(this);
@@ -51,7 +50,7 @@ class Crossword extends React.Component {
         if (event.target.tagName === 'INPUT') {
             return;
         }
-        this.lastKeyPress = event.which;
+
         var char = toLetter(event.keyCode || event.which);
         if (char) {
             event.preventDefault();
@@ -88,7 +87,6 @@ class Crossword extends React.Component {
 
         switch (event.which) {
             case 8: // backspace
-                debugger;
                 event.preventDefault();
                 if (selected === null || selectedBox === null) {
                     break;
@@ -98,27 +96,17 @@ class Crossword extends React.Component {
                     switch (selected.focused) {
                         case 'across':
                             selectedBox = this.props.game.board.left(selectedBox);
-                            selectedBox.value = null;
-                            this.selectBox(selectedBox);
+                            if (selectedBox) {
+                                selectedBox.value = null;
+                                this.selectBox(selectedBox);
+                            }
                             break;
                         case 'down':
-                            selectedBox = this.selectBox(this.props.game.board.above(selectedBox));
-                            selectedBox.value = null;
-                            this.selectBox(selectedBox);
-                            break;
-                        default:
-                            this.setState({
-                                selectedBox: selectedBox
-                            });
-                    }
-                } else if (this.lastKeyPress === 8) {
-                    selectedBox.value = null;
-                    switch (selected.focused) {
-                        case 'across':
-                            this.selectBox(this.props.game.board.left(selectedBox));
-                            break;
-                        case 'down':
-                            this.selectBox(this.props.game.board.above(selectedBox));
+                            selectedBox = this.props.game.board.above(selectedBox);
+                            if (selectedBox) {
+                                selectedBox.value = null;
+                                this.selectBox(selectedBox);
+                            }
                             break;
                         default:
                             this.setState({
@@ -198,7 +186,6 @@ class Crossword extends React.Component {
                 break;
 
         }
-        this.lastKeyPress = event.which;
     }
 
     selectBox(box, direction) {
