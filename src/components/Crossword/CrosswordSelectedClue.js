@@ -42,10 +42,16 @@ class CrosswordSelectedClue extends React.Component {
             let containerWidth = realWidth(container);
             let nameWidth = realWidth(name);
 
+            container.style.height = Math.min(containerWidth/10, 50) + 'px';
             text.style.width = (containerWidth - nameWidth) + 'px';
-            text.style.fontSize = '18px';
+            text.style.fontSize = Math.min(containerWidth/16 - 6, 18) + 'px';
+            name.style.fontSize = Math.min(containerWidth/16, 24) + 'px';
 
             fitTextToContainer(text, container);
+        } else if (!this.hasClue()) {
+            let container = ReactDOM.findDOMNode(this);
+            let containerWidth = realWidth(container);
+            container.style.height = Math.min(containerWidth/10, 50) + 'px';
         }
     }
 

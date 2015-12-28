@@ -31,6 +31,7 @@
     font-family: 'Arvo', sans-serif;
     font-size: 26px;
     display: inline-table;
+    font-weight: bold;
 }
 
 .crossword-selected-clue-container-floating .clue-text {
@@ -43,6 +44,7 @@
     font-family: 'Arvo', sans-serif;
     font-size: 26px;
     display: inline-table;
+    font-weight: bold;
 }
 
 .crossword-selected-clue-container .clue-text {
