@@ -6,12 +6,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './CrosswordSelectedClue.css';
+import {realWidth} from './../../objects/constants.js';
 
 class CrosswordSelectedClue extends React.Component {
 
     constructor(props) {
         super(props);
         this.handleWindowScroll = this.handleWindowScroll.bind(this);
+        this.handleResize = this.handleResize.bind(this);
         this.state = {
             isFloating: false
         };
@@ -19,10 +21,29 @@ class CrosswordSelectedClue extends React.Component {
 
     componentDidMount() {
         window.addEventListener("scroll", this.handleWindowScroll);
+        window.addEventListener("resize", this.handleResize);
+        this.handleResize();
+    }
+
+    componentDidUpdate() {
+        this.handleResize();
     }
 
     componentWillUnmount() {
         window.removeEventListener("scroll", this.handleWindowScroll);
+        window.removeEventListener("resize", this.handleResize);
+    }
+
+    handleResize() {
+        if (!this.state.isFloating && this.hasClue()) {
+            let text = ReactDOM.findDOMNode(this).getElementsByClassName("clue-text")[0];
+            let name = ReactDOM.findDOMNode(this).getElementsByClassName("clue-name")[0];
+            let container = ReactDOM.findDOMNode(this);
+            let containerWidth = realWidth(container);
+            let nameWidth = realWidth(name);
+
+            text.style.width = (containerWidth - nameWidth) + 'px';
+        }
     }
 
     handleWindowScroll() {
@@ -34,8 +55,12 @@ class CrosswordSelectedClue extends React.Component {
         }
     }
 
+    hasClue() {
+        return (this.props.clue !== null && this.props.clue.number && this.props.clue.direction);
+    }
+
     render() {
-        if (this.props.clue !== null && this.props.clue.number && this.props.clue.direction) {
+        if (this.hasClue()) {
             let clueName = (
                 <span className="clue-name">{this.props.clue.number + " " + this.props.clue.direction + " |"}</span>);
             let clueText = (<span className="clue-text">{this.props.clue.text ? this.props.clue.text : <i>(no clue text)</i>}</span>);

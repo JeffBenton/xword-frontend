@@ -33,5 +33,14 @@ module.exports = {
         }
     },
 
+    realWidth(element) {
+        if (element) {
+            let width = window.getComputedStyle(element)['width'];
+            return parseInt(width.substring(0, width.indexOf('px')));
+        } else {
+            return 0;
+        }
+    },
+
     API_URL: "https://xword-backend.herokuapp.com/"
 };
