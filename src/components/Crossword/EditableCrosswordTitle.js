@@ -35,8 +35,14 @@ class EditableCrosswordTitle extends CrosswordTitle {
     }
 
     handleChange(event) {
-        this.setState({title: event.target.value});
-        event.target.text = event.target.value;
+        if (!event.target.value.trim()) {
+            event.target.value = null;
+            event.target.text = "";
+            this.setState({title: null});
+        } else {
+            event.target.text = event.target.value;
+            this.setState({title: event.target.value});
+        }
     }
 
     handleKeydown(event) {
