@@ -31,7 +31,7 @@ class EditableCrosswordClue extends CrosswordClue {
     getEditingClueStyle() {
         return {
             fontFamily: "'Open Sans', sans-serif",
-            fontSize: "13px"
+            fontSize: "15px"
         };
     }
 

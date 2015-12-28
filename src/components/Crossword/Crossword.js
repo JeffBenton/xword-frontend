@@ -21,6 +21,7 @@ class Crossword extends React.Component {
             selectedClue: null
         };
 
+        this.lastKeyPress = null;
         this.handleBoxClick = this.handleBoxClick.bind(this);
         this.handleClueClick = this.handleClueClick.bind(this);
         this.handleKeypress = this.handleKeypress.bind(this);
@@ -50,6 +51,7 @@ class Crossword extends React.Component {
         if (event.target.tagName === 'INPUT') {
             return;
         }
+        this.lastKeyPress = event.which;
         var char = toLetter(event.keyCode || event.which);
         if (char) {
             event.preventDefault();
@@ -89,14 +91,16 @@ class Crossword extends React.Component {
             case 8: // backspace
                 event.preventDefault();
                 if (selected === null || selectedBox === null) {
-                    return;
+                    break;
                 }
-                if (selectedBox.value !== null) {
+
+                if (selectedBox.value !== null && this.lastKeyPress !== 8) {
                     selectedBox.value = null;
                     this.setState({
                         selectedBox: selectedBox
                     });
                 } else {
+                    selectedBox.value = null;
                     switch (selected.focused) {
                         case 'across':
                             this.selectBox(this.props.game.board.left(selectedBox));
@@ -115,7 +119,7 @@ class Crossword extends React.Component {
                 event.preventDefault();
                 if (selected === null || (selected.across === null && selected.down === null)) {
                     this.selectBox(this.props.game.board.get(0,0));
-                    return;
+                    break;
                 }
                 if (selected.across && selected.focused === 'across') {
                     if (selected.down) {
@@ -131,7 +135,7 @@ class Crossword extends React.Component {
                 event.preventDefault();
                 if (selected === null || (selected.across === null && selected.down === null)) {
                     this.selectBox(this.props.game.board.get(0,0));
-                    return;
+                    break;
                 }
                 if (selected.down && selected.focused === 'down') {
                     if (selected.across) {
@@ -147,7 +151,7 @@ class Crossword extends React.Component {
                 event.preventDefault();
                 if (selected === null || (selected.across === null && selected.down === null)) {
                     this.selectBox(this.props.game.board.get(0,0));
-                    return;
+                    break;
                 }
                 if (selected.across && selected.focused === 'across') {
                     if (selected.down) {
@@ -163,7 +167,7 @@ class Crossword extends React.Component {
                 event.preventDefault();
                 if (selected === null || (selected.across === null && selected.down === null)) {
                     this.selectBox(this.props.game.board.get(0,0));
-                    return;
+                    break;
                 }
                 if (selected.down && selected.focused === 'down') {
                     if (selected.across) {
@@ -177,6 +181,7 @@ class Crossword extends React.Component {
                 break;
 
         }
+        this.lastKeyPress = event.which;
     }
 
     selectBox(box, direction) {
