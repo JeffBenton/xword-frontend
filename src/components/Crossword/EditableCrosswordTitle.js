@@ -5,6 +5,7 @@
 
 import CrosswordTitle from './CrosswordTitle.js'
 import React from 'react';
+import Metadata from './../../objects/metadata.js';
 import './CrosswordTitle.css';
 class EditableCrosswordTitle extends CrosswordTitle {
 
@@ -22,15 +23,17 @@ class EditableCrosswordTitle extends CrosswordTitle {
     }
 
     onClick() {
-        this.setState({
-            isEditing: !this.state.isEditing
-        });
+        if (this.state.isEditing) {
+            this.finishUpdate();
+        } else {
+            this.setState({
+                isEditing: true
+            });
+        }
     }
 
     handleBlur() {
-        this.setState({
-            isEditing: false
-        });
+        this.finishUpdate();
     }
 
     handleChange(event) {
@@ -46,7 +49,14 @@ class EditableCrosswordTitle extends CrosswordTitle {
 
     handleKeydown(event) {
         if (event.which === 13 || event.which === 27) {
-            this.setState({isEditing: false});
+            this.finishUpdate();
+        }
+    }
+
+    finishUpdate() {
+        this.setState({isEditing: false});
+        if (this.props.onUpdate) {
+            this.props.onUpdate({title: this.state.title});
         }
     }
 
@@ -82,14 +92,19 @@ class EditableCrosswordTitle extends CrosswordTitle {
                     <span onClick={this.onClick}>{this.state.title || this.DEFAULT_TITLE}</span>
                 </div>
                 {this.props.data ? (<div className="metadata">
-                    {(this.props.data && this.props.data.author) ?
+                    {(this.props.data.author) ?
                         (<div><span className="field">created by</span><span className="value">{this.props.data.author}</span></div>) : ""}
-                    {(this.props.data && this.props.data.editor) ?
+                    {(this.props.data.editor) ?
                         (<div><span className="field">edited by</span><span className="value">{this.props.data.author}</span></div>) : ""}
                 </div>) : ""}
             </div>);
         }
     }
 }
+
+EditableCrosswordTitle.propTypes = {
+    data: React.PropTypes.instanceOf(Metadata).isRequired,
+    onUpdate: React.PropTypes.func
+};
 
 module.exports = EditableCrosswordTitle;

@@ -21,16 +21,21 @@ class AppEdit extends React.Component {
     initializeState(params) {
         if (params != null && params.id != null) {
             this.loadEditGame(params.id);
+            let metadata = new Metadata();
             return {
                 isLoading: true,
                 game: null,
-                params: null
+                params: {
+                    metadata: metadata
+                }
             };
         } else {
             return {
                 isLoading: false,
                 game: new Game(this.props.width, this.props.height),
-                params: null
+                params: {
+                    metadata: metadata
+                }
             };
         }
     }
@@ -52,9 +57,11 @@ class AppEdit extends React.Component {
         this.setState({
             game: Game.fromSavedPuzzle(data.board, data.clues),
             isLoading: false,
-            params: {id: data.id,
+            params: {
+                id: data.id,
                 editId: data.editId,
-                metadata: Metadata.fromSavedMetadata(data.metadata)}
+                metadata: Metadata.fromSavedMetadata(data.metadata)
+            }
         });
     }
 

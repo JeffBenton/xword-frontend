@@ -4,6 +4,7 @@
 
 import React from 'react';
 import EditableCrossword from './EditableCrossword.js';
+import Metadata from './../../objects/metadata.js';
 import {API_URL} from './../../util/constants.js';
 
 class EditableCrosswordController extends React.Component {
@@ -11,10 +12,12 @@ class EditableCrosswordController extends React.Component {
     constructor(props) {
         super(props);
         this.save = this.save.bind(this);
+        this.handleMetadataUpdate = this.handleMetadataUpdate.bind(this);
+
         this.state = {
             editId: props.params ? props.params.editId : null,
             id: props.params ? props.params.id : null,
-            metadata: props.params ? props.params.metadata : null
+            metadata: props.params ? props.params.metadata : new Metadata()
         };
     }
 
@@ -68,9 +71,30 @@ class EditableCrosswordController extends React.Component {
         }
     }
 
+    handleMetadataUpdate(event) {
+        let metadata = this.state.metadata;
+        for (let key in event) {
+            if (event.hasOwnProperty(key) && metadata.hasOwnProperty(key)) {
+                metadata[key] = event[key];
+            }
+        }
+        this.setState({metadata: metadata});
+    }
+
     render() {
-        return (<EditableCrossword game={this.props.game} metadata={this.state.metadata} onSave={this.save} />);
+        console.log(this.state.metadata);
+        return (<EditableCrossword game={this.props.game}
+                                   metadata={this.state.metadata}
+                                   onMetadataUpdate={this.handleMetadataUpdate}
+                                   onSave={this.save} />);
     }
 }
 
+EditableCrosswordController.propTypes = {
+    params: React.PropTypes.shape({
+        editId: React.PropTypes.string,
+        id: React.PropTypes.string,
+        metadata: React.PropTypes.instanceOf(Metadata)
+    })
+};
 module.exports = EditableCrosswordController;
