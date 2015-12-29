@@ -5,11 +5,11 @@ module.exports = {
     devtool: 'source-map',
     entry: [
         "babel-polyfill",
-        "./src/entry.js"
+        "/src/entry.js"
     ],
     output: {
         path: __dirname + "/static",
-        filename: "bundle.js"
+        filename: "/bundle.js"
     },
     plugins: [
         new webpack.ProvidePlugin({
