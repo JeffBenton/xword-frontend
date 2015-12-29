@@ -1,0 +1,265 @@
+/* the container for the app-loading element */
+
+.app-loading-container {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.app-loading-frame {
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    cursor: wait;
+}
+
+@-webkit-keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+@-webkit-keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+@-moz-keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+@-ms-keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+@-moz-keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+@-webkit-keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+@-o-keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+@keyframes app-loading-animation {
+    0% {
+        background-color: #ffffff;
+    }
+    1% {
+        background-color: #000000;
+    }
+    11% {
+        background-color: #000000;
+    }
+    21% {
+        background-color: #ffffff;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+.app-loading-animation-class {
+    background: none;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.app-loading-animation-class div {
+    position: absolute;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+}
+.app-loading-animation-class div > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -ms-animation: app-loading-animation 2s linear infinite;
+    -moz-animation: app-loading-animation 2s linear infinite;
+    -webkit-animation: app-loading-animation 2s linear infinite;
+    -o-animation: app-loading-animation 2s linear infinite;
+    animation: app-loading-animation 2s linear infinite;
+    width: 40px;
+    height: 40px;
+}
+.app-loading-animation-class > div:nth-of-type(1) {
+    top: 30px;
+    left: 30px;
+}
+.app-loading-animation-class > div:nth-of-type(1) > div {
+    -ms-animation-delay: 0s;
+    -moz-animation-delay: 0s;
+    -webkit-animation-delay: 0s;
+    -o-animation-delay: 0s;
+    animation-delay: 0s;
+}
+.app-loading-animation-class > div:nth-of-type(2) {
+    top: 30px;
+    left: 80px;
+}
+.app-loading-animation-class > div:nth-of-type(2) > div {
+    -ms-animation-delay: 0.25s;
+    -moz-animation-delay: 0.25s;
+    -webkit-animation-delay: 0.25s;
+    -o-animation-delay: 0.25s;
+    animation-delay: 0.25s;
+}
+.app-loading-animation-class > div:nth-of-type(3) {
+    top: 30px;
+    left: 130px;
+}
+.app-loading-animation-class > div:nth-of-type(3) > div {
+    -ms-animation-delay: 0.5s;
+    -moz-animation-delay: 0.5s;
+    -webkit-animation-delay: 0.5s;
+    -o-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+}
+.app-loading-animation-class > div:nth-of-type(4) {
+    top: 80px;
+    left: 130px;
+}
+.app-loading-animation-class > div:nth-of-type(4) > div {
+    -ms-animation-delay: 0.75s;
+    -moz-animation-delay: 0.75s;
+    -webkit-animation-delay: .75s;
+    -o-animation-delay: 0.75s;
+    animation-delay: 0.75s;
+}
+.app-loading-animation-class > div:nth-of-type(5) {
+    top: 130px;
+    left: 130px;
+}
+.app-loading-animation-class > div:nth-of-type(5) > div {
+    -ms-animation-delay: 1s;
+    -moz-animation-delay: 1s;
+    -webkit-animation-delay: 1s;
+    -o-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.app-loading-animation-class > div:nth-of-type(6) {
+    top: 130px;
+    left: 80px;
+}
+.app-loading-animation-class > div:nth-of-type(6) > div {
+    -ms-animation-delay: 1.25s;
+    -moz-animation-delay: 1.25s;
+    -webkit-animation-delay: 1.25s;
+    -o-animation-delay: 1.25s;
+    animation-delay: 1.25s;
+}
+.app-loading-animation-class > div:nth-of-type(7) {
+    top: 130px;
+    left: 30px;
+}
+.app-loading-animation-class > div:nth-of-type(7) > div {
+    -ms-animation-delay: 1.5s;
+    -moz-animation-delay: 1.5s;
+    -webkit-animation-delay: 1.5s;
+    -o-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+}
+.app-loading-animation-class > div:nth-of-type(8) {
+    top: 80px;
+    left: 30px;
+}
+.app-loading-animation-class > div:nth-of-type(8) > div {
+    -ms-animation-delay: 1.75s;
+    -moz-animation-delay: 1.75s;
+    -webkit-animation-delay: 1.75s;
+    -o-animation-delay: 1.75s;
+    animation-delay: 1.75s;
+}
