@@ -5,11 +5,11 @@ module.exports = {
     devtool: 'source-map',
     entry: [
         "babel-polyfill",
-        "./src/entry.js"
+        "./src/entry"
     ],
     output: {
         path: __dirname + "/static",
-        filename: "bundle.js"
+        filename: "./bundle.js"
     },
     plugins: [
         new webpack.ProvidePlugin({
@@ -29,7 +29,15 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: "style!css" },
-            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"}
+            { test: /\.js$/, exclude: [
+                path.resolve(__dirname, "node_modules")
+            ], loader: "babel-loader",
+                query:
+                {
+                    plugins: ['transform-runtime'],
+                    presets:[ 'react', 'es2015', 'stage-0' ]
+                }
+            }
         ]
     }
 }
