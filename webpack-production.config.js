@@ -3,10 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
     devtool: 'source-map',
-    entry: [
-        "babel-polyfill",
-        "./src/entry.js"
-    ],
+    entry: "./src/entry.js",
     output: {
         path: __dirname + "/static",
         filename: "bundle.js"
