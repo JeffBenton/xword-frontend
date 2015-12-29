@@ -13,7 +13,8 @@ class EditableCrosswordController extends React.Component {
         this.save = this.save.bind(this);
         this.state = {
             editId: props.params ? props.params.editId : null,
-            id: props.params ? props.params.id : null
+            id: props.params ? props.params.id : null,
+            metadata: props.params ? props.params.metadata : null
         };
     }
 
@@ -22,11 +23,13 @@ class EditableCrosswordController extends React.Component {
         headers.append('Content-Type', 'application/json');
         var url = API_URL + 'puzzle/';
 
+        var body = this.props.game.getSaveState();
+        body.metadata = this.state.metadata;
         if (this.state.editId == null) {
             let ajax = {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(this.props.game.getSaveState())
+                body: JSON.stringify(body)
             };
             (async () => {
                 try {
@@ -42,7 +45,6 @@ class EditableCrosswordController extends React.Component {
                 }
             })();
         } else {
-            var body = this.props.game.getSaveState();
             body.editId = this.state.editId;
             let ajax = {
                 method: 'PUT',
@@ -67,7 +69,7 @@ class EditableCrosswordController extends React.Component {
     }
 
     render() {
-        return (<EditableCrossword game={this.props.game} onSave={this.save} />);
+        return (<EditableCrossword game={this.props.game} metadata={this.state.metadata} onSave={this.save} />);
     }
 }
 

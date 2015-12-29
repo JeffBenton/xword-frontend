@@ -6,6 +6,7 @@
 import React from 'react';
 import CrosswordController from './../Crossword/CrosswordController.js';
 import Game from './../../objects/game.js';
+import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import {API_URL} from './../../util/constants.js';
@@ -51,7 +52,9 @@ class AppSolve extends React.Component {
         this.setState({
             game: Game.fromSavedPuzzle(data.board, data.clues),
             isLoading: false,
-            params: {id: data.id}
+            params: {id: data.id,
+                metadata: Metadata.fromSavedMetadata(data.metadata)
+            }
         });
     }
 

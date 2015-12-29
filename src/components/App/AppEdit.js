@@ -6,6 +6,7 @@
 import React from 'react';
 import EditableCrosswordController from './../Crossword/EditableCrosswordController.js';
 import Game from './../../objects/game.js';
+import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import {API_URL} from './../../util/constants.js';
@@ -52,7 +53,8 @@ class AppEdit extends React.Component {
             game: Game.fromSavedPuzzle(data.board, data.clues),
             isLoading: false,
             params: {id: data.id,
-                editId: data.editId}
+                editId: data.editId,
+                metadata: Metadata.fromSavedMetadata(data.metadata)}
         });
     }
 

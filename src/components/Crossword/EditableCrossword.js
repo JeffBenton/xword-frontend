@@ -115,8 +115,8 @@ class EditableCrossword extends Crossword {
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
-                    <CrosswordFooter />
-                    <EditableCrosswordMetadata />
+                    <CrosswordFooter data={this.props.metadata} />
+                    <EditableCrosswordMetadata data={this.props.metadata} />
                 </div>
                 <div className="crossword-column-small" >
                     <EditableCrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} onUpdate={this.handleClueUpdate}/>
