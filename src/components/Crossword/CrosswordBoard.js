@@ -43,42 +43,38 @@ class CrosswordBoard extends React.Component {
         var boxHeight = this.state.height / this.props.board.height;
         var boxWidth = this.state.width / this.props.board.width;
         var crosswordStyle = {
-            height: this.state.height + 'px',
-            width: '100%'
+            height: this.state.height + 'px'
         };
         var crosswordBoardStyle = {
             height: this.state.height + 'px',
-            width: this.state.width + 'px',
-            marginLeft: "auto",
-            marginRight: "auto"
+            width: this.state.width + 'px'
         };
+
         var crosswordRowStyle = {
             height: boxHeight + 'px',
-            width: this.state.width + 'px',
-            display: 'flex'
+            width: this.state.width + 'px'
         };
 
         return (
             <div className="crossword-board-container" style={crosswordStyle}>
-
-            <div className='crossword-board' style={crosswordBoardStyle}>
-            {this.props.board.board.map(function (row, index) {
-                return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
-                    {row.map(function (box) {
-                        return (<CrosswordBox
-                            onClick={this.props.onClick}
-                            box={box}
-                            key={box.id}
-                            height={boxHeight}
-                            width={boxWidth}
-                            maxHeight={this.props.board.height}
-                            maxWidth={this.props.board.width}
-                        />);
-                    }, this)}
-                </div>);
-            }, this)}
-            </div>
-                </div>);
+                <div className='crossword-board' style={crosswordBoardStyle}>
+                {this.props.board.board.map(function (row, index) {
+                    return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
+                        {row.map(function (box) {
+                            return (<CrosswordBox
+                                onClick={this.props.onClick}
+                                box={box}
+                                key={box.id}
+                                height={boxHeight}
+                                width={boxWidth}
+                                maxHeight={this.props.board.height}
+                                maxWidth={this.props.board.width}
+                            />);
+                        }, this)}
+                    </div>);
+                }, this)}
+                </div>
+            </div>);
     }
 }
 

@@ -9,7 +9,8 @@ class CrosswordController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.params ? props.params.id : null
+            id: props.params ? props.params.id : null,
+            metadata: props.params ? props.params.metadata : null
         }
     }
 

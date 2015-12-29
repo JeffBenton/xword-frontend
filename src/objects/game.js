@@ -1,6 +1,6 @@
 import Board from './board.js';
 import ClueHelper from './cluehelper.js';
-import {directions, boxState} from './constants.js';
+import {directions, boxState} from './../util/constants.js';
 
 /**
  * The Game object contains logic to manipulate the state of the crossword puzzle.

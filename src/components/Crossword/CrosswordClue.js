@@ -4,6 +4,7 @@
 
 import React from 'react';
 import Clue from './../../objects/clue.js';
+import './CrosswordClue.css';
 
 class CrosswordClue extends React.Component {
 
@@ -16,24 +17,8 @@ class CrosswordClue extends React.Component {
         this.props.onClick(this.props.clue);
     }
 
-    getClueStyle() {
-        if (this.props.clue.isSelected) {
-            return {
-                fontFamily: "'Open Sans', sans-serif",
-                fontSize: "15px",
-                backgroundColor: '#CBCBFF'
-            }
-        } else {
-            return {
-                fontFamily: "'Open Sans', sans-serif",
-                fontSize: "15px"
-            };
-        }
-    }
-
     render() {
-        var clueStyle = this.getClueStyle();
-        return (<div style={clueStyle} onClick={this.onClick}><b>{this.props.clue.number}</b> {this.props.clue.text}</div>);
+        return (<div className={"crossword-clue" + (this.props.clue.isSelected ? " selected" : "")} onClick={this.onClick}><b>{this.props.clue.number}</b> {this.props.clue.text}</div>);
     }
 }
 

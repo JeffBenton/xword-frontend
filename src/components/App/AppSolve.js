@@ -6,9 +6,10 @@
 import React from 'react';
 import CrosswordController from './../Crossword/CrosswordController.js';
 import Game from './../../objects/game.js';
+import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
-import {API_URL} from './../../objects/constants.js';
+import {API_URL} from './../../util/constants.js';
 
 class AppSolve extends React.Component {
 
@@ -51,7 +52,9 @@ class AppSolve extends React.Component {
         this.setState({
             game: Game.fromSavedPuzzle(data.board, data.clues),
             isLoading: false,
-            params: {id: data.id}
+            params: {id: data.id,
+                metadata: Metadata.fromSavedMetadata(data.metadata)
+            }
         });
     }
 
@@ -59,7 +62,9 @@ class AppSolve extends React.Component {
         if (this.state.isLoading){
             return (<div><AppLoading /></div>);
         } else {
-            return (<div><AppHeader /><CrosswordController game={this.state.game} params={this.state.params}/></div>);
+            return (<div><AppHeader />
+                <div className="app-body"><CrosswordController game={this.state.game} params={this.state.params}/></div>
+            </div>);
         }
     }
 }

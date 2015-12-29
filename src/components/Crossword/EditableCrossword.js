@@ -7,8 +7,11 @@ import Game from './../../objects/game.js';
 import Crossword from './Crossword.js';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordHeader from './CrosswordHeader.js';
+import CrosswordFooter from './CrosswordFooter.js';
 import CrosswordSelectedClue from './CrosswordSelectedClue';
 import EditableCrosswordClues from './EditableCrosswordClues.js';
+import EditableCrosswordTitle from './EditableCrosswordTitle.js';
+import EditableCrosswordMetadata from './EditableCrosswordMetadata.js';
 
 class EditableCrossword extends Crossword {
 
@@ -103,6 +106,7 @@ class EditableCrossword extends Crossword {
 
     render() {
         return (<div>
+            <EditableCrosswordTitle data={this.props.metadata}/>
             <CrosswordHeader headerItems={this.getHeaderItems()} />
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
@@ -111,6 +115,8 @@ class EditableCrossword extends Crossword {
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
+                    <CrosswordFooter data={this.props.metadata} />
+                    <EditableCrosswordMetadata data={this.props.metadata} />
                 </div>
                 <div className="crossword-column-small" >
                     <EditableCrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} onUpdate={this.handleClueUpdate}/>
@@ -121,7 +127,8 @@ class EditableCrossword extends Crossword {
 }
 
 EditableCrossword.propTypes = {
-    game: React.PropTypes.instanceOf(Game).isRequired
+    game: React.PropTypes.instanceOf(Game).isRequired,
+    metadata: React.PropTypes.object
 };
 
 module.exports = EditableCrossword;

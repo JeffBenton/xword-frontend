@@ -1,23 +1,59 @@
 .crossword-selected-clue-container {
-    min-height: 40px;
+    height: 50px;
     margin-bottom: 5px;
     background-color: #e9e9e9;
     display: flex;
     align-items: center;
     padding: 5px 15px;
+    cursor: default;
 }
 .crossword-selected-clue-container.active {
     background-color: #CBCBFF;
+}
+
+.crossword-selected-clue-container.ghost {
+    visibility: hidden;
+}
+
+.crossword-selected-clue-container-floating {
+    min-height: 40px;
+    align-items: center;
+    padding: 5px 15px;
+    display: flex;
+    position:fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #CBCBFF;
+    z-index: 1;
+    cursor: default;
+    visibility: visible;
+}
+
+.crossword-selected-clue-container-floating .clue-name {
+    font-family: 'Arvo', sans-serif;
+    font-size: 26px;
+    display: inline-table;
+    font-weight: bold;
+}
+
+.crossword-selected-clue-container-floating .clue-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    margin-left: 5px;
 }
 
 .crossword-selected-clue-container .clue-name {
     font-family: 'Arvo', sans-serif;
     font-size: 26px;
     display: inline-table;
+    font-weight: bold;
 }
 
 .crossword-selected-clue-container .clue-text {
     font-family: 'Open Sans', sans-serif;
     font-size: 18px;
-    margin-left: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-right: 5px;
 }
