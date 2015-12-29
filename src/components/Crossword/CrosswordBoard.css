@@ -1,0 +1,13 @@
+.crossword-board-container {
+    width: 100%;
+}
+
+.crossword-board-container .crossword-board {
+    pointer: cursor;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.crossword-board-container .crossword-board .crossword-row {
+    display: flex;
+}

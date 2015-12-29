@@ -1,0 +1,13 @@
+.crossword-clue input {
+    border: 0;
+    background-color: #DDDDDD;
+    margin-left: 5px;
+    width: calc(100% - 45px);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    padding: 0;
+}
+
+.crossword-clue input:focus {
+    outline: none;
+}

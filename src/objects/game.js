@@ -1,12 +1,41 @@
 import Board from './board.js';
 import ClueHelper from './cluehelper.js';
-import {directions, boxState} from './constants.js';
+import {directions, boxState} from './../util/constants.js';
 
 /**
  * The Game object contains logic to manipulate the state of the crossword puzzle.
  */
 class Game {
 
+    /**
+     * Create a Game object from a saved puzzle.
+     *
+     * @param board the saved board
+     * @param clues the saved clues
+     * @returns {Game}
+     */
+    static fromSavedPuzzle(board = [], clues = []) {
+        if (board.length < 1) {
+            throw "error while creating game from saved puzzle. board height must be > 0.";
+        }
+        let g = new Game(board[0].length, board.length);
+        g.board = Board.fromValues(board);
+        var state = g.board.generateStateFromBoard();
+
+        g.puzzle = state.puzzle;
+        for (let i = 0; i < clues.length; i++) {
+            state.clues[clues[i].direction.toLowerCase()][clues[i].number].text = clues[i].text;
+        }
+        g.clues = state.clues;
+        return g;
+    }
+
+    /**
+     * Create a blank crossword puzzle with the specified width and height.
+     *
+     * @param width
+     * @param height
+     */
     constructor(width, height) {
         // initialize the board
         this.board = new Board(width, height);
@@ -77,6 +106,50 @@ class Game {
                 }
             }
         }
+    }
+
+    /**
+     * Convert this game into a savable state, in order to save this into a database.
+     *
+     * Response object format:
+     * {
+     *      board: 2d array of box values, as string. null for black box, space for empty box.
+     *      puzzle: object containing
+     * }
+     */
+    getSaveState() {
+        var response = {
+            board: this.board.values(),
+            clues: (function (clues, puzzle) {
+                let result = [];
+                for (let dir in clues) {
+                    if (clues.hasOwnProperty(dir)) {
+                        for (let num in clues[dir]) {
+                            if (clues[dir].hasOwnProperty(num)) {
+                                let clue = {
+                                    number: clues[dir][num].number,
+                                    direction: clues[dir][num].direction.toLocaleUpperCase(),
+                                    text: clues[dir][num].text,
+                                    answer: (function (dir, num, puzzle) {
+                                        let result = [];
+                                        for (let index in puzzle[dir][num]) {
+                                            if (puzzle[dir][num].hasOwnProperty(index)){
+                                                let box = puzzle[dir][num][index];
+                                                result.push(box.value === null ? "" : box.value);
+                                            }
+                                        }
+                                        return result;
+                                    }(dir, num, puzzle))
+                                };
+                                result.push(clue);
+                            }
+                        }
+                    }
+                }
+                return result;
+            }(this.clues, this.puzzle))
+        };
+        return response;
     }
 }
 

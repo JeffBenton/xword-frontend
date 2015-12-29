@@ -1,0 +1,11 @@
+head {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.app-body {
+    overflow-y: scroll;
+}
