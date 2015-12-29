@@ -13,7 +13,7 @@ app.get('*', function (req, res) {
 
 app.listen(process.env.PORT || 8080, function (err) {
     if (err) {
-        console.error(err)
-    };
+        console.error(err);
+    }
     console.log('xword-frontend server started at port: ' + (process.env.PORT || 8080));
 });
