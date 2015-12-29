@@ -59,7 +59,9 @@ class AppSolve extends React.Component {
         if (this.state.isLoading){
             return (<div><AppLoading /></div>);
         } else {
-            return (<div><AppHeader /><CrosswordController game={this.state.game} params={this.state.params}/></div>);
+            return (<div><AppHeader />
+                <div className="app-body"><CrosswordController game={this.state.game} params={this.state.params}/></div>
+            </div>);
         }
     }
 }

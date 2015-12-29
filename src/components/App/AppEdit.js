@@ -63,7 +63,7 @@ class AppEdit extends React.Component {
             return (
                 <div>
                     <AppHeader />
-                    <EditableCrosswordController game={this.state.game} params={this.state.params}/>
+                    <div className="app-body"><EditableCrosswordController game={this.state.game} params={this.state.params}/></div>
                 </div>);
         }
     }

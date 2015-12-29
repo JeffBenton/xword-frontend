@@ -57,25 +57,24 @@ class CrosswordBoard extends React.Component {
 
         return (
             <div className="crossword-board-container" style={crosswordStyle}>
-
-            <div className='crossword-board' style={crosswordBoardStyle}>
-            {this.props.board.board.map(function (row, index) {
-                return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
-                    {row.map(function (box) {
-                        return (<CrosswordBox
-                            onClick={this.props.onClick}
-                            box={box}
-                            key={box.id}
-                            height={boxHeight}
-                            width={boxWidth}
-                            maxHeight={this.props.board.height}
-                            maxWidth={this.props.board.width}
-                        />);
-                    }, this)}
-                </div>);
-            }, this)}
-            </div>
-                </div>);
+                <div className='crossword-board' style={crosswordBoardStyle}>
+                {this.props.board.board.map(function (row, index) {
+                    return (<div className='crossword-row' style={crosswordRowStyle} key={index}>
+                        {row.map(function (box) {
+                            return (<CrosswordBox
+                                onClick={this.props.onClick}
+                                box={box}
+                                key={box.id}
+                                height={boxHeight}
+                                width={boxWidth}
+                                maxHeight={this.props.board.height}
+                                maxWidth={this.props.board.width}
+                            />);
+                        }, this)}
+                    </div>);
+                }, this)}
+                </div>
+            </div>);
     }
 }
 

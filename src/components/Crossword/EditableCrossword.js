@@ -7,9 +7,11 @@ import Game from './../../objects/game.js';
 import Crossword from './Crossword.js';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordHeader from './CrosswordHeader.js';
+import CrosswordFooter from './CrosswordFooter.js';
 import CrosswordSelectedClue from './CrosswordSelectedClue';
 import EditableCrosswordClues from './EditableCrosswordClues.js';
 import EditableCrosswordTitle from './EditableCrosswordTitle.js';
+import EditableCrosswordMetadata from './EditableCrosswordMetadata.js';
 
 class EditableCrossword extends Crossword {
 
@@ -113,6 +115,8 @@ class EditableCrossword extends Crossword {
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
+                    <CrosswordFooter />
+                    <EditableCrosswordMetadata />
                 </div>
                 <div className="crossword-column-small" >
                     <EditableCrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} onUpdate={this.handleClueUpdate}/>

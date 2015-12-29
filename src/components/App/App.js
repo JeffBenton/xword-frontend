@@ -6,6 +6,7 @@ import Crossword from './../Crossword/Crossword.js';
 import Game from './../../objects/game.js';
 import {API_URL} from './../../util/constants.js';
 import history from './../../history.js';
+import './App.css';
 
 class App extends React.Component {
 

@@ -10,7 +10,6 @@ class EditableCrosswordTitle extends CrosswordTitle {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.DEFAULT_TITLE = "Untitled Crossword";
         this.state = {
             isEditing: false,

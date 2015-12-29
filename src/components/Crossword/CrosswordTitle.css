@@ -1,21 +1,30 @@
 
 .crossword-title-container {
     padding: 10px 10px 5px 10px;
+    margin-bottom: 35px;
 }
 
 .crossword-title-container .title {
     font-weight: bold;
     font-family: 'Arvo', serif;
-    font-size: 32px;
+    font-size: 42px;
 }
 
 .crossword-title-container.editable .title span:hover {
     background-color: #e9e9e9;
 }
 
-.crossword-title-container .title input {
+.crossword-title-container.editable .title span {
+    border-bottom: 5px #e9e9e9 dashed;
+}
+
+.crossword-title-container .title span {
+    border-bottom: 5px #e9e9e9 solid;
+}
+
+.crossword-title-container.editable .title input {
     border: 0;
-    font-size: 32px;
+    font-size: 42px;
     font-family: Arvo, serif;
     font-weight: bold;
     outline: none;
