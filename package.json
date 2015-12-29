@@ -7,28 +7,33 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "watch": "webpack --progress --colors --watch",
-    "dev": "webpack-dev-server --progress --colors --content-base static/"
+    "dev": "webpack-dev-server --progress --colors --content-base static/",
+    "postinstall": "webpack --config ./webpack-production.config.js --progress --colors",
+    "start": "node server.js"
   },
   "author": "alex benton",
   "devDependencies": {
-    "babel-core": "^6.2.1",
-    "babel-loader": "^6.2.0",
     "babel-plugin-transform-runtime": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^1.14.0",
+    "whatwg-fetch": "^0.10.1",
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
     "babel-polyfill": "^6.3.14",
     "es6-promise": "^3.0.2",
     "exports-loader": "^0.6.2",
+    "imports-loader": "^0.6.5"
+  },
+  "dependencies": {
+    "classnames": "^2.2.1",
+    "compression": "^1.6.0",
+    "express": "^4.13.3",
     "history": "^1.13.1",
-    "imports-loader": "^0.6.5",
+    "path": "^0.12.7",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-router": "^1.0.2",
-    "reflux": "^0.3.0",
-    "whatwg-fetch": "^0.10.1"
+    "webpack": "^1.12.9"
   },
   "babel": {
     "presets": [
