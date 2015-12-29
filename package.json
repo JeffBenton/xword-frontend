@@ -16,8 +16,6 @@
   },
   "author": "alex benton",
   "devDependencies": {
-    "babel-preset-stage-0": "^6.3.13",
-    "babel-polyfill": "^6.3.14",
     "webpack-dev-server": "^1.14.0",
     "whatwg-fetch": "^0.10.1",
     "babel-core": "^6.2.1",
@@ -27,6 +25,8 @@
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-polyfill": "^6.3.14",
     "babel-loader": "^6.2.0",
     "classnames": "^2.2.1",
     "compression": "^1.6.0",
