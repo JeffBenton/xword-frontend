@@ -2,6 +2,9 @@
   "name": "xword-frontend",
   "version": "0.0.1",
   "description": "solving crossword puzzles with pen and paper is too hard",
+  "engines": {
+    "node": "4.2.4"
+  },
   "main": "./src/entry.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
