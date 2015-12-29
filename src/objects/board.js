@@ -1,11 +1,46 @@
 import Clue from './clue.js';
 import Box from './box.js';
+import {boxState} from './../util/constants.js';
 
 /**
  * Represents a crossword board.
  */
 class Board {
 
+    /**
+     * Create a Board object from a saved board.
+     *
+     * Board.fromValues(board.values()) should result in the same 'board.'
+     *
+     * @param values
+     * @returns {Board}
+     */
+    static fromValues(values = []) {
+        if (values.length < 1 && values[0].length < 1) {
+            throw "couldn't create board from values";
+        }
+        let b = new Board(values[0].length, values.length);
+        let board = [];
+
+        for (let y = 0; y < b.height; y++) {
+            board[y] = [];
+            for (let x = 0; x < b.width; x++) {
+                let box = new Box((y*b.height) + x, b.version, x, y);
+                if (values[y][x] == null) {
+                    box.state = boxState.BLACKBOX;
+                } else if (values[y][x] == " ") {
+                    box.value = null;
+                } else {
+                    box.value = values[y][x];
+                }
+                board[y][x] = box;
+            }
+        }
+
+        b.board = board;
+        return b;
+
+    }
     /**
      * Construct a blank Board with specified width and height.
      *
@@ -89,6 +124,92 @@ class Board {
             return null;
         } else {
             return this.get(box.x + 1, box.y);
+        }
+    }
+
+    next(box, direction) {
+        if (box === null || direction === null) {
+            return null;
+        }
+
+        switch (direction) {
+            case 'across':
+                let getNextBoxFromRow = function(originalBox, row, startX = 0) {
+                    for (let i = startX; i < row.length; i++) {
+                        if (row[i] === originalBox || !row[i].isBlackBox()) {
+                            return row[i];
+                        }
+                    }
+                    return null;
+                };
+                let acrossBox = getNextBoxFromRow(box, this.row(box.y), box.x+1);
+                if (acrossBox) {
+                    return acrossBox;
+                } else {
+                    let y = box.y;
+                    while (!acrossBox) {
+                        y = (y + 1) % this.height;
+                        acrossBox = getNextBoxFromRow(box, this.row(y), 0);
+                    }
+                    return acrossBox;
+                }
+            case 'down':
+                let nextBox = this.below(box);
+                do {
+                    if (nextBox == null) {
+                        nextBox = this.get(box.x, 0);
+                    }
+                    if (!nextBox.isBlackBox()) {
+                        return nextBox;
+                    }
+                    nextBox = this.below(nextBox);
+                } while (nextBox !== box);
+                return nextBox;
+            default:
+                return null;
+        }
+    }
+
+    previous(box, direction) {
+        if (box === null || direction === null) {
+            return null;
+        }
+
+        switch (direction) {
+            case 'across':
+                let getPreviousBoxFromRow = function(originalBox, row, startX) {
+                    for (let i = startX; i >= 0; i--) {
+                        if (row[i] === originalBox || !row[i].isBlackBox()) {
+                            return row[i];
+                        }
+                    }
+                    return null;
+                };
+                let acrossBox = getPreviousBoxFromRow(box, this.row(box.y), box.x-1);
+                if (acrossBox) {
+                    return acrossBox;
+                } else {
+                    let y = box.y;
+                    while (!acrossBox) {
+                        y = y - 1 >= 0 ? y - 1 : this.height - 1;
+                        acrossBox = getPreviousBoxFromRow(box, this.row(y), this.width - 1);
+                    }
+                    return acrossBox;
+                }
+            case 'down':
+                let nextBox = this.above(box);
+                do {
+                    if (nextBox == null) {
+                        nextBox = this.get(box.x, this.height - 1);
+                    }
+                    if (!nextBox.isBlackBox()) {
+                        return nextBox;
+                    }
+                    nextBox = this.above(nextBox);
+                } while (nextBox !== box);
+                return nextBox;
+            default:
+                return null;
         }
     }
 
@@ -195,7 +316,28 @@ class Board {
         return {puzzle: puzzle, clues: clues};
     }
 
-
+    /**
+     * Returns a 2-dimensional array containing all the values of this board.
+     *
+     * A null value indicates a black box, a " " value indicates an empty box.
+     */
+    values() {
+        var result = [];
+        for (let y = 0; y < this.height; y++) {
+            result[y] = [];
+            for (let x = 0; x < this.width; x++) {
+                let box = this.get(x,y);
+                if (box.isBlackBox()) {
+                    result[y][x] = null;
+                } else if (box.value === null) {
+                    result[y][x] = " ";
+                } else {
+                    result[y][x] = box.value;
+                }
+            }
+        }
+        return result;
+    }
 }
 
 module.exports = Board;

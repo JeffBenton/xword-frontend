@@ -1,0 +1,30 @@
+.crossword-header {
+    height: 45px;
+    margin-top: 5px;
+    display: flex;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    min-width: 750px;
+}
+
+.crossword-header .crossword-column-small {
+    width: 25%;
+    min-width: 150px;
+    display: inline-block;
+}
+
+.crossword-header .crossword-column-big {
+    width: 50%;
+    min-width: 300px;
+    display: inline-block;
+}
+
+.crossword-header .crossword-header-items-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.crossword-header-items-container table {
+    width: 100%;
+}

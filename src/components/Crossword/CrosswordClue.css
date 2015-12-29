@@ -1,0 +1,9 @@
+.crossword-clue {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.crossword-clue.selected {
+    background-color: #CBCBFF;
+}

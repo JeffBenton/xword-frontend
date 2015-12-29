@@ -4,6 +4,7 @@
 
 import React from 'react';
 import CrosswordClue from './CrosswordClue.js';
+import './CrosswordClues.css';
 
 class CrosswordClues extends React.Component {
 
@@ -11,12 +12,13 @@ class CrosswordClues extends React.Component {
         var clues = [];
         for (var number in this.props.clues) {
             if (this.props.clues.hasOwnProperty(number)) {
-                clues.push(<CrosswordClue clue={this.props.clues[number]} key={number} onClick={this.props.onClick}/>);
+                clues.push(<CrosswordClue clue={this.props.clues[number]} key={number} onClick={this.props.onClick} />);
             }
         }
+
         return (
-            <div>
-                <h4>{this.props.type}</h4>
+            <div className="crossword-clues-container" style={this.props.style}>
+                <h4>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }

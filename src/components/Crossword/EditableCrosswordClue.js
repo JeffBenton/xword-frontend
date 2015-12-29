@@ -5,7 +5,7 @@
 import React from 'react';
 import Clue from './../../objects/clue.js';
 import CrosswordClue from './CrosswordClue.js';
-
+import './EditableCrosswordClue.css';
 class EditableCrosswordClue extends CrosswordClue {
 
     constructor(props) {
@@ -17,6 +17,7 @@ class EditableCrosswordClue extends CrosswordClue {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleKeydown = this.handleKeydown.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -28,7 +29,28 @@ class EditableCrosswordClue extends CrosswordClue {
     }
 
     getEditingClueStyle() {
-        return {};
+        return {
+            fontFamily: "'Open Sans', sans-serif",
+            fontSize: "15px"
+        };
+    }
+
+    getEditBoxStyle() {
+        return {
+            border: "0px",
+            backgroundColor: "#DDDDDD",
+            marginLeft: "5px",
+            width: "calc(100% - 45px)",
+            fontFamily: "'Open Sans', sans-serif",
+            fontSize: "13px"
+        };
+    }
+
+    handleBlur(event) {
+        this.setState({isEditing: false});
+        if (this.props.onFinishEditing) {
+            this.props.onFinishEditing(this.clue);
+        }
     }
 
     handleChange(event) {
@@ -37,15 +59,30 @@ class EditableCrosswordClue extends CrosswordClue {
     }
 
     handleKeydown(event) {
-        if (event.which === 13) {
+        if (event.which === 13 || event.which === 27) {
             this.setState({isEditing: false});
+            if (this.props.onFinishEditing) {
+                this.props.onFinishEditing(this.clue);
+            }
+        } else if (event.which === 38) { //up
+            event.preventDefault();
+            this.setState({isEditing: false});
+            if (this.props.onNavigateClue) {
+                this.props.onNavigateClue(this.clue, 'down');
+            }
+        } else if (event.which === 40) { //down
+            event.preventDefault();
+            this.setState({isEditing: false});
+            if (this.props.onNavigateClue) {
+                this.props.onNavigateClue(this.clue, 'up');
+            }
         }
     }
 
     render() {
         var value = this.state.value;
         if (this.state.isEditing) {
-            return (<div style={this.getEditingClueStyle()}><b>{this.props.clue.number}</b><input type="text" ref="edit" value={value} onChange={this.handleChange} onKeyDown={this.handleKeydown}/></div>);
+            return (<div className="crossword-clue"><b>{this.props.clue.number}</b><input type="text" ref="edit" value={value} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} /></div>);
         } else {
             return super.render();
         }
@@ -65,7 +102,9 @@ class EditableCrosswordClue extends CrosswordClue {
 
 EditableCrosswordClue.propTypes = {
     clue: React.PropTypes.instanceOf(Clue).isRequired,
-    isEditing: React.PropTypes.bool
+    isEditing: React.PropTypes.bool,
+    onFinishEditing: React.PropTypes.func,
+    onNavigateClue: React.PropTypes.func
 };
 
 module.exports = EditableCrosswordClue;

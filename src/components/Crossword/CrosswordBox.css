@@ -1,0 +1,34 @@
+.crossword-box {
+    border: 1px black solid;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.crossword-box .value {
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+}
+
+.crossword-box .number {
+    padding: 1px;
+    position: absolute;
+}
+
+.crossword-box-normal {
+}
+
+.crossword-box-selected {
+    background-color: #EBEBEB;
+}
+
+.crossword-box-blackbox {
+    background-color: black;
+}
+
+.crossword-box-focused {
+    background-color: #CBCBFF;
+}
+
+.crossword-box-active {
+    background-color: #FFF0CB;
+}

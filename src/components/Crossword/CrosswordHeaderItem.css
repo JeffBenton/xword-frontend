@@ -1,0 +1,24 @@
+.crossword-header-item {
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    line-height: 10px;
+}
+
+.crossword-header-item.selected {
+    display: inline-block;
+    cursor: default;
+    text-align: center;
+    color: #2280B7;
+    line-height: 10px;
+}
+
+.crossword-header-item .item-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.crossword-header-item .material-icons {
+    font-size: 32px;
+}
