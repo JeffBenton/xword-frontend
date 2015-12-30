@@ -5,6 +5,7 @@
 
 import React from 'react';
 import DynamicForm from './../Form/DynamicForm.js';
+import './EditableCrosswordMetadata.css';
 
 class EditableCrosswordMetadata extends React.Component {
 
@@ -21,13 +22,25 @@ class EditableCrosswordMetadata extends React.Component {
                 title: "Editor",
                 type: "text",
                 onUpdate: this.props.onUpdate
-            }];
+            },
+            {
+                name: "source",
+                title: "Source",
+                type: "text",
+                onUpdate: this.props.onUpdate
+            },
+            {
+                name: "date",
+                title: "Date",
+                type: "date",
+                onUpdate: this.props.onUpdate
+            }
+        ];
     }
 
     render() {
-        console.log(this.props);
+        console.log(this.props.data);
         return <div className="editable-crossword-metadata-container">
-            <span>Puzzle information:</span>
             <DynamicForm schema={this.getFormSchema()} values={this.props.data} />
         </div>;
     }

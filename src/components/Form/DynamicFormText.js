@@ -6,12 +6,13 @@
 import React from 'react';
 import Form from './Form.js';
 import DynamicFormElement from './DynamicFormElement.js';
+import './DynamicFormText.css';
 
 class DynamicFormText extends DynamicFormElement {
 
     constructor(props) {
         super(props);
-        console.log(this.state);
+        this.DEFAULT_VALUE = "none";
     }
 
     onClick(event) {
@@ -35,19 +36,44 @@ class DynamicFormText extends DynamicFormElement {
     }
 
     handleChange(event) {
-        if (!event.target.value.trim()) {
-            event.target.value = null;
+        let value = event.target.value;
+        if (!value.trim()) {
+            value = null;
+            event.target.value = value;
             event.target.text = "";
-            this.setState({title: null});
+            this.setState({value: null});
         } else {
-            event.target.text = event.target.value;
-            this.setState({title: event.target.value});
+            event.target.text = value;
+            this.setState({value: value});
+        }
+        if (this.props.onUpdate) {
+            let update = {};
+            update[this.props.name] = value;
+            this.props.onUpdate(update);
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.state.isEditing) {
+            this.refs.edit.focus();
+
+            // hack to always put the cursor at the end of the value
+            let val = this.refs.edit.value;
+            this.refs.edit.value = "";
+            this.refs.edit.value = val;
         }
     }
 
     renderDynamicElement() {
-        return <div className="value"></div>
+        if (!this.state.isEditing) {
+            return <div className="value">{this.props.value || this.DEFAULT_VALUE}</div>;
+        } else {
+            return <div className="value">
+                <input type="text" ref="edit" value={this.props.value} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder={this.DEFAULT_VALUE}/>
+            </div>;
+        }
     }
 }
 
+module.exports = DynamicFormText;
 Form.registerFormElement("text", DynamicFormText);

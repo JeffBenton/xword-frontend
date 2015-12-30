@@ -6,6 +6,7 @@
 import React from 'react';
 import Form from './Form.js';
 import './form_require.js';
+import './DynamicForm.css';
 
 class DynamicForm extends React.Component {
 

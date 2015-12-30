@@ -3,7 +3,8 @@
  * @author alex
  */
 
-import React from 'react'
+import React from 'react';
+import classNames from 'classnames';
 
 class DynamicFormElement extends React.Component {
 
@@ -55,16 +56,11 @@ class DynamicFormElement extends React.Component {
     finishUpdate() {
         if (this.state.isEditable) {
             this.setState({isEditing: false});
-            if (this.props.onUpdate) {
-                let update = {};
-                update[this.props.name] = this.state.value;
-                this.props.onUpdate(update);
-            }
         }
     }
 
     renderTitle() {
-        return <div className="title">{this.props.title}</div>;
+        return <div className={classNames("title", {editing: this.state.isEditing})}>{this.props.title}</div>;
     }
 
     renderDynamicElement() {
@@ -73,7 +69,9 @@ class DynamicFormElement extends React.Component {
 
 
     render() {
-        return (<div className="dynamic-form-element" onClick={this.onClick}>
+        return (<div className=
+                         {classNames("dynamic-form-element", {editable: this.state.isEditable && !this.state.isEditing})}
+                     onClick={this.onClick}>
             {this.renderTitle()}
             {this.renderDynamicElement()}
         </div>);

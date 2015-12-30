@@ -81,7 +81,7 @@ class EditableCrosswordTitle extends CrosswordTitle {
                     {(this.props.data && this.props.data.author) ?
                         (<div><span className="field">created by</span><span className="value">{this.props.data.author}</span></div>) : ""}
                     {(this.props.data && this.props.data.editor) ?
-                        (<div><span className="field">edited by</span><span className="value">{this.props.data.author}</span></div>) : ""}
+                        (<div><span className="field">edited by</span><span className="value">{this.props.data.editor}</span></div>) : ""}
                 </div>) : ""}
             </div>);
 
@@ -94,7 +94,7 @@ class EditableCrosswordTitle extends CrosswordTitle {
                     {(this.props.data.author) ?
                         (<div><span className="field">created by</span><span className="value">{this.props.data.author}</span></div>) : ""}
                     {(this.props.data.editor) ?
-                        (<div><span className="field">edited by</span><span className="value">{this.props.data.author}</span></div>) : ""}
+                        (<div><span className="field">edited by</span><span className="value">{this.props.data.editor}</span></div>) : ""}
                 </div>) : ""}
             </div>);
         }
