@@ -2,7 +2,8 @@ import React from 'react';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordClues from './CrosswordClues.js';
 import CrosswordHeader from './CrosswordHeader.js';
-import CrosswordSelectedClue from './CrosswordSelectedClue';
+import CrosswordSelectedClue from './CrosswordSelectedClue.js';
+import CrosswordTitle from './CrosswordTitle.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
 import {directions, boxState} from './../../util/constants.js';
@@ -15,9 +16,9 @@ class Crossword extends React.Component {
         super(props);
 
         this.state = {
-            board: this.props.game.board,
-            puzzle: this.props.game.puzzle,
-            clues: this.props.game.clues,
+            board: props.game.board,
+            puzzle: props.game.puzzle,
+            clues: props.game.clues,
             selectedClue: null
         };
 
@@ -256,6 +257,7 @@ class Crossword extends React.Component {
 
     render() {
         return (<div>
+            <CrosswordTitle data={this.props.metadata} />
             <CrosswordHeader headerItems={this.getHeaderItems()} />
             <div className="crossword-container" >
                 <div className="crossword-column-small" >

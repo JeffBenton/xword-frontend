@@ -82,7 +82,6 @@ class EditableCrosswordController extends React.Component {
     }
 
     render() {
-        console.log(this.state.metadata);
         return (<EditableCrossword game={this.props.game}
                                    metadata={this.state.metadata}
                                    onMetadataUpdate={this.handleMetadataUpdate}

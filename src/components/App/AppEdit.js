@@ -21,20 +21,17 @@ class AppEdit extends React.Component {
     initializeState(params) {
         if (params != null && params.id != null) {
             this.loadEditGame(params.id);
-            let metadata = new Metadata();
             return {
                 isLoading: true,
                 game: null,
-                params: {
-                    metadata: metadata
-                }
+                params: null
             };
         } else {
             return {
                 isLoading: false,
                 game: new Game(this.props.width, this.props.height),
                 params: {
-                    metadata: metadata
+                    metadata: new Metadata()
                 }
             };
         }
