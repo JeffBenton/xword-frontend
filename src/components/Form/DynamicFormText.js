@@ -20,9 +20,14 @@ class DynamicFormText extends DynamicFormElement {
             this.finishUpdate();
         } else {
             this.setState({
-                isEditing: true
+                isEditing: true,
+                startEditing: true
             });
         }
+    }
+
+    finishUpdate() {
+        super.finishUpdate();
     }
 
     handleBlur(event) {
@@ -58,9 +63,12 @@ class DynamicFormText extends DynamicFormElement {
             this.refs.edit.focus();
 
             // hack to always put the cursor at the end of the value
-            let val = this.refs.edit.value;
-            this.refs.edit.value = "";
-            this.refs.edit.value = val;
+            if (this.state.startEditing) {
+                let val = this.refs.edit.value;
+                this.refs.edit.value = "";
+                this.refs.edit.value = val;
+                this.setState({startEditing: false});
+            }
         }
     }
 

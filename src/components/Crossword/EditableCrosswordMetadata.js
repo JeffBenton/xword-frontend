@@ -39,7 +39,6 @@ class EditableCrosswordMetadata extends React.Component {
     }
 
     render() {
-        console.log(this.props.data);
         return <div className="editable-crossword-metadata-container">
             <DynamicForm schema={this.getFormSchema()} values={this.props.data} />
         </div>;

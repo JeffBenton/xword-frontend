@@ -31,3 +31,8 @@
     margin-left: 5px;
     width: 100%;
 }
+
+.dynamic-form-container .dynamic-form-element .date .value input {
+    width: initial;
+    text-align: center;
+}

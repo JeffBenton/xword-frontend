@@ -53,6 +53,10 @@ module.exports = {
             textElement.style.fontSize = --fontSize + 'px';
             textHeight = realHeight(textElement);
         }
+    },
+
+    sleep(ms = 0) {
+        return new Promise(r => setTimeout(r, ms));
     }
 
 };
