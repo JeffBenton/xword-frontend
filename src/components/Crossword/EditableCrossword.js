@@ -8,7 +8,6 @@ import Metadata from './../../objects/metadata.js';
 import Crossword from './Crossword.js';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordHeader from './CrosswordHeader.js';
-import CrosswordFooter from './CrosswordFooter.js';
 import CrosswordSelectedClue from './CrosswordSelectedClue';
 import EditableCrosswordClues from './EditableCrosswordClues.js';
 import EditableCrosswordTitle from './EditableCrosswordTitle.js';
@@ -116,7 +115,6 @@ class EditableCrossword extends Crossword {
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
-                    <CrosswordFooter data={this.props.metadata} />
                     <EditableCrosswordMetadata data={this.props.metadata} onUpdate={this.props.onMetadataUpdate} />
                 </div>
                 <div className="crossword-column-small" >

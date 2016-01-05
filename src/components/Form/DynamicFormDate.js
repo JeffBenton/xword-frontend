@@ -12,14 +12,13 @@ class DynamicFormDate extends DynamicFormText {
 
     constructor(props) {
         super(props);
-        var value = new Date(props.value);
-        this.state = {
-            isEditing: false,
-            startEditing: false,
-            day: value.getUTCDate(),
-            month: value.getUTCMonth() + 1,
-            year: value.getUTCFullYear()
-        };
+        this.state['startEditing'] = false;
+        if (props.value) {
+            var value = new Date(props.value);
+            this.state['day'] = value.getUTCDate();
+            this.state['month'] = value.getUTCMonth() + 1;
+            this.state['year'] = value.getUTCFullYear();
+        }
     }
 
     onClick(event) {
@@ -44,6 +43,20 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
+    isInvalidFieldValue(value, field) {
+        switch (field) {
+            case 'month':
+                return value < 0 || value > 12;
+            case 'day':
+                return value < 0 || value > this.getMaxDayByMonth(this.state.month, this.state.year);
+            case 'year':
+                return value < 0 || value > this.getCurrentYear();
+            default:
+                return false;
+        }
+
+    }
+
     handleChange(event) {
         let determineChangedField = function(element, refs) {
             switch (element) {
@@ -59,7 +72,7 @@ class DynamicFormDate extends DynamicFormText {
         };
         let value = event.target.value;
         let field = determineChangedField(document.activeElement, this.refs);
-        if (!field) {
+        if (!field || this.isInvalidFieldValue(value, field)) {
             return;
         }
 
@@ -77,7 +90,7 @@ class DynamicFormDate extends DynamicFormText {
         }
         if (this.props.onUpdate) {
             let update = {};
-            update[this.props.name] = new Date(this.state.year, this.state.month, this.state.day);
+            update[this.props.name] = new Date(this.state.year, this.state.month, this.state.day).valueOf();
             this.props.onUpdate(update);
         }
     }
@@ -96,8 +109,8 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
-    getMaxDayByMonth() {
-        return 31;
+    getMaxDayByMonth(month, year) {
+        return new Date(year || this.getCurrentYear(), month || 1, 0).getUTCDate();
     }
 
     getCurrentYear() {
@@ -115,13 +128,40 @@ class DynamicFormDate extends DynamicFormText {
         if (!this.state.isEditing) {
             return <div className="value">{getDisplayValue(this.state) || this.DEFAULT_VALUE}</div>;
         } else {
-            return <div className="date"><div className="value" style={{display: 'flex'}}>
-                <input type="number" min={1} max={12} ref="editmonth" value={this.state.month} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder='MM'/>
-                <span> / </span>
-                <input type="number" min={1} max={this.getMaxDayByMonth()} ref="editday" value={this.state.day} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder='DD'/>
-                <span> / </span>
-                <input type="number" maxLength={4} min={1980} max={this.getCurrentYear()} ref="edityear" value={this.state.year} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder='YYYY'/>
-            </div></div>;
+            return <div className="date">
+                <div className="value">
+                    <input
+                        type="number"
+                        min={1}
+                        max={12}
+                        ref="editmonth"
+                        value={this.state.month}
+                        onChange={this.handleChange}
+                        onKeyDown={this.handleKeydown}
+                        onBlur={this.handleBlur}
+                        placeholder='MM'/>
+                    <input
+                        type="number"
+                        min={1}
+                        max={this.getMaxDayByMonth()}
+                        ref="editday"
+                        value={this.state.day}
+                        onChange={this.handleChange}
+                        onKeyDown={this.handleKeydown}
+                        onBlur={this.handleBlur}
+                        placeholder='DD'/>
+                    <input type="number"
+                           maxLength={4}
+                           min={1980}
+                           max={this.getCurrentYear()}
+                           ref="edityear"
+                           value={this.state.year}
+                           onChange={this.handleChange}
+                           onKeyDown={this.handleKeydown}
+                           onBlur={this.handleBlur}
+                           placeholder='YYYY'/>
+                </div>
+            </div>;
         }
     }
 }
