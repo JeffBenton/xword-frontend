@@ -6,7 +6,6 @@
 import React from 'react';
 import Form from './Form.js';
 import DynamicFormElement from './DynamicFormElement.js';
-import './DynamicFormText.css';
 
 class DynamicFormText extends DynamicFormElement {
 

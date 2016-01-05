@@ -34,6 +34,12 @@ class EditableCrosswordMetadata extends React.Component {
                 title: "Date",
                 type: "date",
                 onUpdate: this.props.onUpdate
+            },
+            {
+                name: "difficulty",
+                title: "Difficulty",
+                type: "rating",
+                onUpdate: this.props.onUpdate
             }
         ];
     }

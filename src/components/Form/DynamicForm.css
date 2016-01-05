@@ -32,7 +32,22 @@
     width: 100%;
 }
 
+.dynamic-form-container .dynamic-form-element .value input {
+    border: 0;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    outline: none;
+    padding: 0;
+    color: #2280B7;
+    width: 100%;
+}
+
 .dynamic-form-container .dynamic-form-element .date .value input {
     width: initial;
     text-align: center;
+}
+
+.dynamic-form-container .dynamic-form-element .value i {
+    vertical-align: middle;
+    font-size: 16px;
 }
