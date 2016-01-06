@@ -47,7 +47,12 @@
     text-align: center;
 }
 
+.dynamic-form-container .dynamic-form-element .value.editing i {
+    color: #2280B7;
+}
+
 .dynamic-form-container .dynamic-form-element .value i {
     vertical-align: middle;
     font-size: 16px;
 }
+

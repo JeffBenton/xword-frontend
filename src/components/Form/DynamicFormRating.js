@@ -4,6 +4,7 @@
  */
 
 import DynamicFormElement from './DynamicFormElement.js';
+import classNames from 'classnames';
 import React from 'react';
 import Form from './Form.js';
 
@@ -13,17 +14,26 @@ class DynamicFormRating extends DynamicFormElement {
         super(props);
         this.handleMouseover = this.handleMouseover.bind(this);
         this.handleMouseout = this.handleMouseout.bind(this);
-        this.handleIconClick = this.handleIconClick.bind(this);
+        this.state['tempValue'] = this.props.value;
     }
 
     onClick(event) {
         if (this.state.isEditing) {
             this.finishUpdate();
+            this.handleChange();
         } else {
             this.setState({
                 isEditing: true,
                 startEditing: true
             });
+        }
+    }
+
+    handleChange() {
+        if (this.props.onUpdate) {
+            let update = {};
+            update[this.props.name] = this.state.tempValue;
+            this.props.onUpdate(update);
         }
     }
 
@@ -37,18 +47,27 @@ class DynamicFormRating extends DynamicFormElement {
 
 
     handleMouseover(event) {
-        console.log(event.clientX);
-        console.log(event.clientY);
-        console.log(event.target.getBoundingClientRect());
+        let getValueFromIcon = (icon) => {
+            for (let key in this.refs) {
+                if (this.refs.hasOwnProperty(key) && icon == this.refs[key]) {
+                    return key * 2;
+                }
+            }
+            return 0;
+        };
+        let mouseX = event.clientX;
+        let icon = event.target.getBoundingClientRect();
+        if (mouseX < (icon.left + (icon.width / 3))) {
+            this.setState({tempValue: getValueFromIcon(event.target)});
+        } else if (mouseX < (icon.left + (icon.width * 2 / 3))) {
+            this.setState({tempValue: getValueFromIcon(event.target) + 1});
+        } else {
+            this.setState({tempValue: getValueFromIcon(event.target) + 2});
+        }
     }
 
-    handleMouseout(event) {
-        console.log(event);
-    }
-
-    handleIconClick(event) {
-        event.preventDefault();
-        console.log(event);
+    handleMouseout() {
+        this.setState({tempValue: this.props.value});
     }
 
     /**
@@ -78,32 +97,32 @@ class DynamicFormRating extends DynamicFormElement {
     renderDynamicElement() {
         let valueToStars = () => {
             let elements = [];
-            let count = this.props.value;
+            let count = this.state.isEditing ? this.state.tempValue : this.props.value;
             for (let i = 0; i < 5; i++) {
                 if (this.state.isEditing) {
                     if (count >= 2) {
                         elements.push(
-                            <i className="material-icons" onMouseMove={this.handleMouseover} onMouseOut={this.handleMouseout} onClick={this.handleIconClick} key={i} ref={i}>star</i>
+                            <i className="material-icons" onMouseOut={this.handleMouseout} onMouseMove={this.handleMouseover} key={i} ref={i}>star</i>
                         );
                         count -= 2;
                     } else if (count >= 1) {
-                        elements.push(<i className="material-icons" onMouseMove={this.handleMouseover} onMouseOut={this.handleMouseout} onClick={this.handleIconClick} key={i} ref={i}>star_half</i>);
+                        elements.push(<i className="material-icons" onMouseOut={this.handleMouseout} onMouseMove={this.handleMouseover} key={i} ref={i}>star_half</i>);
                         count -= 1;
                     } else {
-                        elements.push(<i className="material-icons" onMouseMove={this.handleMouseover} onMouseOut={this.handleMouseout} onClick={this.handleIconClick} key={i} ref={i}>star_border</i>
+                        elements.push(<i className="material-icons" onMouseOut={this.handleMouseout} onMouseMove={this.handleMouseover} key={i} ref={i}>star_border</i>
                         );
                     }
                 } else {
                     if (count >= 2) {
                         elements.push(
-                            <i className="material-icons" onClick={this.handleIconClick} key={i} ref={i}>star</i>
+                            <i className="material-icons" key={i} ref={i}>star</i>
                         );
                         count -= 2;
                     } else if (count >= 1) {
-                        elements.push(<i className="material-icons" onClick={this.handleIconClick} key={i} ref={i}>star_half</i>);
+                        elements.push(<i className="material-icons" key={i} ref={i}>star_half</i>);
                         count -= 1;
                     } else {
-                        elements.push(<i className="material-icons" onClick={this.handleIconClick} key={i} ref={i}>star_border</i>
+                        elements.push(<i className="material-icons" key={i} ref={i}>star_border</i>
                         );
                     }
                 }
@@ -112,7 +131,7 @@ class DynamicFormRating extends DynamicFormElement {
         };
 
         return (
-            <div ref="value" className="value">
+            <div ref="value" className={classNames("value", {editing: this.state.isEditing})}>
                 {valueToStars()}
             </div>);
     }
