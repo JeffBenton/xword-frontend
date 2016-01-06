@@ -14,7 +14,7 @@ class DynamicFormText extends DynamicFormElement {
         this.DEFAULT_VALUE = "none";
     }
 
-    onClick(event) {
+    handleClick(event) {
         if (this.state.isEditing) {
             this.finishUpdate();
         } else {

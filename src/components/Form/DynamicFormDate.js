@@ -21,7 +21,7 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
-    onClick(event) {
+    handleClick(event) {
         if (!this.state.isEditing) {
             this.setState({
                 isEditing: true,

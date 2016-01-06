@@ -14,6 +14,7 @@ class DynamicFormElement extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleKeydown = this.handleKeydown.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.onClick = this.onClick.bind(this);
 
         if (this.props.onUpdate) {
@@ -37,7 +38,13 @@ class DynamicFormElement extends React.Component {
         });
     }
 
-    onClick() {
+    onClick(event) {
+        if (this.state.isEditable) {
+            this.handleClick(event);
+        }
+    }
+
+    handleClick(event) {
         // no-operation. extend if needed.
     }
 
@@ -71,7 +78,7 @@ class DynamicFormElement extends React.Component {
     render() {
         return (<div className=
                          {classNames("dynamic-form-element", {editable: this.state.isEditable && !this.state.isEditing})}
-                     onClick={this.onClick}>
+        onClick={this.onClick}>
             {this.renderTitle()}
             {this.renderDynamicElement()}
         </div>);

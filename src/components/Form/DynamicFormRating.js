@@ -17,7 +17,7 @@ class DynamicFormRating extends DynamicFormElement {
         this.state['tempValue'] = this.props.value;
     }
 
-    onClick(event) {
+    handleClick(event) {
         if (this.state.isEditing) {
             this.finishUpdate();
             this.handleChange();

@@ -4,6 +4,7 @@ import CrosswordClues from './CrosswordClues.js';
 import CrosswordHeader from './CrosswordHeader.js';
 import CrosswordSelectedClue from './CrosswordSelectedClue.js';
 import CrosswordTitle from './CrosswordTitle.js';
+import CrosswordMetadata from './CrosswordMetadata.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
 import {directions, boxState} from './../../util/constants.js';
@@ -266,6 +267,7 @@ class Crossword extends React.Component {
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
+                    <CrosswordMetadata data={this.props.metadata} />
                 </div>
                 <div className="crossword-column-small" >
                     <CrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} />
