@@ -60,7 +60,7 @@ class DynamicFormElement extends React.Component {
     }
 
     renderTitle() {
-        return <div className={classNames("title", {editing: this.state.isEditing})}>{this.props.title}</div>;
+        return <div ref="title" className={classNames("title", {editing: this.state.isEditing})}>{this.props.title}</div>;
     }
 
     renderDynamicElement() {
