@@ -76,7 +76,8 @@ class DynamicFormText extends DynamicFormElement {
             return <div className="value">{this.props.value || this.DEFAULT_VALUE}</div>;
         } else {
             return <div className="value">
-                <input type="text" ref="edit" value={this.props.value} onChange={this.handleChange} onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder={this.DEFAULT_VALUE}/>
+                <input type="text" ref="edit" value={this.props.value} onChange={this.handleChange}
+                       onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder={this.DEFAULT_VALUE}/>
             </div>;
         }
     }

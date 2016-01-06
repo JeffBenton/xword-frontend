@@ -48,7 +48,7 @@ class Crossword extends React.Component {
      * @param event
      */
     handleKeypress(event) {
-        if (event.target.tagName === 'INPUT') {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
             return;
         }
 
@@ -80,7 +80,7 @@ class Crossword extends React.Component {
      * @param event
      */
     handleKeydown(event) {
-        if (event.target.tagName === 'INPUT') {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
             return;
         }
         let selected = this.state.selectedClue;

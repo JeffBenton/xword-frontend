@@ -42,6 +42,17 @@
     width: 100%;
 }
 
+.dynamic-form-container .dynamic-form-element .value textarea {
+    border: 0;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    color: #2280B7;
+    padding: 0;
+    outline: none;
+    resize: none;
+}
+
 .dynamic-form-container .dynamic-form-element .date .value input {
     width: initial;
     text-align: center;
