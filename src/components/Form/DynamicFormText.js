@@ -50,11 +50,6 @@ class DynamicFormText extends DynamicFormElement {
             event.target.text = value;
             this.setState({value: value});
         }
-        if (this.props.onUpdate) {
-            let update = {};
-            update[this.props.name] = value;
-            this.props.onUpdate(update);
-        }
     }
 
     componentDidUpdate() {
@@ -73,10 +68,10 @@ class DynamicFormText extends DynamicFormElement {
 
     renderDynamicElement() {
         if (!this.state.isEditing) {
-            return <div className="value">{this.props.value || this.DEFAULT_VALUE}</div>;
+            return <div className="value">{this.state.value || this.DEFAULT_VALUE}</div>;
         } else {
             return <div className="value">
-                <input type="text" ref="edit" value={this.props.value} onChange={this.handleChange}
+                <input type="text" ref="edit" value={this.state.value} onChange={this.handleChange}
                        onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder={this.DEFAULT_VALUE}/>
             </div>;
         }

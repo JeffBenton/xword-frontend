@@ -32,9 +32,9 @@ class DynamicFormElement extends React.Component {
         }
     }
 
-    componentWillReceiveProps() {
+    componentWillReceiveProps(props) {
         this.setState({
-            value: this.props.value
+            value: props.value
         });
     }
 
@@ -63,6 +63,11 @@ class DynamicFormElement extends React.Component {
     finishUpdate() {
         if (this.state.isEditable) {
             this.setState({isEditing: false});
+            if (this.props.onUpdate) {
+                let update = {};
+                update[this.props.name] = this.state.value;
+                this.props.onUpdate(update);
+            }
         }
     }
 
