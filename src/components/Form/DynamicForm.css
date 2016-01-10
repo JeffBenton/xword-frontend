@@ -30,6 +30,7 @@
     font-size: 14px;
     margin-left: 5px;
     width: 100%;
+    white-space: pre;
 }
 
 .dynamic-form-container .dynamic-form-element .value input {

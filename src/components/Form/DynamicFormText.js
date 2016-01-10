@@ -44,10 +44,8 @@ class DynamicFormText extends DynamicFormElement {
         if (!value.trim()) {
             value = null;
             event.target.value = value;
-            event.target.text = "";
-            this.setState({value: null});
+            this.setState({value: ""});
         } else {
-            event.target.text = value;
             this.setState({value: value});
         }
     }

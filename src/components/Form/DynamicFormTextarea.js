@@ -12,6 +12,12 @@ class DynamicFormTextarea extends DynamicFormText {
     constructor(props) {
         super(props);
         this.DEFAULT_VALUE = "none";
+        this.state['height'] = "50px";
+    }
+
+    handleChange(event) {
+        super.handleChange(event);
+        this.setState({height: event.target.scrollHeight});
     }
 
     handleKeydown(event) {
@@ -25,8 +31,10 @@ class DynamicFormTextarea extends DynamicFormText {
             return super.renderDynamicElement();
         } else {
             return <div className="value">
-                    <textarea ref="edit" value={this.props.value} onChange={this.handleChange}
-                              onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder={this.DEFAULT_VALUE}/>
+                    <textarea ref="edit" value={this.state.value} onChange={this.handleChange}
+                              onKeyDown={this.handleKeydown} onBlur={this.handleBlur} placeholder={this.DEFAULT_VALUE}
+                              style={{height: this.state.height + 'px'}}
+                    />
             </div>;
         }
     }
