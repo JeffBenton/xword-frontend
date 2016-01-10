@@ -30,7 +30,9 @@ class AppEdit extends React.Component {
             return {
                 isLoading: false,
                 game: new Game(this.props.width, this.props.height),
-                params: null
+                params: {
+                    metadata: new Metadata()
+                }
             };
         }
     }
@@ -52,9 +54,11 @@ class AppEdit extends React.Component {
         this.setState({
             game: Game.fromSavedPuzzle(data.board, data.clues),
             isLoading: false,
-            params: {id: data.id,
+            params: {
+                id: data.id,
                 editId: data.editId,
-                metadata: Metadata.fromSavedMetadata(data.metadata)}
+                metadata: Metadata.fromSavedMetadata(data.metadata)
+            }
         });
     }
 

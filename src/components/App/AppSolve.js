@@ -30,7 +30,9 @@ class AppSolve extends React.Component {
             return {
                 isLoading: false,
                 game: new Game(this.props.width, this.props.height),
-                params: null
+                params: {
+                    metadata: new Metadata()
+                }
             };
         }
     }
