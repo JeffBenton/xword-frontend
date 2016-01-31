@@ -8,7 +8,7 @@ import './CrosswordHeaderItem.css';
 class CrosswordHeaderItem extends React.Component {
 
     getIconStyle() {
-        if (this.props.item.color) {
+        if (this.props.item.color && !this.props.item.isClicked) {
             return {
                 color: "#" + this.props.item.color
             }
