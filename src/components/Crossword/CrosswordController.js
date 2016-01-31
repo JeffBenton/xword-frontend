@@ -75,7 +75,64 @@ class CrosswordController extends React.Component {
                 }
             },
             answer: () => {
+                let makeAjaxCall = (url, body, success, failure) => {
+                    let ajax = {
+                        method: 'GET',
+                        headers: headers,
+                    };
+                    let path = url;
+                    if (body) {
+                        let params = [];
+                        for (let key in body) {
+                            if (body.hasOwnProperty(key)) {
+                                params.push(key + "=" + body[key]);
+                            }
+                        }
+                        path += '?' + params.join('&');
+                    }
 
+                    (async () => {
+                        try {
+                            let response = await fetch(path, ajax);
+                            let data = await response.json();
+
+                            if (data.error) {
+                                throw data;
+                            }
+
+                            if (success) {
+                                success(data);
+                            }
+                        } catch (e) {
+                            if (failure) {
+                                failure(e);
+                            }
+                        }
+                    })();
+                };
+
+                return {
+                    box: (box, success, failure) => {
+                        let url = API_URL + 'puzzle/' + this.state.id + '/char/answer';
+                        let body = {
+                            x: box.x,
+                            y: box.y
+                        };
+                        makeAjaxCall(url, body, success, failure);
+                    },
+                    clue: (clue, success, failure) => {
+                        let url = API_URL + 'puzzle/' + this.state.id + '/clue/answer';
+                        let body = {
+                            number: clue.number,
+                            direction: clue.direction.toUpperCase()
+                        };
+                        makeAjaxCall(url, body, success, failure);
+                    },
+                    puzzle: (board, success, failure) => {
+                        let url = API_URL + 'puzzle/' + this.state.id + '/board/answer';
+                        makeAjaxCall(url, null, success, failure);
+                    }
+                }
             }
         }
     }

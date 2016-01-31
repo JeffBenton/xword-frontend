@@ -341,21 +341,56 @@ class Crossword extends React.Component {
                 }],[{
                     name: "reveal box",
                     onClick: () => {
-
+                        if (!this.state.request && this.state.selectedBox) {
+                            this.setState({request: "reveal box"});
+                            this.props.solver.answer().box(this.state.selectedBox,
+                                (result) => {
+                                    if (result.answer) {
+                                        this.state.selectedBox.set(result.answer);
+                                        this.state.selectedBox.markValid();
+                                    }
+                                    this.setState({request: null});
+                                }, (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
                     },
                     isClicked: this.state.request === "reveal box",
                     icon: 'border_outer'
                 },{
                     name: "reveal clue",
                     onClick: () => {
-
+                        let clue = this.getSelectedClue();
+                        if (clue && !this.state.request) {
+                            this.setState({request: "reveal clue"});
+                            this.props.solver.answer().clue({
+                                direction: clue.direction,
+                                number: clue.number},
+                                (result) => {
+                                    if (result.answer) {
+                                        for (let i = 0; i < result.answer.length; i++) {
+                                            if (result.answer[i]) {
+                                                this.state.puzzle[clue.direction][clue.number][i].set(result.answer[i]);
+                                                this.state.puzzle[clue.direction][clue.number][i].markValid();
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                },
+                                (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
                     },
                     isClicked: this.state.request === "reveal clue",
                     icon: 'select_all'
                 },{
                     name: "reveal board",
                     onClick: () => {
+                        if (!this.state.request) {
+                            this.setState({request: "reveal board"});
 
+                        }
                     },
                     isClicked: this.state.request === "reveal board",
                     icon: 'apps'
