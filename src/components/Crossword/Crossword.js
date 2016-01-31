@@ -389,7 +389,23 @@ class Crossword extends React.Component {
                     onClick: () => {
                         if (!this.state.request) {
                             this.setState({request: "reveal board"});
-
+                            this.props.solver.answer().puzzle(this.state.board, (result) => {
+                                if (result.answer) {
+                                    for (let y = 0; y < result.answer.length; y++) {
+                                        for (let x = 0; x < result.answer[y].length; x++) {
+                                            if (!this.state.board.get(x, y).isBlackBox()) {
+                                                if (result.answer[y][x]) {
+                                                    this.state.board.get(x, y).set(result.answer[y][x]);
+                                                    this.state.board.get(x, y).markValid();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                }
+                            },(error) => {
+                                this.setState({request: null});
+                            });
                         }
                     },
                     isClicked: this.state.request === "reveal board",
