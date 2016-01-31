@@ -257,7 +257,7 @@ class Crossword extends React.Component {
         if (this.props.solver) {
             return [
                 [{
-                    name: "verify box",
+                    name: (this.state.request === "verify box" ? "verifying" : "verify box"),
                     onClick: () => {
                         if (this.state.selectedBox && !this.state.request) {
                             this.setState({request: "verify box"});
@@ -276,9 +276,10 @@ class Crossword extends React.Component {
                         }
                     },
                     isClicked: this.state.request === "verify box",
+                    color: (this.state.request || !this.state.selectedBox ? "BDBDBD" : null),
                     icon: 'check_box'
                 },{
-                    name: "verify clue",
+                    name: (this.state.request === "verify clue" ? "verifying" : "verify clue"),
                     onClick: () => {
                         let clue = this.getSelectedClue();
                         if (clue && !this.state.request) {
@@ -310,9 +311,10 @@ class Crossword extends React.Component {
                         }
                     },
                     isClicked: this.state.request === "verify clue",
+                    color: (this.state.request || !this.getSelectedClue() ? "BDBDBD" : null),
                     icon: 'more_horiz'
                 },{
-                    name: "verify board",
+                    name: (this.state.request === "verify board" ? "verifying" : "verify board"),
                     onClick: () => {
                         if (!this.state.request) {
                             this.setState({request: "verify board"});
@@ -337,9 +339,10 @@ class Crossword extends React.Component {
                         }
                     },
                     isClicked: this.state.request === "verify board",
+                    color: (this.state.request ? "BDBDBD" : null),
                     icon: 'view_comfy'
                 }],[{
-                    name: "reveal box",
+                    name: (this.state.request === "reveal box" ? "revealing" : "reveal box"),
                     onClick: () => {
                         if (!this.state.request && this.state.selectedBox) {
                             this.setState({request: "reveal box"});
@@ -356,9 +359,10 @@ class Crossword extends React.Component {
                         }
                     },
                     isClicked: this.state.request === "reveal box",
+                    color: (this.state.request || !this.state.selectedBox ? "BDBDBD" : null),
                     icon: 'border_outer'
                 },{
-                    name: "reveal clue",
+                    name: (this.state.request === "reveal clue" ? "revealing" : "reveal clue"),
                     onClick: () => {
                         let clue = this.getSelectedClue();
                         if (clue && !this.state.request) {
@@ -383,9 +387,10 @@ class Crossword extends React.Component {
                         }
                     },
                     isClicked: this.state.request === "reveal clue",
+                    color: (this.state.request || !this.getSelectedClue() ? "BDBDBD" : null),
                     icon: 'select_all'
                 },{
-                    name: "reveal board",
+                    name: (this.state.request === "reveal board" ? "revealing" : "reveal board"),
                     onClick: () => {
                         if (!this.state.request) {
                             this.setState({request: "reveal board"});
@@ -409,6 +414,7 @@ class Crossword extends React.Component {
                         }
                     },
                     isClicked: this.state.request === "reveal board",
+                    color: (this.state.request ? "BDBDBD" : null),
                     icon: 'apps'
                 }]
             ];//  for reveal box
