@@ -20,7 +20,8 @@ class Crossword extends React.Component {
             board: props.game.board,
             puzzle: props.game.puzzle,
             clues: props.game.clues,
-            selectedClue: null
+            selectedClue: null,
+            request: null
         };
 
         this.handleBoxClick = this.handleBoxClick.bind(this);
@@ -62,7 +63,8 @@ class Crossword extends React.Component {
                 return;
             }
 
-            selectedBox.value = char;
+            selectedBox.set(char);
+
             if (selectedClue.focused === 'across') {
                 this.selectBox(this.props.game.board.right(selectedBox));
             } else if (selectedClue.focused === 'down') {
@@ -99,14 +101,14 @@ class Crossword extends React.Component {
                         case 'across':
                             selectedBox = this.props.game.board.left(selectedBox);
                             if (selectedBox) {
-                                selectedBox.value = null;
+                                selectedBox.clearValue();
                                 this.selectBox(selectedBox);
                             }
                             break;
                         case 'down':
                             selectedBox = this.props.game.board.above(selectedBox);
                             if (selectedBox) {
-                                selectedBox.value = null;
+                                selectedBox.clearValue();
                                 this.selectBox(selectedBox);
                             }
                             break;
@@ -116,7 +118,7 @@ class Crossword extends React.Component {
                             });
                     }
                 } else {
-                    selectedBox.value = null;
+                    selectedBox.clearValue();
                     this.setState({
                         selectedBox: selectedBox
                     });
@@ -248,18 +250,78 @@ class Crossword extends React.Component {
                 return this.state.clues[this.state.selectedClue.focused][this.state.selectedClue[this.state.selectedClue.focused]];
             }
         }
-
         return null;
     }
 
     getHeaderItems() {
+        if (this.props.solver) {
+            return [
+                [{
+                    name: "verify box",
+                    onClick: () => {
+                        if (this.state.selectedBox && !this.state.request) {
+                            this.setState({request: "verify box"});
+                            this.props.solver.verify().box(this.state.selectedBox,
+                                (result) => {
+                                    if (result.answer) {
+                                        this.state.selectedBox.markValid();
+                                    } else {
+                                        this.state.selectedBox.markInvalid();
+                                    }
+                                    this.setState({request: null});
+                                },
+                                (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
+                    },
+                    isClicked: this.state.clickAction === 'CREATEBOX',
+                    icon: 'border_outer'
+                },{
+                    name: "verify clue",
+                    onClick: () => {
+                        if (this.state.selectedBox && !this.state.request) {
+                            this.setState({request: "verify clue"});
+                            let clue = this.getSelectedClue();
+                            let answer = this.state.puzzle[clue.direction][clue.number].map(
+                                (box) => {
+                                    return box.value;
+                                });
+
+                            this.props.solver.verify().clue({
+                                    direction: clue.direction,
+                                    number: clue.number,
+                                    answer: answer
+                                },
+                                (result) => {
+                                    if (result.answer) {
+                                        for (let i = 0; i < result.answer.length; i++) {
+                                            if (result.answer[i]) {
+                                                this.state.puzzle[clue.direction][clue.number][i].markValid();
+                                            } else {
+                                                this.state.puzzle[clue.direction][clue.number][i].markInvalid();
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                },
+                                (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
+                    },
+                    isClicked: this.state.clickAction === 'CREATEBOX',
+                    icon: 'more_horiz'
+                }]
+            ];
+        }
         return [];
     }
 
     render() {
         return (<div>
             <CrosswordTitle data={this.props.metadata} />
-            <CrosswordHeader headerItems={this.getHeaderItems()} />
+            <CrosswordHeader headerItems={this.getHeaderItems()} itemWidth={55}/>
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
                     <CrosswordClues style={{marginRight: "25px", float: "right"}} type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
