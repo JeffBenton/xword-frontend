@@ -21,7 +21,7 @@ class EditableCrosswordController extends React.Component {
         };
     }
 
-    save() {
+    save(cb) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         var url = API_URL + 'puzzle/';
@@ -46,6 +46,9 @@ class EditableCrosswordController extends React.Component {
                 } catch (e) {
                     console.error(e);
                 }
+                if (cb) {
+                    cb();
+                }
             })();
         } else {
             body.editId = this.state.editId;
@@ -67,6 +70,9 @@ class EditableCrosswordController extends React.Component {
                 } catch (e) {
                     console.error(e);
                 }
+                if (cb) {
+                    cb();
+                }
             })();
         }
     }
@@ -85,7 +91,9 @@ class EditableCrosswordController extends React.Component {
         return (<EditableCrossword game={this.props.game}
                                    metadata={this.state.metadata}
                                    onMetadataUpdate={this.handleMetadataUpdate}
-                                   onSave={this.save} />);
+                                   onSave={this.save}
+                                   id={this.state.id}
+                                   editId={this.state.editId}/>);
     }
 }
 
