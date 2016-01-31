@@ -28,6 +28,7 @@ class EditableCrosswordController extends React.Component {
 
         var body = this.props.game.getSaveState();
         body.metadata = this.state.metadata;
+
         if (this.state.editId == null) {
             let ajax = {
                 method: 'POST',
