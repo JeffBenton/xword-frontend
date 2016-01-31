@@ -12,12 +12,14 @@ import CrosswordSelectedClue from './CrosswordSelectedClue';
 import EditableCrosswordClues from './EditableCrosswordClues.js';
 import EditableCrosswordTitle from './EditableCrosswordTitle.js';
 import EditableCrosswordMetadata from './EditableCrosswordMetadata.js';
+import EditableCrosswordShareModal from './EditableCrosswordShareModal.js';
 
 class EditableCrossword extends Crossword {
 
     constructor(props) {
         super(props);
         this.state.clickAction = "CREATEBOX";
+        this.state.modal = null;
         this.handleClueUpdate = this.handleClueUpdate.bind(this);
     }
 
@@ -31,7 +33,8 @@ class EditableCrossword extends Crossword {
                         puzzle: this.props.game.puzzle,
                         clues: this.props.game.clues,
                         selectedBox: null,
-                        selectedClue: {across: null, down: null, focused: null}
+                        selectedClue: {across: null, down: null, focused: null},
+                        modal: null
                     }
                 );
                 break;
@@ -43,69 +46,69 @@ class EditableCrossword extends Crossword {
     }
 
     getHeaderItems() {
+        let saveGroup = [{
+            name: (this.state.saving ? "saving" : "save"),
+            onClick: () => {
+                if (!this.state.saving) {
+                    this.setState({saving: true});
+                    console.log("save button clicked");
+                    this.props.onSave(() => {this.setState({saving: false}); console.log("done saving");});
+                }
+            },
+            isClicked: false,
+            icon: "save",
+            color: (this.state.saving ? "BDBDBD" : null)
+        }];
+        if (this.props.editId && this.props.id) {
+            saveGroup.push({
+                name: "share",
+                onClick: () => {
+                    this.setState({modal: "SHARE"});
+                },
+                isClicked: false,
+                icon: "link"
+            });
+        }
+
         return [
             [{
                 name: "add box",
-                onClick: function(context) {
-                    return function() {
-                        context.setState({clickAction: 'CREATEBOX'});
-                    };
-                }(this),
+                onClick: () => {
+                    this.setState({clickAction: 'CREATEBOX',
+                        modal: null});
+                },
                 isClicked: this.state.clickAction === 'CREATEBOX',
                 icon: 'add_box'
             },
             {
                 name: "select",
-                onClick: function(context) {
-                    return function() {
-                        context.setState({clickAction: 'SELECT'});
-                    };
-                }(this),
+                onClick: () => {
+                    this.setState({clickAction: 'SELECT',
+                        modal: null});
+                },
                 isClicked: this.state.clickAction === 'SELECT',
                 icon: "touch_app"
             }],
-            [{
-                name: "resize",
-                onClick: function(context) {
-                    return function() {
-                        console.log("resize button clicked");
-                    };
-                }(this),
-                isClicked: false,
-                icon: "zoom_out_map"
-            }],
-            [{
-                name: "save",
-                onClick: function(context) {
-                    return function() {
-                        console.log("save button clicked");
-                        context.props.onSave();
-                    };
-                }(this),
-                isClicked: false,
-                icon: "save"
-            },
-            {
-                name: "clear",
-                onClick: function(context) {
-                    return function() {
-                        console.log("clear button clicked");
-                    };
-                }(this),
-                isClicked: false,
-                icon: "clear"
-            }]
+            saveGroup
         ];
     }
 
     handleClueUpdate(clue) {
         this.setState({
-            selectedClue: this.state.selectedClue
+            selectedClue: this.state.selectedClue,
+            modal: null
         });
+    }
+
+    makeModal(modalType) {
+        if (modalType === "SHARE") {
+            return <EditableCrosswordShareModal editId={this.props.editId} id={this.props.id} dismissModal={() => {this.setState({modal: null})}}/>;
+        }
     }
 
     render() {
         return (<div>
+            {this.state.modal ? this.makeModal(this.state.modal) : ""}
             <EditableCrosswordTitle data={this.props.metadata} onUpdate={this.props.onMetadataUpdate}/>
             <CrosswordHeader headerItems={this.getHeaderItems()} />
             <div className="crossword-container" >
