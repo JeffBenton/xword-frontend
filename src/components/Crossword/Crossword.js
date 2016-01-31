@@ -20,7 +20,8 @@ class Crossword extends React.Component {
             board: props.game.board,
             puzzle: props.game.puzzle,
             clues: props.game.clues,
-            selectedClue: null
+            selectedClue: null,
+            request: null
         };
 
         this.handleBoxClick = this.handleBoxClick.bind(this);
@@ -62,7 +63,8 @@ class Crossword extends React.Component {
                 return;
             }
 
-            selectedBox.value = char;
+            selectedBox.set(char);
+
             if (selectedClue.focused === 'across') {
                 this.selectBox(this.props.game.board.right(selectedBox));
             } else if (selectedClue.focused === 'down') {
@@ -99,14 +101,14 @@ class Crossword extends React.Component {
                         case 'across':
                             selectedBox = this.props.game.board.left(selectedBox);
                             if (selectedBox) {
-                                selectedBox.value = null;
+                                selectedBox.clearValue();
                                 this.selectBox(selectedBox);
                             }
                             break;
                         case 'down':
                             selectedBox = this.props.game.board.above(selectedBox);
                             if (selectedBox) {
-                                selectedBox.value = null;
+                                selectedBox.clearValue();
                                 this.selectBox(selectedBox);
                             }
                             break;
@@ -116,7 +118,7 @@ class Crossword extends React.Component {
                             });
                     }
                 } else {
-                    selectedBox.value = null;
+                    selectedBox.clearValue();
                     this.setState({
                         selectedBox: selectedBox
                     });
@@ -248,18 +250,176 @@ class Crossword extends React.Component {
                 return this.state.clues[this.state.selectedClue.focused][this.state.selectedClue[this.state.selectedClue.focused]];
             }
         }
-
         return null;
     }
 
     getHeaderItems() {
+        if (this.props.solver) {
+            return [
+                [{
+                    name: "verify box",
+                    onClick: () => {
+                        if (this.state.selectedBox && !this.state.request) {
+                            this.setState({request: "verify box"});
+                            this.props.solver.verify().box(this.state.selectedBox,
+                                (result) => {
+                                    if (result.answer) {
+                                        this.state.selectedBox.markValid();
+                                    } else {
+                                        this.state.selectedBox.markInvalid();
+                                    }
+                                    this.setState({request: null});
+                                },
+                                (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
+                    },
+                    isClicked: this.state.request === "verify box",
+                    icon: 'check_box'
+                },{
+                    name: "verify clue",
+                    onClick: () => {
+                        let clue = this.getSelectedClue();
+                        if (clue && !this.state.request) {
+                            this.setState({request: "verify clue"});
+                            let answer = this.state.puzzle[clue.direction][clue.number].map(
+                                (box) => {
+                                    return box.value;
+                                });
+                            this.props.solver.verify().clue({
+                                    direction: clue.direction,
+                                    number: clue.number,
+                                    answer: answer
+                                },
+                                (result) => {
+                                    if (result.answer) {
+                                        for (let i = 0; i < result.answer.length; i++) {
+                                            if (result.answer[i]) {
+                                                this.state.puzzle[clue.direction][clue.number][i].markValid();
+                                            } else {
+                                                this.state.puzzle[clue.direction][clue.number][i].markInvalid();
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                },
+                                (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
+                    },
+                    isClicked: this.state.request === "verify clue",
+                    icon: 'more_horiz'
+                },{
+                    name: "verify board",
+                    onClick: () => {
+                        if (!this.state.request) {
+                            this.setState({request: "verify board"});
+                            this.props.solver.verify().puzzle(this.state.board, (result) => {
+                                if (result.answer) {
+                                    for (let y = 0; y < result.answer.length; y++) {
+                                        for (let x = 0; x < result.answer[y].length; x++) {
+                                            if (!this.state.board.get(x, y).isBlackBox()) {
+                                                if (result.answer[y][x]) {
+                                                    this.state.board.get(x,y).markValid();
+                                                } else {
+                                                    this.state.board.get(x,y).markInvalid();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                }
+                            }, (error) => {
+                                this.setState({request: null});
+                            });
+                        }
+                    },
+                    isClicked: this.state.request === "verify board",
+                    icon: 'view_comfy'
+                }],[{
+                    name: "reveal box",
+                    onClick: () => {
+                        if (!this.state.request && this.state.selectedBox) {
+                            this.setState({request: "reveal box"});
+                            this.props.solver.answer().box(this.state.selectedBox,
+                                (result) => {
+                                    if (result.answer) {
+                                        this.state.selectedBox.set(result.answer);
+                                        this.state.selectedBox.markValid();
+                                    }
+                                    this.setState({request: null});
+                                }, (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
+                    },
+                    isClicked: this.state.request === "reveal box",
+                    icon: 'border_outer'
+                },{
+                    name: "reveal clue",
+                    onClick: () => {
+                        let clue = this.getSelectedClue();
+                        if (clue && !this.state.request) {
+                            this.setState({request: "reveal clue"});
+                            this.props.solver.answer().clue({
+                                direction: clue.direction,
+                                number: clue.number},
+                                (result) => {
+                                    if (result.answer) {
+                                        for (let i = 0; i < result.answer.length; i++) {
+                                            if (result.answer[i]) {
+                                                this.state.puzzle[clue.direction][clue.number][i].set(result.answer[i]);
+                                                this.state.puzzle[clue.direction][clue.number][i].markValid();
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                },
+                                (error) => {
+                                    this.setState({request: null});
+                                });
+                        }
+                    },
+                    isClicked: this.state.request === "reveal clue",
+                    icon: 'select_all'
+                },{
+                    name: "reveal board",
+                    onClick: () => {
+                        if (!this.state.request) {
+                            this.setState({request: "reveal board"});
+                            this.props.solver.answer().puzzle(this.state.board, (result) => {
+                                if (result.answer) {
+                                    for (let y = 0; y < result.answer.length; y++) {
+                                        for (let x = 0; x < result.answer[y].length; x++) {
+                                            if (!this.state.board.get(x, y).isBlackBox()) {
+                                                if (result.answer[y][x]) {
+                                                    this.state.board.get(x, y).set(result.answer[y][x]);
+                                                    this.state.board.get(x, y).markValid();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                }
+                            },(error) => {
+                                this.setState({request: null});
+                            });
+                        }
+                    },
+                    isClicked: this.state.request === "reveal board",
+                    icon: 'apps'
+                }]
+            ];//  for reveal box
+        }
         return [];
     }
 
     render() {
         return (<div>
             <CrosswordTitle data={this.props.metadata} />
-            <CrosswordHeader headerItems={this.getHeaderItems()} />
+            <CrosswordHeader headerItems={this.getHeaderItems()} itemWidth={65}/>
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
                     <CrosswordClues style={{marginRight: "25px", float: "right"}} type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />

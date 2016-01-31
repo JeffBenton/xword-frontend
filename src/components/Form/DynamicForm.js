@@ -5,7 +5,10 @@
 
 import React from 'react';
 import Form from './Form.js';
-import './form_require.js';
+import './DynamicFormText.js';
+import './DynamicFormRating.js';
+import './DynamicFormDate.js';
+import './DynamicFormTextarea.js';
 import './DynamicForm.css';
 
 class DynamicForm extends React.Component {

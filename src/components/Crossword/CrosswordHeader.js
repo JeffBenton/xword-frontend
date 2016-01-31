@@ -25,7 +25,7 @@ class CrosswordHeader extends React.Component {
         for (let i = 0; i < this.props.headerItems.length; i++) {
             elements.push(<td key={i} style={this.getGroupStyle(i, this.props.headerItems.length)}>{
                 this.props.headerItems[i].map(function(value, index) {
-                return <CrosswordHeaderItem key={i + "-" + index} item={value} />
+                return <CrosswordHeaderItem key={i + "-" + index} item={value} width={this.props.itemWidth}/>
             }, this)}</td>);
         }
         return (<div className="crossword-header">
@@ -43,7 +43,12 @@ class CrosswordHeader extends React.Component {
 }
 
 CrosswordHeader.propTypes = {
-    headerItems: React.PropTypes.array.isRequired
+    headerItems: React.PropTypes.array.isRequired,
+    itemWidth: React.PropTypes.number
 };
+
+CrosswordHeader.defaultProps = {
+    itemWidth: 48
+}
 
 module.exports = CrosswordHeader;
