@@ -65,7 +65,7 @@ class CrosswordController extends React.Component {
                         makeAjaxCall(url, body, success, failure);
                     },
                     puzzle: (board, success, failure) => {
-                        let url = API_URL + 'puzzle/' + this.state.id + '/clue/verify';
+                        let url = API_URL + 'puzzle/' + this.state.id + '/board/verify';
                         let body = {
                             answer: board.values()
                         };

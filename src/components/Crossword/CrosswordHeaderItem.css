@@ -17,6 +17,7 @@
     font-family: 'Open Sans', sans-serif;
     font-size: 10px;
     font-weight: bold;
+    display: block;
 }
 
 .crossword-header-item .material-icons {

@@ -275,19 +275,18 @@ class Crossword extends React.Component {
                                 });
                         }
                     },
-                    isClicked: this.state.clickAction === 'CREATEBOX',
-                    icon: 'border_outer'
+                    isClicked: this.state.request === "verify box",
+                    icon: 'check_box'
                 },{
                     name: "verify clue",
                     onClick: () => {
-                        if (this.state.selectedBox && !this.state.request) {
+                        let clue = this.getSelectedClue();
+                        if (clue && !this.state.request) {
                             this.setState({request: "verify clue"});
-                            let clue = this.getSelectedClue();
                             let answer = this.state.puzzle[clue.direction][clue.number].map(
                                 (box) => {
                                     return box.value;
                                 });
-
                             this.props.solver.verify().clue({
                                     direction: clue.direction,
                                     number: clue.number,
@@ -310,10 +309,58 @@ class Crossword extends React.Component {
                                 });
                         }
                     },
-                    isClicked: this.state.clickAction === 'CREATEBOX',
+                    isClicked: this.state.request === "verify clue",
                     icon: 'more_horiz'
+                },{
+                    name: "verify board",
+                    onClick: () => {
+                        if (!this.state.request) {
+                            this.setState({request: "verify board"});
+                            this.props.solver.verify().puzzle(this.state.board, (result) => {
+                                if (result.answer) {
+                                    for (let y = 0; y < result.answer.length; y++) {
+                                        for (let x = 0; x < result.answer[y].length; x++) {
+                                            if (!this.state.board.get(x, y).isBlackBox()) {
+                                                if (result.answer[y][x]) {
+                                                    this.state.board.get(x,y).markValid();
+                                                } else {
+                                                    this.state.board.get(x,y).markInvalid();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    this.setState({request: null});
+                                }
+                            }, (error) => {
+                                this.setState({request: null});
+                            });
+                        }
+                    },
+                    isClicked: this.state.request === "verify board",
+                    icon: 'view_comfy'
+                }],[{
+                    name: "reveal box",
+                    onClick: () => {
+
+                    },
+                    isClicked: this.state.request === "reveal box",
+                    icon: 'border_outer'
+                },{
+                    name: "reveal clue",
+                    onClick: () => {
+
+                    },
+                    isClicked: this.state.request === "reveal clue",
+                    icon: 'select_all'
+                },{
+                    name: "reveal board",
+                    onClick: () => {
+
+                    },
+                    isClicked: this.state.request === "reveal board",
+                    icon: 'apps'
                 }]
-            ];
+            ];//  for reveal box
         }
         return [];
     }
@@ -321,7 +368,7 @@ class Crossword extends React.Component {
     render() {
         return (<div>
             <CrosswordTitle data={this.props.metadata} />
-            <CrosswordHeader headerItems={this.getHeaderItems()} itemWidth={55}/>
+            <CrosswordHeader headerItems={this.getHeaderItems()} itemWidth={65}/>
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
                     <CrosswordClues style={{marginRight: "25px", float: "right"}} type='across' onClick={this.handleClueClick} clues={this.state.clues.across} />
