@@ -1,0 +1,50 @@
+.modal .share-modal-header {
+    width: calc(100% - 10px);
+    height: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.modal .share-modal-header span {
+    font-weight: bold;
+    font-family: 'Arvo', serif;
+    line-height: 25px;
+}
+
+.modal .share-modal-body {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    padding: 5px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+}
+
+.modal .share-modal-body input {
+    width: calc(100% - 8px);
+    padding: 2px;
+}
+
+.modal .share-modal-body .edit {
+    color: #519E44;
+    font-weight: bold;
+}
+
+.modal .share-modal-body .solve {
+    color: #44789E;
+    font-weight: bold;
+}
+
+.modal .share-modal-footer {
+    background-color: #CBCBFF;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-align: center;
+}
+
+.modal .share-modal-footer span {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    line-height: 25px;
+}

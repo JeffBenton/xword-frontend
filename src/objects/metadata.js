@@ -14,6 +14,7 @@ class Metadata {
             object.editor = metadata.editor;
             object.source = metadata.source;
             object.description = metadata.description;
+            object.date = metadata.date;
         }
         return object;
     }
@@ -25,6 +26,7 @@ class Metadata {
         this.editor = null;
         this.source = null;
         this.description = null;
+        this.date = null;
     }
 }
 

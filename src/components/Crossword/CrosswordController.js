@@ -9,13 +9,12 @@ class CrosswordController extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.params ? props.params.id : null,
-            metadata: props.params ? props.params.metadata : null
+            id: props.params ? props.params.id : null
         }
     }
 
     render() {
-        return (<Crossword game={this.props.game} />);
+        return (<Crossword game={this.props.game} metadata={this.props.params ? this.props.params.metadata : null} />);
     }
 }
 

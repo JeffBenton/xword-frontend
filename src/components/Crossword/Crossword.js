@@ -2,7 +2,9 @@ import React from 'react';
 import CrosswordBoard from './CrosswordBoard.js';
 import CrosswordClues from './CrosswordClues.js';
 import CrosswordHeader from './CrosswordHeader.js';
-import CrosswordSelectedClue from './CrosswordSelectedClue';
+import CrosswordSelectedClue from './CrosswordSelectedClue.js';
+import CrosswordTitle from './CrosswordTitle.js';
+import CrosswordMetadata from './CrosswordMetadata.js';
 import Game from './../../objects/game.js';
 import Clue from './../../objects/clue.js';
 import {directions, boxState} from './../../util/constants.js';
@@ -15,9 +17,9 @@ class Crossword extends React.Component {
         super(props);
 
         this.state = {
-            board: this.props.game.board,
-            puzzle: this.props.game.puzzle,
-            clues: this.props.game.clues,
+            board: props.game.board,
+            puzzle: props.game.puzzle,
+            clues: props.game.clues,
             selectedClue: null
         };
 
@@ -47,7 +49,7 @@ class Crossword extends React.Component {
      * @param event
      */
     handleKeypress(event) {
-        if (event.target.tagName === 'INPUT') {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
             return;
         }
 
@@ -79,7 +81,7 @@ class Crossword extends React.Component {
      * @param event
      */
     handleKeydown(event) {
-        if (event.target.tagName === 'INPUT') {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
             return;
         }
         let selected = this.state.selectedClue;
@@ -256,6 +258,7 @@ class Crossword extends React.Component {
 
     render() {
         return (<div>
+            <CrosswordTitle data={this.props.metadata} />
             <CrosswordHeader headerItems={this.getHeaderItems()} />
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
@@ -264,6 +267,7 @@ class Crossword extends React.Component {
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
+                    <CrosswordMetadata data={this.props.metadata} />
                 </div>
                 <div className="crossword-column-small" >
                     <CrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} />

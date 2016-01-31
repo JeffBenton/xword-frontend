@@ -23,16 +23,24 @@ class AppEdit extends React.Component {
             this.loadEditGame(params.id);
             return {
                 isLoading: true,
+                isCreating: false,
                 game: null,
                 params: null
             };
         } else {
-            return {
-                isLoading: false,
-                game: new Game(this.props.width, this.props.height),
-                params: null
-            };
+            logger.error("invalid params passed to appedit");
         }
+    }
+
+    startCreate(params) {
+        this.setState({
+            isLoading: false,
+            isCreating: false,
+            game: new Game(params.width, params.height),
+            params: {
+                metadata: new Metadata()
+            }
+        });
     }
 
     // todo: error handling
@@ -52,9 +60,11 @@ class AppEdit extends React.Component {
         this.setState({
             game: Game.fromSavedPuzzle(data.board, data.clues),
             isLoading: false,
-            params: {id: data.id,
+            params: {
+                id: data.id,
                 editId: data.editId,
-                metadata: Metadata.fromSavedMetadata(data.metadata)}
+                metadata: Metadata.fromSavedMetadata(data.metadata)
+            }
         });
     }
 
@@ -71,8 +81,4 @@ class AppEdit extends React.Component {
     }
 }
 
-AppEdit.defaultProps = {
-    width: 15,
-    height: 15
-};
 module.exports = AppEdit;
