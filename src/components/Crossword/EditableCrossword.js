@@ -57,7 +57,14 @@ class EditableCrossword extends Crossword {
                 if (!this.state.saving) {
                     this.setState({saving: true});
                     console.log("save button clicked");
-                    this.props.onSave(() => {this.setState({saving: false}); console.log("done saving");});
+                    this.props.onSave(() => {
+                        this.setState({saving: false});
+                        console.log("done saving");
+                        if (this.props.onChange) {
+                            console.log('puzzle saved!!');
+                            this.props.onChange();
+                        }
+                    });
                 }
             },
             isClicked: false,

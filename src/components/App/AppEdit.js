@@ -46,17 +46,6 @@ class AppEdit extends React.Component {
         };
     }
 
-    startCreate(params) {
-        this.setState({
-            isLoading: false,
-            isCreating: false,
-            game: new Game(params.width, params.height),
-            params: {
-                metadata: new Metadata()
-            }
-        });
-    }
-
     // todo: error handling
     async loadEditGame(id) {
         var headers = new Headers();

@@ -91,9 +91,14 @@ class EditableCrosswordController extends React.Component {
     }
 
     handleChange(event) {
+        let params = {
+            editId: this.state.editId,
+            id: this.state.id,
+            metadata: this.state.metadata
+        };
         setEditState({
             game: this.props.game,
-            params: this.props.params
+            params: params
         });
     }
 
@@ -112,8 +117,7 @@ EditableCrosswordController.propTypes = {
     params: React.PropTypes.shape({
         editId: React.PropTypes.string,
         id: React.PropTypes.string,
-        metadata: React.PropTypes.instanceOf(Metadata),
-        loadFromLocalStorage: React.PropTypes.bool
+        metadata: React.PropTypes.instanceOf(Metadata)
     })
 };
 module.exports = EditableCrosswordController;

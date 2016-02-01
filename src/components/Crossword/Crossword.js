@@ -66,9 +66,19 @@ class Crossword extends React.Component {
             selectedBox.set(char);
 
             if (selectedClue.focused === 'across') {
-                this.selectBox(this.props.game.board.right(selectedBox));
+                let next = this.props.game.board.right(selectedBox);
+                if (next && !next.isBlackBox()) {
+                    this.selectBox(next);
+                } else {
+                    this.selectBox(this.props.game.nextClue(selectedClue[selectedClue.focused], selectedClue.focused));
+                }
             } else if (selectedClue.focused === 'down') {
-                this.selectBox(this.props.game.board.below(selectedBox));
+                let next = this.props.game.board.below(selectedBox);
+                if (next && !next.isBlackBox()) {
+                    this.selectBox(next);
+                } else {
+                    this.selectBox(this.props.game.nextClue(selectedClue[selectedClue.focused], selectedClue.focused));
+                }
             } else {
                 this.setState({
                     selectedBox: selectedBox
@@ -104,14 +114,22 @@ class Crossword extends React.Component {
                     switch (selected.focused) {
                         case 'across':
                             selectedBox = this.props.game.board.left(selectedBox);
-                            if (selectedBox) {
+                            if (selectedBox && !selectedBox.isBlackBox()) {
+                                selectedBox.clearValue();
+                                this.selectBox(selectedBox);
+                            } else {
+                                selectedBox = this.props.game.previousClue(selected[selected.focused], selected.focused);
                                 selectedBox.clearValue();
                                 this.selectBox(selectedBox);
                             }
                             break;
                         case 'down':
                             selectedBox = this.props.game.board.above(selectedBox);
-                            if (selectedBox) {
+                            if (selectedBox && !selectedBox.isBlackBox()) {
+                                selectedBox.clearValue();
+                                this.selectBox(selectedBox);
+                            } else {
+                                selectedBox = this.props.game.previousClue(selected[selected.focused], selected.focused);
                                 selectedBox.clearValue();
                                 this.selectBox(selectedBox);
                             }
@@ -128,7 +146,6 @@ class Crossword extends React.Component {
                     });
                 }
                 if (this.props.onChange) {
-                    console.log('box value changed!!');
                     this.props.onChange();
                 }
                 break;
