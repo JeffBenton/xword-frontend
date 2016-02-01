@@ -5,6 +5,7 @@ import Metadata from './../../objects/metadata.js';
 import AppCreating from './AppCreating.js';
 import AppHeader from './AppHeader.js';
 import {API_URL} from './../../util/constants.js';
+import {canUseLocalStorage} from './../../util/localstoragehelper.js';
 
 class AppCreate extends React.Component {
 
@@ -46,7 +47,12 @@ class AppCreate extends React.Component {
             return (
                 <div>
                     <AppHeader />
-                    <div className="app-body"><EditableCrosswordController game={this.state.game} params={this.state.params}/></div>
+                    <div className="app-body">
+                        <EditableCrosswordController
+                            game={this.state.game}
+                            params={this.state.params}
+                            canUseLocalStorage={canUseLocalStorage()}
+                        /></div>
                 </div>);
         }
     }
