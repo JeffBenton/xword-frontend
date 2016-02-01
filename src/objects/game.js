@@ -109,6 +109,51 @@ class Game {
     }
 
     /**
+     * Get first box in the next clue, starting with 'number' in the provided direction.
+     *
+     * Wraps.
+     *
+     * @param number the number to start at
+     * @param direction the direction of clues
+     */
+    nextClue(number, direction) {
+        let first;
+        for (let i in this.puzzle[direction]) {
+            if (!first) {
+                first = i;
+            }
+            if (i > number) {
+                return this.puzzle[direction][i][0];
+            }
+        }
+        return this.puzzle[direction][first][0];
+    }
+
+    /**
+     * Get last box in the previous clue, starting with 'number' in the provided direction.
+     *
+     * Wraps.
+     *
+     * @param number the number to start at
+     * @param direction the direction of clues
+     */
+    previousClue(number, direction) {
+        let last = 0;
+        let result = 0;
+        for (let i in this.puzzle[direction]) {
+            last = i;
+            if (i < number && i > result) {
+                result = i;
+            }
+            if (i >= number && result !== 0) {
+                return this.puzzle[direction][result][this.puzzle[direction][result].length - 1];
+            }
+        }
+        return this.puzzle[direction][last][this.puzzle[direction][last].length - 1];
+
+    }
+
+    /**
      * Convert this game into a savable state, in order to save this into a database.
      *
      * Response object format:
