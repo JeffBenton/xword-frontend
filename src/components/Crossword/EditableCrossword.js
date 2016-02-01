@@ -21,6 +21,7 @@ class EditableCrossword extends Crossword {
         this.state.clickAction = "CREATEBOX";
         this.state.modal = null;
         this.handleClueUpdate = this.handleClueUpdate.bind(this);
+        this.handleMetadataUpdate = this.handleMetadataUpdate.bind(this);
     }
 
     handleBoxClick(box) {
@@ -37,6 +38,10 @@ class EditableCrossword extends Crossword {
                         modal: null
                     }
                 );
+                if (this.props.onChange) {
+                    console.log('board updated!!');
+                    this.props.onChange();
+                }
                 break;
             case 'SELECT':
                 // should select the clue we clicked on
@@ -98,6 +103,11 @@ class EditableCrossword extends Crossword {
             selectedClue: this.state.selectedClue,
             modal: null
         });
+
+        if (this.props.onChange) {
+            console.log('clue updated!!');
+            this.props.onChange();
+        }
     }
 
     makeModal(modalType) {
@@ -106,10 +116,23 @@ class EditableCrossword extends Crossword {
         }
     }
 
+    handleMetadataUpdate(event) {
+        if (this.props.onMetadataUpdate) {
+            this.props.onMetadataUpdate(event);
+        }
+
+        if (this.props.onChange) {
+            console.log('metadata updated!!');
+            this.props.onChange();
+        }
+    }
+
+
+
     render() {
         return (<div>
             {this.state.modal ? this.makeModal(this.state.modal) : ""}
-            <EditableCrosswordTitle data={this.props.metadata} onUpdate={this.props.onMetadataUpdate}/>
+            <EditableCrosswordTitle data={this.props.metadata} onUpdate={this.handleMetadataUpdate}/>
             <CrosswordHeader headerItems={this.getHeaderItems()} />
             <div className="crossword-container" >
                 <div className="crossword-column-small" >
@@ -118,7 +141,7 @@ class EditableCrossword extends Crossword {
                 <div className="crossword-column-big" >
                     <CrosswordSelectedClue clue={this.getSelectedClue()} />
                     <CrosswordBoard onClick={this.handleBoxClick} board={this.state.board}/>
-                    <EditableCrosswordMetadata data={this.props.metadata} onUpdate={this.props.onMetadataUpdate} />
+                    <EditableCrosswordMetadata data={this.props.metadata} onUpdate={this.handleMetadataUpdate} />
                 </div>
                 <div className="crossword-column-small" >
                     <EditableCrosswordClues type='down' style={{marginLeft: "25px", float: "left"}} onClick={this.handleClueClick} clues={this.state.clues.down} onUpdate={this.handleClueUpdate}/>

@@ -10,6 +10,8 @@ import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import {API_URL} from './../../util/constants.js';
+import {canUseLocalStorage, getEditState} from './../../util/localstoragehelper.js';
+import history from './../../history.js';
 
 class AppEdit extends React.Component {
 
@@ -27,9 +29,21 @@ class AppEdit extends React.Component {
                 game: null,
                 params: null
             };
-        } else {
-            logger.error("invalid params passed to appedit");
+        } else if (canUseLocalStorage()) {
+            let state = getEditState();
+            if (state) {
+                return {
+                    isLoading: false,
+                    isCreating: false,
+                    game: state.game,
+                    params: state.params
+                }
+            }
         }
+        console.error("invalid params passed to appedit");
+        return {
+            redirect: "/create"
+        };
     }
 
     startCreate(params) {
@@ -68,14 +82,23 @@ class AppEdit extends React.Component {
         });
     }
 
+    componentDidMount() {
+        if (this.state.redirect) {
+            history.pushState(null, this.state.redirect);
+        }
+    }
+
     render() {
-        if (this.state.isLoading){
+        if (this.state.redirect || this.state.isLoading){
             return (<div><AppLoading /></div>);
         } else {
             return (
                 <div>
                     <AppHeader />
-                    <div className="app-body"><EditableCrosswordController game={this.state.game} params={this.state.params}/></div>
+                    <div className="app-body"><EditableCrosswordController
+                        game={this.state.game}
+                        params={this.state.params}
+                        canUseLocalStorage={canUseLocalStorage()}/></div>
                 </div>);
         }
     }

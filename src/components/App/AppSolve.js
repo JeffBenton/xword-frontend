@@ -9,6 +9,7 @@ import Game from './../../objects/game.js';
 import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
+import {canUseLocalStorage, getSolveState} from './../../util/localstoragehelper.js';
 import {API_URL} from './../../util/constants.js';
 
 class AppSolve extends React.Component {
@@ -26,6 +27,15 @@ class AppSolve extends React.Component {
                 game: null,
                 params: null
             };
+        } else if (canUseLocalStorage()) {
+            let state = getSolveState();
+            if (state) {
+                return {
+                    isLoading: false,
+                    game: state.game,
+                    params: state.params
+                }
+            }
         } else {
             return {
                 isLoading: false,

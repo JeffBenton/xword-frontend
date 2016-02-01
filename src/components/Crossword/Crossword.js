@@ -74,6 +74,10 @@ class Crossword extends React.Component {
                     selectedBox: selectedBox
                 });
             }
+            if (this.props.onChange) {
+                console.log('box value changed!!');
+                this.props.onChange();
+            }
         }
     }
 
@@ -122,6 +126,10 @@ class Crossword extends React.Component {
                     this.setState({
                         selectedBox: selectedBox
                     });
+                }
+                if (this.props.onChange) {
+                    console.log('box value changed!!');
+                    this.props.onChange();
                 }
                 break;
             case 38: // up

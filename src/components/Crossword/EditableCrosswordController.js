@@ -6,6 +6,7 @@ import React from 'react';
 import EditableCrossword from './EditableCrossword.js';
 import Metadata from './../../objects/metadata.js';
 import {API_URL} from './../../util/constants.js';
+import {setEditState} from './../../util/localstoragehelper.js';
 
 class EditableCrosswordController extends React.Component {
 
@@ -13,6 +14,7 @@ class EditableCrosswordController extends React.Component {
         super(props);
         this.save = this.save.bind(this);
         this.handleMetadataUpdate = this.handleMetadataUpdate.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
         this.state = {
             editId: props.params ? props.params.editId : null,
@@ -88,11 +90,19 @@ class EditableCrosswordController extends React.Component {
         this.setState({metadata: metadata});
     }
 
+    handleChange(event) {
+        setEditState({
+            game: this.props.game,
+            params: this.props.params
+        });
+    }
+
     render() {
         return (<EditableCrossword game={this.props.game}
                                    metadata={this.state.metadata}
                                    onMetadataUpdate={this.handleMetadataUpdate}
                                    onSave={this.save}
+                                   onChange={this.handleChange}
                                    id={this.state.id}
                                    editId={this.state.editId}/>);
     }
@@ -102,7 +112,8 @@ EditableCrosswordController.propTypes = {
     params: React.PropTypes.shape({
         editId: React.PropTypes.string,
         id: React.PropTypes.string,
-        metadata: React.PropTypes.instanceOf(Metadata)
+        metadata: React.PropTypes.instanceOf(Metadata),
+        loadFromLocalStorage: React.PropTypes.bool
     })
 };
 module.exports = EditableCrosswordController;

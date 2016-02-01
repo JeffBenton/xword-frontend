@@ -6,6 +6,7 @@ import Crossword from './../Crossword/Crossword.js';
 import Game from './../../objects/game.js';
 import {API_URL} from './../../util/constants.js';
 import history from './../../history.js';
+import {canUseLocalStorage, hasSolveState, hasEditState} from './../../util/localstoragehelper.js';
 import './App.css';
 
 class App extends React.Component {
@@ -28,26 +29,26 @@ class App extends React.Component {
                 icon: "add"
             }
         ];
-        if (window.localStorage) {
-            let editItem = window.localStorage.getItem("editItem");
+        if (canUseLocalStorage()) {
+            let editItem = hasEditState();
             if (editItem) {
                 options.push({
                     title: "Continue editing your last puzzle",
                     onClick: (function(context) {
                         return function() {
-                            console.log("clicked resume edit");
+                            history.pushState(null, "/edit");
                         };
                     })(this),
                     icon: "border_all"
                 });
             }
-            let solveItem = window.localStorage.getItem("solveItem");
+            let solveItem = hasSolveState();
             if (solveItem) {
                 options.push({
                     title: "Continue solving your last puzzle",
                     onClick: (function(context) {
                         return function() {
-                            console.log("clicked resume solve");
+                            history.pushState(null, "/solve");
                         };
                     })(this),
                     icon: "edit"
