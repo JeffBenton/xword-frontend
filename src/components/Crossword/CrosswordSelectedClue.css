@@ -35,6 +35,7 @@
     font-size: 26px;
     display: inline-table;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .crossword-selected-clue-container-floating .clue-text {

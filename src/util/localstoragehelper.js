@@ -40,12 +40,12 @@ class LocalStorageHelper {
 
     static getEditState() {
         let state = JSON.parse(window.localStorage.getItem("edit"));
-        let game = Game.fromSavedPuzzle(state.game.board, state.game.puzzle);
+        let game = Game.fromSavedPuzzle(state.game.board, state.game.clues);
         let params = state.params;
         if (state.params.metadata) {
             params.metadata = Metadata.fromSavedMetadata(state.params.metadata);
         }
-        return (state ? {game: game, params: params} : null);
+        return {game: game, params: params}
     }
 
     static setSolveState(state) {
@@ -61,12 +61,12 @@ class LocalStorageHelper {
 
     static getSolveState() {
         let state = JSON.parse(window.localStorage.getItem("solve"));
-        let game = Game.fromSavedPuzzle(state.game.board, state.game.puzzle);
+        let game = Game.fromSavedPuzzle(state.game.board, state.game.clues);
         let params = state.params;
         if (state.params.metadata) {
             params.metadata = Metadata.fromSavedMetadata(state.params.metadata);
         }
-        return (state ? {game: game, params: params} : null);
+        return {game: game, params: params};
     }
 }
 
