@@ -20,8 +20,10 @@ function run() {
     ReactDOM.render((
         <Router history={history}>
             <Route path="/edit/:id" component={AppEdit}/>
+            <Route path="/edit" component={AppEdit}/>
             <Route path="/create" component={AppCreate}/>
             <Route path="/solve/:id" component={AppSolve}/>
+            <Route path="/solve" component={AppSolve}/>
             <Route path="/" component={App}/>
         </Router>), root);
 }

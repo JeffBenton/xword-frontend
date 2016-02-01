@@ -29,6 +29,10 @@ class DynamicFormRating extends DynamicFormElement {
         }
     }
 
+    finishUpdate() {
+        this.setState({isEditing: false});
+    }
+
     handleChange() {
         if (this.props.onUpdate) {
             let update = {};

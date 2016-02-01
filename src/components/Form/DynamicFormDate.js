@@ -88,9 +88,12 @@ class DynamicFormDate extends DynamicFormText {
             stateChange[field] = value;
             this.setState(stateChange);
         }
-        if (this.props.onUpdate) {
+
+        if (this.props.onUpdate && value != null) {
             let update = {};
-            update[this.props.name] = new Date(this.state.year, this.state.month, this.state.day).valueOf();
+            let date = {year: this.state.year, month: this.state.month, day: this.state.day};
+            date[field] = parseInt(value);
+            update[this.props.name] = new Date(date.year, date.month - 1, date.day).valueOf();
             this.props.onUpdate(update);
         }
     }

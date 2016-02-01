@@ -12,7 +12,8 @@ class CrosswordBox extends React.Component {
     getBoxStyle() {
         let style = {
             height: this.props.height + 'px',
-            width: this.props.width + 'px'
+            width: this.props.width + 'px',
+            color: '#' + this.props.box.color
         };
 
         if (this.props.box.x === 0) {
