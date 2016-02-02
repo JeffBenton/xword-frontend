@@ -41,12 +41,15 @@ class AppSolve extends React.Component {
             };
         } else if (state) {
             if (state.params && state.params.id) {
-                history.replaceState(null, "/solve/" + state.params.id);
+                return {
+                    isLoading: false,
+                    game: state.game,
+                    params: state.params,
+                    replace: "/solve/" + state.params.id
+                };
             }
             return {
-                isLoading: false,
-                game: state.game,
-                params: state.params
+
             };
         } else {
             return {
@@ -56,6 +59,13 @@ class AppSolve extends React.Component {
                     metadata: new Metadata()
                 }
             };
+        }
+    }
+
+    componentDidMount() {
+        if (this.state.replace) {
+            history.replaceState(null, this.state.replace);
+            this.setState({replace: null});
         }
     }
 
@@ -83,7 +93,7 @@ class AppSolve extends React.Component {
     }
 
     render() {
-        if (this.state.isLoading){
+        if (this.state.isLoading || this.state.replace){
             return (<div><AppLoading /></div>);
         } else {
             return (<div><AppHeader />
