@@ -21,7 +21,19 @@ class AppEdit extends React.Component {
     }
 
     initializeState(params) {
+        var state;
+        if (canUseLocalStorage()) {
+             state = getEditState();
+        }
         if (params != null && params.id != null) {
+            if (state.params && state.params.editId === params.id) {
+                return {
+                    isLoading: false,
+                    isCreating: false,
+                    game: state.game,
+                    params: state.params
+                };
+            }
             this.loadEditGame(params.id);
             return {
                 isLoading: true,
@@ -29,15 +41,13 @@ class AppEdit extends React.Component {
                 game: null,
                 params: null
             };
-        } else if (canUseLocalStorage()) {
-            let state = getEditState();
-            if (state) {
-                return {
-                    isLoading: false,
-                    isCreating: false,
-                    game: state.game,
-                    params: state.params
-                }
+        } else if (state) {
+            history.replaceState(null, "/edit/" + state.params.editId);
+            return {
+                isLoading: false,
+                isCreating: false,
+                game: state.game,
+                params: state.params
             }
         }
         console.error("invalid params passed to appedit");
@@ -70,7 +80,6 @@ class AppEdit extends React.Component {
             }
         });
     }
-
     componentDidMount() {
         if (this.state.redirect) {
             history.pushState(null, this.state.redirect);
@@ -80,6 +89,8 @@ class AppEdit extends React.Component {
     render() {
         if (this.state.redirect || this.state.isLoading){
             return (<div><AppLoading /></div>);
+        } else if (this.state.isChoosing) {
+            return (<div><AppChoosing header="Use local version?" body=""/></div>)
         } else {
             return (
                 <div>
@@ -87,7 +98,12 @@ class AppEdit extends React.Component {
                     <div className="app-body"><EditableCrosswordController
                         game={this.state.game}
                         params={this.state.params}
-                        canUseLocalStorage={canUseLocalStorage()}/></div>
+                        canUseLocalStorage={canUseLocalStorage()}
+                        reload={() => {
+                                this.setState({isLoading: true});
+                                this.loadEditGame(this.state.params.editId);
+                        }}
+                    /></div>
                 </div>);
         }
     }
