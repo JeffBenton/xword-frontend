@@ -109,7 +109,9 @@ class EditableCrosswordController extends React.Component {
                                    onSave={this.save}
                                    onChange={this.handleChange}
                                    id={this.state.id}
-                                   editId={this.state.editId}/>);
+                                   editId={this.state.editId}
+                                   reload={this.props.reload}
+        />);
     }
 }
 

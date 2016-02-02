@@ -138,12 +138,11 @@ class Game {
      * @param direction the direction of clues
      */
     previousClue(number, direction) {
-        let last = 0;
-        let result = 0;
+        let last, result = 0;
         for (let i in this.puzzle[direction]) {
             last = i;
             if (i < number && i > result) {
-                result = i;
+                result = parseInt(i);
             }
             if (i >= number && result !== 0) {
                 return this.puzzle[direction][result][this.puzzle[direction][result].length - 1];

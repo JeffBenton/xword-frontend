@@ -11,6 +11,7 @@ import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import {canUseLocalStorage, getSolveState} from './../../util/localstoragehelper.js';
 import {API_URL} from './../../util/constants.js';
+import history from './../../history.js';
 
 class AppSolve extends React.Component {
 
@@ -20,22 +21,31 @@ class AppSolve extends React.Component {
     }
 
     initializeState(params) {
+        var state;
+        if (canUseLocalStorage()) {
+            state = getSolveState();
+        }
         if (params != null && params.id != null) {
+            if (params.id === state.params.id) {
+                return {
+                    isLoading: false,
+                    game: state.game,
+                    params: state.params
+                };
+            }
             this.loadSolveGame(params.id);
             return {
                 isLoading: true,
                 game: null,
                 params: null
             };
-        } else if (canUseLocalStorage()) {
-            let state = getSolveState();
-            if (state) {
-                return {
-                    isLoading: false,
-                    game: state.game,
-                    params: state.params
-                }
-            }
+        } else if (state) {
+            history.replaceState(null, "/solve/" + state.params.id);
+            return {
+                isLoading: false,
+                game: state.game,
+                params: state.params
+            };
         } else {
             return {
                 isLoading: false,
