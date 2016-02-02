@@ -95,6 +95,14 @@ class Board {
         return this.board[y][x];
     }
 
+    /**
+     * Get the Box above the provided box.
+     *
+     * Returns null if there isn't one (ex: the provided box is at the top of the board).
+     *
+     * @param box
+     * @returns {*}
+     */
     above(box) {
         if (box === null || box.x === null || box.y === null) {
             return null;
@@ -103,6 +111,14 @@ class Board {
         }
     }
 
+    /**
+     * Get the Box to the left of the provided box.
+     *
+     * Returns null if there isn't one (ex: the provided box is on the left edge of the board).
+     *
+     * @param box
+     * @returns {*}
+     */
     left(box) {
         if (box === null || box.x === null || box.y === null) {
             return null;
@@ -111,6 +127,14 @@ class Board {
         }
     }
 
+    /**
+     * Get the Box below the provided box.
+     *
+     * Returns null if there isn't one (ex: the provided box is at the bottom of the board).
+     *
+     * @param box
+     * @returns {*}
+     */
     below(box) {
         if (box === null || box.x === null || box.y === null) {
             return null;
@@ -119,6 +143,14 @@ class Board {
         }
     }
 
+    /**
+     * Get the Box to the right of the provided box.
+     *
+     * Returns null if there isn't one (ex: the provided box is on the right edge of the board).
+     *
+     * @param box
+     * @returns {*}
+     */
     right(box) {
         if (box === null || box.x === null || box.y === null) {
             return null;
@@ -127,6 +159,20 @@ class Board {
         }
     }
 
+    /**
+     * Get the 'next' Box in the specified direction from the specified Box.
+     *
+     * For direction = 'across', the 'next' Box is the next non-BLACKBOX Box to the right of the provided Box,
+     * wrapping down if required.
+     *
+     * For direction = 'down', the 'next' Box is the next non-BLACKBOX Box below the provided Box,
+     * wrapping back to the top if required.
+     *
+     * @param box
+     * @param direction
+     * @returns {*}
+     *      the 'next' box
+     */
     next(box, direction) {
         if (box === null || direction === null) {
             return null;
@@ -170,6 +216,20 @@ class Board {
         }
     }
 
+    /**
+     * Get the 'previous' Box in the specified direction from the specified Box.
+     *
+     * For direction = 'across', the 'previous' Box is the next non-BLACKBOX Box to the left of the provided Box,
+     * wrapping up if required.
+     *
+     * For direction = 'down', the 'next' Box is the next non-BLACKBOX Box above the provided Box,
+     * wrapping back to the bottom if required.
+     *
+     * @param box
+     * @param direction
+     * @returns {*}
+     *      the 'previous' box
+     */
     previous(box, direction) {
         if (box === null || direction === null) {
             return null;
@@ -227,6 +287,11 @@ class Board {
         this.board[y][x] = box;
     }
 
+    /**
+     * Generate the puzzle and clue state from the provided board state.
+     *
+     * @returns {{puzzle: {across: {}, down: {}}, clues: {across: {}, down: {}}}}
+     */
     generateStateFromBoard() {
         this.version = (this.version + 1) % 100;
         var puzzle = {
