@@ -42,7 +42,9 @@ class AppEdit extends React.Component {
                 params: null
             };
         } else if (state) {
-            history.replaceState(null, "/edit/" + state.params.editId);
+            if (state.params && state.params.editId) {
+                history.replaceState(null, "/edit/" + state.params.editId);
+            }
             return {
                 isLoading: false,
                 isCreating: false,

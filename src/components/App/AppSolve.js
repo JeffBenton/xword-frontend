@@ -40,7 +40,9 @@ class AppSolve extends React.Component {
                 params: null
             };
         } else if (state) {
-            history.replaceState(null, "/solve/" + state.params.id);
+            if (state.params && state.params.id) {
+                history.replaceState(null, "/solve/" + state.params.id);
+            }
             return {
                 isLoading: false,
                 game: state.game,
