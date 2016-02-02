@@ -109,43 +109,83 @@ class Game {
     }
 
     /**
+     * Get first box in the next clue, starting with 'number' in the provided direction.
+     *
+     * Wraps.
+     *
+     * @param number the number to start at
+     * @param direction the direction of clues
+     */
+    nextClue(number, direction) {
+        let first;
+        for (let i in this.puzzle[direction]) {
+            if (!first) {
+                first = i;
+            }
+            if (i > number) {
+                return this.puzzle[direction][i][0];
+            }
+        }
+        return this.puzzle[direction][first][0];
+    }
+
+    /**
+     * Get last box in the previous clue, starting with 'number' in the provided direction.
+     *
+     * Wraps.
+     *
+     * @param number the number to start at
+     * @param direction the direction of clues
+     */
+    previousClue(number, direction) {
+        let last, result = 0;
+        for (let i in this.puzzle[direction]) {
+            last = i;
+            if (i < number && i > result) {
+                result = parseInt(i);
+            }
+            if (i >= number && result !== 0) {
+                return this.puzzle[direction][result][this.puzzle[direction][result].length - 1];
+            }
+        }
+        return this.puzzle[direction][last][this.puzzle[direction][last].length - 1];
+
+    }
+
+    /**
      * Convert this game into a savable state, in order to save this into a database.
      *
-     * Response object format:
-     * {
-     *      board: 2d array of box values, as string. null for black box, space for empty box.
-     *      puzzle: object containing
-     * }
+     * @returns
+     *      {{
+     *          board: 2d array of box values, as string. null for black box, space for empty box.,
+     *          clues: list containing each clue in the puzzle
+     *      }}
      */
     getSaveState() {
         var response = {
             board: this.board.values(),
             clues: (function (clues, puzzle) {
+
+                // flatten the clues structure into a simple array of clues.
                 let result = [];
-                for (let dir in clues) {
-                    if (clues.hasOwnProperty(dir)) {
-                        for (let num in clues[dir]) {
-                            if (clues[dir].hasOwnProperty(num)) {
-                                let clue = {
-                                    number: clues[dir][num].number,
-                                    direction: clues[dir][num].direction.toLocaleUpperCase(),
-                                    text: clues[dir][num].text,
-                                    answer: (function (dir, num, puzzle) {
-                                        let result = [];
-                                        for (let index in puzzle[dir][num]) {
-                                            if (puzzle[dir][num].hasOwnProperty(index)){
-                                                let box = puzzle[dir][num][index];
-                                                result.push(box.value === null ? "" : box.value);
-                                            }
-                                        }
-                                        return result;
-                                    }(dir, num, puzzle))
-                                };
-                                result.push(clue);
-                            }
-                        }
-                    }
-                }
+                Object.keys(clues).forEach((dir) => {
+                    Object.keys(clues[dir]).forEach((num) => {
+                        let clue = {
+                            number: clues[dir][num].number,
+                            direction: clues[dir][num].direction.toLocaleUpperCase(),
+                            text: clues[dir][num].text,
+                            answer: (function (dir, num, puzzle) {
+                                let result = [];
+                                Object.keys(puzzle[dir][num]).forEach((index) => {
+                                    let box = puzzle[dir][num][index];
+                                    result.push(box.value === null ? "" : box.value);
+                                });
+                                return result;
+                            }(dir, num, puzzle))
+                        };
+                        result.push(clue);
+                    });
+                });
                 return result;
             }(this.clues, this.puzzle))
         };

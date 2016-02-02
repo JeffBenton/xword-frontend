@@ -1,10 +1,16 @@
 /**
- *
- * @author alex
+ * Dumb object that stores metadata for a crossword puzzle.
  */
-
 class Metadata {
 
+    /**
+     * Create a metadata object from a saved object.
+     *
+     * @param metadata
+     *      the saved object
+     * @returns {Metadata}
+     *      the resulting Metadata object
+     */
     static fromSavedMetadata(metadata) {
         var object = new Metadata();
         if (metadata) {
@@ -19,6 +25,9 @@ class Metadata {
         return object;
     }
 
+    /**
+     * Construct an empty Metadata object.
+     */
     constructor() {
         this.title = null;
         this.difficulty = null;

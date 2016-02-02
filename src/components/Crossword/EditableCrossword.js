@@ -13,6 +13,8 @@ import EditableCrosswordClues from './EditableCrosswordClues.js';
 import EditableCrosswordTitle from './EditableCrosswordTitle.js';
 import EditableCrosswordMetadata from './EditableCrosswordMetadata.js';
 import EditableCrosswordShareModal from './EditableCrosswordShareModal.js';
+import EditableCrosswordReloadModal from './EditableCrosswordReloadModal.js';
+
 
 class EditableCrossword extends Crossword {
 
@@ -51,19 +53,37 @@ class EditableCrossword extends Crossword {
     }
 
     getHeaderItems() {
-        let saveGroup = [{
+        let saveGroup = [];
+        if (this.props.editId && this.props.id) {
+            saveGroup.push({
+                name: "reload",
+                onClick: () => {
+                    this.setState({modal: "RELOAD"});
+                },
+                isClicked: false,
+                icon: "cached"
+            });
+        }
+        saveGroup.push({
             name: (this.state.saving ? "saving" : "save"),
             onClick: () => {
                 if (!this.state.saving) {
                     this.setState({saving: true});
                     console.log("save button clicked");
-                    this.props.onSave(() => {this.setState({saving: false}); console.log("done saving");});
+                    this.props.onSave(() => {
+                        this.setState({saving: false});
+                        console.log("done saving");
+                        if (this.props.onChange) {
+                            console.log('puzzle saved!!');
+                            this.props.onChange();
+                        }
+                    });
                 }
             },
             isClicked: false,
             icon: "save",
             color: (this.state.saving ? "BDBDBD" : null)
-        }];
+        });
         if (this.props.editId && this.props.id) {
             saveGroup.push({
                 name: "share",
@@ -113,6 +133,8 @@ class EditableCrossword extends Crossword {
     makeModal(modalType) {
         if (modalType === "SHARE") {
             return <EditableCrosswordShareModal editId={this.props.editId} id={this.props.id} dismissModal={() => {this.setState({modal: null})}}/>;
+        } else if (modalType === "RELOAD") {
+            return <EditableCrosswordReloadModal dismissModal={() => {this.setState({modal: null})}} accept={this.props.reload}/>;
         }
     }
 

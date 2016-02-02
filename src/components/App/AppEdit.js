@@ -21,7 +21,19 @@ class AppEdit extends React.Component {
     }
 
     initializeState(params) {
+        var state;
+        if (canUseLocalStorage()) {
+             state = getEditState();
+        }
         if (params != null && params.id != null) {
+            if (state.params && state.params.editId === params.id) {
+                return {
+                    isLoading: false,
+                    isCreating: false,
+                    game: state.game,
+                    params: state.params
+                };
+            }
             this.loadEditGame(params.id);
             return {
                 isLoading: true,
@@ -29,14 +41,14 @@ class AppEdit extends React.Component {
                 game: null,
                 params: null
             };
-        } else if (canUseLocalStorage()) {
-            let state = getEditState();
-            if (state) {
+        } else if (state) {
+            if (state.params && state.params.editId) {
                 return {
                     isLoading: false,
                     isCreating: false,
                     game: state.game,
-                    params: state.params
+                    params: state.params,
+                    replace: "/edit/" + state.params.editId
                 }
             }
         }
@@ -44,17 +56,6 @@ class AppEdit extends React.Component {
         return {
             redirect: "/create"
         };
-    }
-
-    startCreate(params) {
-        this.setState({
-            isLoading: false,
-            isCreating: false,
-            game: new Game(params.width, params.height),
-            params: {
-                metadata: new Metadata()
-            }
-        });
     }
 
     // todo: error handling
@@ -86,11 +87,17 @@ class AppEdit extends React.Component {
         if (this.state.redirect) {
             history.pushState(null, this.state.redirect);
         }
+        if (this.state.replace) {
+            history.replaceState(null, this.state.replace);
+            this.setState({replace: null});
+        }
     }
 
     render() {
-        if (this.state.redirect || this.state.isLoading){
+        if (this.state.redirect || this.state.isLoading || this.state.replace){
             return (<div><AppLoading /></div>);
+        } else if (this.state.isChoosing) {
+            return (<div><AppChoosing header="Use local version?" body=""/></div>)
         } else {
             return (
                 <div>
@@ -98,7 +105,12 @@ class AppEdit extends React.Component {
                     <div className="app-body"><EditableCrosswordController
                         game={this.state.game}
                         params={this.state.params}
-                        canUseLocalStorage={canUseLocalStorage()}/></div>
+                        canUseLocalStorage={canUseLocalStorage()}
+                        reload={() => {
+                                this.setState({isLoading: true});
+                                this.loadEditGame(this.state.params.editId);
+                        }}
+                    /></div>
                 </div>);
         }
     }

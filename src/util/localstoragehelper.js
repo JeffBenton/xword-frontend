@@ -1,11 +1,9 @@
-/**
- *
- * @author alex
- */
-
 import Game from './../objects/game.js';
 import Metadata from './../objects/metadata.js';
 
+/**
+ * Contains helpful functions for storing and retrieving data from LocalStorage.
+ */
 class LocalStorageHelper {
 
     /**
@@ -27,6 +25,11 @@ class LocalStorageHelper {
         }
     }
 
+    /**
+     * Set the last-edited puzzle in LocalStorage.
+     *
+     * @param state the save state of the edit puzzle
+     */
     static setEditState(state) {
         window.localStorage.setItem("edit", JSON.stringify({
             game: state.game.getSaveState(),
@@ -34,20 +37,38 @@ class LocalStorageHelper {
         }));
     }
 
+    /**
+     * Is there a last-edited puzzle currently saved in LocalStorage?
+     *
+     * @returns {boolean} true if there's a edit puzzle in LocalStorage, false otherwise
+     */
     static hasEditState() {
         return !!window.localStorage.getItem("edit");
     }
 
+    /**
+     * Get the last-edited puzzle from LocalStorage.
+     *
+     * @returns {{game: Game, params: *}} the saved puzzle state
+     */
     static getEditState() {
         let state = JSON.parse(window.localStorage.getItem("edit"));
-        let game = Game.fromSavedPuzzle(state.game.board, state.game.puzzle);
+
+        // recreate our game objects
+        let game = Game.fromSavedPuzzle(state.game.board, state.game.clues);
         let params = state.params;
         if (state.params.metadata) {
             params.metadata = Metadata.fromSavedMetadata(state.params.metadata);
         }
-        return (state ? {game: game, params: params} : null);
+
+        return {game: game, params: params}
     }
 
+    /**
+     * Set the last-solved puzzle in LocalStorage.
+     *
+     * @param state the save state of the solve puzzle
+     */
     static setSolveState(state) {
         window.localStorage.setItem("solve", JSON.stringify({
             game: state.game.getSaveState(),
@@ -55,18 +76,31 @@ class LocalStorageHelper {
         }));
     }
 
+    /**
+     * Is there a last-solved puzzle currently saved in LocalStorage?
+     *
+     * @returns {boolean} true if there's a solve puzzle in LocalStorage, false otherwise
+     */
     static hasSolveState() {
         return !!window.localStorage.getItem("solve");
     }
 
+    /**
+     * Get the last-solved puzzle from LocalStorage.
+     *
+     * @returns {{game: Game, params: *}} the saved puzzle state
+     */
     static getSolveState() {
         let state = JSON.parse(window.localStorage.getItem("solve"));
-        let game = Game.fromSavedPuzzle(state.game.board, state.game.puzzle);
+
+        // recreate our game objects
+        let game = Game.fromSavedPuzzle(state.game.board, state.game.clues);
         let params = state.params;
         if (state.params.metadata) {
             params.metadata = Metadata.fromSavedMetadata(state.params.metadata);
         }
-        return (state ? {game: game, params: params} : null);
+
+        return {game: game, params: params};
     }
 }
 

@@ -11,6 +11,7 @@ import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import {canUseLocalStorage, getSolveState} from './../../util/localstoragehelper.js';
 import {API_URL} from './../../util/constants.js';
+import history from './../../history.js';
 
 class AppSolve extends React.Component {
 
@@ -20,22 +21,36 @@ class AppSolve extends React.Component {
     }
 
     initializeState(params) {
+        var state;
+        if (canUseLocalStorage()) {
+            state = getSolveState();
+        }
         if (params != null && params.id != null) {
+            if (params.id === state.params.id) {
+                return {
+                    isLoading: false,
+                    game: state.game,
+                    params: state.params
+                };
+            }
             this.loadSolveGame(params.id);
             return {
                 isLoading: true,
                 game: null,
                 params: null
             };
-        } else if (canUseLocalStorage()) {
-            let state = getSolveState();
-            if (state) {
+        } else if (state) {
+            if (state.params && state.params.id) {
                 return {
                     isLoading: false,
                     game: state.game,
-                    params: state.params
-                }
+                    params: state.params,
+                    replace: "/solve/" + state.params.id
+                };
             }
+            return {
+
+            };
         } else {
             return {
                 isLoading: false,
@@ -44,6 +59,13 @@ class AppSolve extends React.Component {
                     metadata: new Metadata()
                 }
             };
+        }
+    }
+
+    componentDidMount() {
+        if (this.state.replace) {
+            history.replaceState(null, this.state.replace);
+            this.setState({replace: null});
         }
     }
 
@@ -71,7 +93,7 @@ class AppSolve extends React.Component {
     }
 
     render() {
-        if (this.state.isLoading){
+        if (this.state.isLoading || this.state.replace){
             return (<div><AppLoading /></div>);
         } else {
             return (<div><AppHeader />
