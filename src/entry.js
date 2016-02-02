@@ -10,10 +10,11 @@ import { Router, Route, Link } from 'react-router';
 import history from './history.js';
 
 const root = document.getElementById('root');
-const app = {};
 
 /**
+ * App entry point.
  *
+ * Define the routes here (there are only a few!)
  */
 function run() {
     // create the app

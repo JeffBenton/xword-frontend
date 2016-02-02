@@ -42,12 +42,14 @@ class AppEdit extends React.Component {
                 params: null
             };
         } else if (state) {
-            history.replaceState(null, "/edit/" + state.params.editId);
-            return {
-                isLoading: false,
-                isCreating: false,
-                game: state.game,
-                params: state.params
+            if (state.params && state.params.editId) {
+                return {
+                    isLoading: false,
+                    isCreating: false,
+                    game: state.game,
+                    params: state.params,
+                    replace: "/edit/" + state.params.editId
+                }
             }
         }
         console.error("invalid params passed to appedit");
@@ -80,14 +82,19 @@ class AppEdit extends React.Component {
             }
         });
     }
+
     componentDidMount() {
         if (this.state.redirect) {
             history.pushState(null, this.state.redirect);
         }
+        if (this.state.replace) {
+            history.replaceState(null, this.state.replace);
+            this.setState({replace: null});
+        }
     }
 
     render() {
-        if (this.state.redirect || this.state.isLoading){
+        if (this.state.redirect || this.state.isLoading || this.state.replace){
             return (<div><AppLoading /></div>);
         } else if (this.state.isChoosing) {
             return (<div><AppChoosing header="Use local version?" body=""/></div>)
