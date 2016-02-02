@@ -1,9 +1,8 @@
-/**
- * Created by alex on 11/28/15.
- */
-
 import Clue from './clue.js';
 
+/**
+ * Contains game logic around adding and deleting clues from a crossword board based on user input.
+ */
 class ClueHelper {
 
     static _makeClueResult(box, direction, board) {
@@ -242,44 +241,54 @@ class ClueHelper {
         }
     }
 
+    /**
+     * Validate the integrity of the clues.
+     *
+     * After operating on the oldclues and newclues lists, they should be exactly equals.
+     *
+     * Throws an error if the two lists do not contain exactly the same clue numbers.
+     *
+     * @param oldclues
+     * @param newclues
+     */
     static verifyClues(oldclues, newclues) {
-        for (let direction in oldclues) {
-            if (oldclues.hasOwnProperty(direction)) {
-                if (newclues[direction] == null) {
-                    console.error('ERROR!! invalid clue state!');
-                    console.info(oldclues);
-                    console.info(newclues);
-                    throw 'ERROR!! invalid clue state!';
-                }
-                for (let number in oldclues[direction]) {
-                    if (newclues[direction][number] == null) {
-                        console.error('ERROR!! invalid clue state!');
-                        console.info(oldclues);
-                        console.info(newclues);
-                        throw 'ERROR!! invalid clue state!';
-                    }
-                }
-            }
-        }
 
-        for (let direction in newclues) {
-            if (newclues.hasOwnProperty(direction)) {
-                if (oldclues[direction] == null) {
+        // make sure that each old clue corresponds to a new clue.
+        Object.keys(oldclues).forEach((direction) => {
+            if (newclues[direction] == null) {
+                console.error('ERROR!! invalid clue state!');
+                console.info(oldclues);
+                console.info(newclues);
+                throw 'ERROR!! invalid clue state!';
+            }
+
+            Object.keys(newclues[direction]).forEach((number) => {
+                if (newclues[direction][number] == null) {
                     console.error('ERROR!! invalid clue state!');
                     console.info(oldclues);
                     console.info(newclues);
                     throw 'ERROR!! invalid clue state!';
                 }
-                for (let number in newclues[direction]) {
-                    if (oldclues[direction][number] == null) {
-                        console.error('ERROR!! invalid clue state!');
-                        console.info(oldclues);
-                        console.info(newclues);
-                        throw 'ERROR!! invalid clue state!';
-                    }
-                }
+            });
+        });
+
+        // make sure that each new clue corresponds to an old clue.
+        Object.keys(newclues).forEach((direction) => {
+            if (oldclues[direction] == null) {
+                console.error('ERROR!! invalid clue state!');
+                console.info(oldclues);
+                console.info(newclues);
+                throw 'ERROR!! invalid clue state!';
             }
-        }
+            Object.keys(newclues[direction]).forEach((number) => {
+                if (oldclues[direction][number] == null) {
+                    console.error('ERROR!! invalid clue state!');
+                    console.info(oldclues);
+                    console.info(newclues);
+                    throw 'ERROR!! invalid clue state!';
+                }
+            });
+        });
     }
 
     static deleteClue(del, number, clues) {
@@ -311,38 +320,64 @@ class ClueHelper {
         return result;
     }
 
+    /**
+     * Add a new clue to the provided clues list. Adjust existing clue numbers based on the new addition.
+     *
+     * @param clue the clue to add
+     * @param clues the existing clues list
+     * @param flag boolean. if true, do not increment existing clue numbers based on this addition
+     *          (ex: if we're adding 1 across, but 1 down already existed, we don't need to adjust numbers)
+     * @returns {*} the new clues list, with the new clue added and clue numbers adjusted
+     */
     static createClue(clue, clues, flag) {
         if (clue == null) {
             return clues;
         }
 
         var result = {};
-        var created = !flag;
-        for (let direction in clues) {
-            if (clues.hasOwnProperty(direction)) {
-                result[direction] = {};
-                for (let num in clues[direction]) {
-                    if (clues[direction].hasOwnProperty(num)) {
-                        if (num >= clue.number && created) {
-                            clues[direction][num].number = parseInt(num) + 1;
-                            result[direction][parseInt(num) + 1] = clues[direction][num];
-                        } else {
-                            result[direction][num] = clues[direction][num];
-                        }
-                    }
-                }
-            }
-        }
 
+        // are we creating a brand new clue?
+        var created = !flag;
+
+        Object.keys(clues).forEach((direction) => {
+            result[direction] = {};
+
+            // for each clue, evaluate whether we need to adjust the number and add it to the result map
+            Object.keys(clues[direction]).forEach((num) => {
+
+                // we need to increment the number if the previous number is >= the clue we're adding.
+                // but we only increment the number if we're actually creating a new clue!
+                if (num >= clue.number && created) {
+                    clues[direction][num].number = parseInt(num) + 1;
+                    result[direction][parseInt(num) + 1] = clues[direction][num];
+                } else {
+                    result[direction][num] = clues[direction][num];
+                }
+            });
+        });
+
+        // add the new clue to the result map
         result[clue.direction][clue.number] = clue;
 
         return result;
     }
 
+    /**
+     * Is the provided box part of a down clue?
+     *
+     * @param box
+     * @returns {boolean|*}
+     */
     static isPartOfDownClue(box) {
         return box != null && box.isPartOfDownClue();
     }
 
+    /**
+     * Is the provided box part of an across clue?
+     *
+     * @param box
+     * @returns {boolean|*}
+     */
     static isPartOfAcrossClue(box) {
         return box != null && box.isPartOfAcrossClue();
     }

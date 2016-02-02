@@ -155,41 +155,37 @@ class Game {
     /**
      * Convert this game into a savable state, in order to save this into a database.
      *
-     * Response object format:
-     * {
-     *      board: 2d array of box values, as string. null for black box, space for empty box.
-     *      puzzle: object containing
-     * }
+     * @returns
+     *      {{
+     *          board: 2d array of box values, as string. null for black box, space for empty box.,
+     *          clues: list containing each clue in the puzzle
+     *      }}
      */
     getSaveState() {
         var response = {
             board: this.board.values(),
             clues: (function (clues, puzzle) {
+
+                // flatten the clues structure into a simple array of clues.
                 let result = [];
-                for (let dir in clues) {
-                    if (clues.hasOwnProperty(dir)) {
-                        for (let num in clues[dir]) {
-                            if (clues[dir].hasOwnProperty(num)) {
-                                let clue = {
-                                    number: clues[dir][num].number,
-                                    direction: clues[dir][num].direction.toLocaleUpperCase(),
-                                    text: clues[dir][num].text,
-                                    answer: (function (dir, num, puzzle) {
-                                        let result = [];
-                                        for (let index in puzzle[dir][num]) {
-                                            if (puzzle[dir][num].hasOwnProperty(index)){
-                                                let box = puzzle[dir][num][index];
-                                                result.push(box.value === null ? "" : box.value);
-                                            }
-                                        }
-                                        return result;
-                                    }(dir, num, puzzle))
-                                };
-                                result.push(clue);
-                            }
-                        }
-                    }
-                }
+                Object.keys(clues).forEach((dir) => {
+                    Object.keys(clues[dir]).forEach((num) => {
+                        let clue = {
+                            number: clues[dir][num].number,
+                            direction: clues[dir][num].direction.toLocaleUpperCase(),
+                            text: clues[dir][num].text,
+                            answer: (function (dir, num, puzzle) {
+                                let result = [];
+                                Object.keys(puzzle[dir][num]).forEach((index) => {
+                                    let box = puzzle[dir][num][index];
+                                    result.push(box.value === null ? "" : box.value);
+                                });
+                                return result;
+                            }(dir, num, puzzle))
+                        };
+                        result.push(clue);
+                    });
+                });
                 return result;
             }(this.clues, this.puzzle))
         };
