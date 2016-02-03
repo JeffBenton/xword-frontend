@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import Form from './Form.js';
+import FormHelper from './FormHelper.js';
 import DynamicFormElement from './DynamicFormElement.js';
 
 class DynamicFormText extends DynamicFormElement {
@@ -77,4 +77,4 @@ class DynamicFormText extends DynamicFormElement {
 }
 
 module.exports = DynamicFormText;
-Form.registerFormElement("text", DynamicFormText);
+FormHelper.registerFormElement("text", DynamicFormText);

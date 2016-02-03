@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import Form from './Form.js';
+import FormHelper from './FormHelper.js';
 import './DynamicFormText.js';
 import './DynamicFormRating.js';
 import './DynamicFormDate.js';
@@ -30,11 +30,11 @@ class DynamicForm extends React.Component {
                 key: i
             };
             if (typeof elementType === "string") {
-                elements.push(React.createElement(Form.elementForType(elementType), elementProps));
+                elements.push(React.createElement(FormHelper.elementForType(elementType), elementProps));
             } else if (typeof elementType === "object") {
                 elementType = elementSchema.type.element;
                 elementProps.attributes = elementSchema.type.attributes;
-                elements.push(React.createElement(Form.elementForType(elementType), elementProps));
+                elements.push(React.createElement(FormHelper.elementForType(elementType), elementProps));
             } else {
                 throw 'illegal schema passed to DynamicForm';
             }

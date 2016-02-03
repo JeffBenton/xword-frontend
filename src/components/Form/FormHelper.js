@@ -3,7 +3,7 @@
  * @author alex
  */
 
-class Form {
+class FormHelper {
 
     constructor() {
         this.elements = {};
@@ -30,4 +30,4 @@ class Form {
     }
 }
 
-module.exports = new Form();
+module.exports = new FormHelper();

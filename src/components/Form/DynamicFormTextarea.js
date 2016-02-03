@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import Form from './Form.js';
+import FormHelper from './FormHelper.js';
 import DynamicFormText from './DynamicFormText.js';
 
 class DynamicFormTextarea extends DynamicFormText {
@@ -41,4 +41,4 @@ class DynamicFormTextarea extends DynamicFormText {
 }
 
 module.exports = DynamicFormTextarea;
-Form.registerFormElement("textarea", DynamicFormTextarea);
+FormHelper.registerFormElement("textarea", DynamicFormTextarea);
