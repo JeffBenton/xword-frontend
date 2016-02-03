@@ -49,7 +49,14 @@ class AppEdit extends React.Component {
                     game: state.game,
                     params: state.params,
                     replace: "/edit/" + state.params.editId
-                }
+                };
+            } else {
+                return {
+                    isLoading: false,
+                    isCreating: false,
+                    game: state.game,
+                    params: state.params
+                };
             }
         }
         console.error("invalid params passed to appedit");
