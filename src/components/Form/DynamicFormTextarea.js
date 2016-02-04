@@ -1,12 +1,10 @@
-/**
- *
- * @author alex
- */
-
 import React from 'react';
 import FormHelper from './FormHelper.js';
 import DynamicFormText from './DynamicFormText.js';
 
+/**
+ * Extends DynamicFormText.
+ */
 class DynamicFormTextarea extends DynamicFormText {
 
     constructor(props) {
@@ -41,4 +39,6 @@ class DynamicFormTextarea extends DynamicFormText {
 }
 
 module.exports = DynamicFormTextarea;
+
+// register with the form lookup so we can create these
 FormHelper.registerFormElement("textarea", DynamicFormTextarea);

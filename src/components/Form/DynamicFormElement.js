@@ -17,19 +17,11 @@ class DynamicFormElement extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.onClick = this.onClick.bind(this);
 
-        if (this.props.onUpdate) {
-            this.state = {
-                value: this.props.value,
-                isEditable: true,
-                isEditing: false
-            }
-        } else {
-            this.state = {
-                value: this.props.value,
-                isEditable: false,
-                isEditing: false
-            }
-        }
+        this.state = {
+            value: this.props.value,
+            isEditable: !!this.props.onUpdate,
+            isEditing: false
+        };
     }
 
     componentWillReceiveProps(props) {
@@ -89,5 +81,12 @@ class DynamicFormElement extends React.Component {
         </div>);
     }
 }
+
+DynamicFormElement.propTypes({
+    title: React.propTypes.string,
+    name: React.propTypes.string,
+    value: React.propTypes.node,
+    onUpdate: React.propTypes.func
+});
 
 module.exports = DynamicFormElement;
