@@ -7,6 +7,7 @@ import React from 'react';
 import FormHelper from './FormHelper.js';
 import DynamicFormElement from './DynamicFormElement.js';
 
+
 class DynamicFormText extends DynamicFormElement {
 
     constructor(props) {
