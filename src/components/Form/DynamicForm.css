@@ -1,3 +1,6 @@
+/*
+ * Generic styles for all dynamic form elements.
+ */
 .dynamic-form-container {
 
 }
@@ -33,6 +36,9 @@
     white-space: pre-wrap;
 }
 
+/*
+ * DynamicFormText-specific input style.
+ */
 .dynamic-form-container .dynamic-form-element .value input {
     border: 0;
     font-size: 14px;
@@ -43,6 +49,9 @@
     width: 100%;
 }
 
+/*
+ * DynamicFormTextarea-specific input style.
+ */
 .dynamic-form-container .dynamic-form-element .value textarea {
     border: 0;
     font-size: 14px;
@@ -54,11 +63,17 @@
     resize: none;
 }
 
+/*
+ * DynamicFormDate-specific input style.
+ */
 .dynamic-form-container .dynamic-form-element .date .value input {
     width: initial;
     text-align: center;
 }
 
+/*
+ * DynamicFormRating-specific styles.
+ */
 .dynamic-form-container .dynamic-form-element .value.editing i {
     color: #2280B7;
 }

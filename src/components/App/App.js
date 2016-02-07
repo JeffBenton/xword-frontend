@@ -59,9 +59,13 @@ class App extends React.Component {
     }
 
     render() {
-        return (<div><AppLanding>{this.getAppOptions().map(function (option, i) {
-            return (<AppOption key={i} {...option}/>);
-        })}</AppLanding></div>);
+        return  <div>
+                    <AppLanding>
+                        {this.getAppOptions().map(function (option, i) {
+                            return (<AppOption key={i} {...option}/>);
+                        })}
+                    </AppLanding>
+                </div>;
     }
 
 }
