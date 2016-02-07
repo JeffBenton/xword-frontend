@@ -147,11 +147,11 @@ class DynamicFormElement extends React.Component {
     }
 }
 
-DynamicFormElement.propTypes({
-    title: React.propTypes.string,
-    name: React.propTypes.string,
-    value: React.propTypes.node,
-    onUpdate: React.propTypes.func
-});
+DynamicFormElement.propTypes = {
+    title: React.PropTypes.string,
+    name: React.PropTypes.string,
+    value: React.PropTypes.node,
+    onUpdate: React.PropTypes.func
+};
 
 module.exports = DynamicFormElement;
