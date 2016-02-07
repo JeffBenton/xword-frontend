@@ -6,7 +6,7 @@
 import DynamicFormElement from './DynamicFormElement.js';
 import classNames from 'classnames';
 import React from 'react';
-import Form from './Form.js';
+import FormHelper from './FormHelper.js';
 
 class DynamicFormRating extends DynamicFormElement {
 
@@ -143,4 +143,4 @@ class DynamicFormRating extends DynamicFormElement {
 }
 
 module.exports = DynamicFormRating;
-Form.registerFormElement("rating", DynamicFormRating);
+FormHelper.registerFormElement("rating", DynamicFormRating);

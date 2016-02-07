@@ -5,7 +5,7 @@
 
 import DynamicFormText from './DynamicFormText.js';
 import React from 'react';
-import Form from './Form.js';
+import FormHelper from './FormHelper.js';
 import {sleep} from './../../util/util.js';
 
 class DynamicFormDate extends DynamicFormText {
@@ -170,4 +170,4 @@ class DynamicFormDate extends DynamicFormText {
 }
 
 module.exports = DynamicFormDate;
-Form.registerFormElement("date", DynamicFormDate);
+FormHelper.registerFormElement("date", DynamicFormDate);

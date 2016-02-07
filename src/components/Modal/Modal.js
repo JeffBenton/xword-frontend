@@ -2,11 +2,25 @@ import React from 'react';
 import './Modal.css';
 
 /**
+ * An extensible Modal component.
  *
- * @author alex
+ * Provides basic functionality (puts a box in the center of your screen,
+ * and can optionally dismiss the modal by clicking outside of it).
+ *
+ * Extend this component and override getHeaderContent, getBodyContent, getFooterContent.
+ *
+ * props:
+ *      shouldDismissOnClick - boolean - should this Modal be dismissed (dismissModal will be called)
+ *                                       if the user clicks outside of the Modal?
+ *      dismissModal - function - callback function that will be called when the Modal should be dismissed.
  */
 class Modal extends React.Component {
 
+    /**
+     * Construct a Modal.
+     *
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.onBackgroundClick = this.onBackgroundClick.bind(this);
@@ -15,6 +29,15 @@ class Modal extends React.Component {
         };
     }
 
+    /**
+     * Click handler for this Modal.
+     *
+     * Determines if we clicked outside of the Modal. If we did, and
+     * shouldDismissOnClick is true, dismiss the Modal.
+     *
+     * @param event
+     *      the onclick event
+     */
     onBackgroundClick(event) {
         if (this.props.shouldDismissOnClick) {
             let children = [];
@@ -38,18 +61,38 @@ class Modal extends React.Component {
         }
     }
 
+    /**
+     * Extend this to add content to the Modal.
+     *
+     * @returns JSX/HTML content for the header of the Modal.
+     */
     getHeaderContent() {
         // should be extended
     }
 
+    /**
+     * Extend this to add content to the Modal.
+     *
+     * @returns JSX/HTML content for the body of the Modal.
+     */
     getBodyContent() {
         // should be extended
     }
 
+    /**
+     * Extend this to add content to the Modal.
+     *
+     * @returns JSX/HTML content for the footer of the Modal.
+     */
     getFooterContent() {
         // should be extended
     }
 
+    /**
+     * Render the modal.
+     *
+     * @returns {XML}
+     */
     render() {
         return <div className="modal-background" onClick={this.onBackgroundClick}>
             <div className="modal" ref="modal">
@@ -65,6 +108,11 @@ class Modal extends React.Component {
             </div>
         </div>;
     }
+}
+
+Modal.propTypes = {
+    shouldDismissOnClick: React.PropTypes.bool,
+    dismissModal: React.PropTypes.func
 }
 
 Modal.defaultProps = {
