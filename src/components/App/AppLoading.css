@@ -252,14 +252,21 @@
     -o-animation-delay: 1.5s;
     animation-delay: 1.5s;
 }
+
 .app-loading-animation-class > div:nth-of-type(8) {
     top: 80px;
     left: 30px;
 }
+
 .app-loading-animation-class > div:nth-of-type(8) > div {
     -ms-animation-delay: 1.75s;
     -moz-animation-delay: 1.75s;
     -webkit-animation-delay: 1.75s;
     -o-animation-delay: 1.75s;
     animation-delay: 1.75s;
+}
+
+.app-loading-animation-class > div:nth-of-type(9) {
+    top: 80px;
+    left: 80px;
 }

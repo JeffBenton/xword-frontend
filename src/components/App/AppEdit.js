@@ -110,9 +110,10 @@ class AppEdit extends React.Component {
         if (this.state.error) {
             return (<div><AppError error={this.state.error}/></div>)
         } else if (this.state.redirect || this.state.isLoading || this.state.replace){
-            return (<div><AppLoading /></div>);
-        } else if (this.state.isChoosing) {
-            return (<div><AppChoosing header="Use local version?" body=""/></div>)
+            return (<div>
+                <AppHeader />
+                    <div className="app-body"><AppLoading /></div>
+                </div>);
         } else {
             return (
                 <div>
