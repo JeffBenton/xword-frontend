@@ -5,6 +5,7 @@
 import React from 'react';
 import CrosswordClues from './CrosswordClues.js';
 import EditableCrosswordClue from './EditableCrosswordClue.js';
+import EditableCrosswordCluesModal from './EditableCrosswordCluesModal.js';
 
 class EditableCrosswordClues extends CrosswordClues {
 
@@ -13,7 +14,8 @@ class EditableCrosswordClues extends CrosswordClues {
         this.onClick = this.onClick.bind(this);
         this.onFinishEditing = this.onFinishEditing.bind(this);
         this.onNavigateClue = this.onNavigateClue.bind(this);
-
+        this.onHeaderClick = this.onHeaderClick.bind(this);
+        this.onBulkClueUpdate = this.onBulkClueUpdate.bind(this);
         this.state = {
             editing: null
         };
@@ -74,6 +76,29 @@ class EditableCrosswordClues extends CrosswordClues {
         }
     }
 
+    onHeaderClick(event) {
+        if (this.state.editing) {
+            this.onFinishEditing(this.state.editing);
+            this.props.onClick(this.state.editing);
+        }
+        this.setState({
+            modal: true
+        });
+
+    }
+
+    onBulkClueUpdate(clues) {
+        if (clues) {
+            Object.keys(clues).forEach((key) => {
+                this.props.clues[key].text = clues[key];
+                this.props.onUpdate(this.props.clues[key]);
+            });
+        }
+        this.setState({
+            modal: false
+        });
+    }
+
     render() {
         var clues = [];
         for (var number in this.props.clues) {
@@ -84,7 +109,8 @@ class EditableCrosswordClues extends CrosswordClues {
 
         return (
             <div className="crossword-clues-container" style={this.props.style}>
-                <h4>{this.props.type.toUpperCase()}</h4>
+                {this.state.modal ? <EditableCrosswordCluesModal submit={this.onBulkClueUpdate} direction={this.props.type} clues={this.props.clues} dismissModal={() => {this.setState({modal: false});}} /> : ""}
+                <h4 onClick={this.onHeaderClick}>{this.props.type.toUpperCase()}</h4>
                 {clues}
             </div>);
     }
