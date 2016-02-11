@@ -6,7 +6,6 @@ class EditableCrosswordCluesModal extends Modal {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.submitClues = this.submitClues.bind(this);
         this.state.value = this.cluesToValue(props.clues);
     }
@@ -18,6 +17,7 @@ class EditableCrosswordCluesModal extends Modal {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this.refs.textarea.focus();
         let val = this.refs.textarea.value;
         this.refs.textarea.value = "";
@@ -80,7 +80,7 @@ class EditableCrosswordCluesModal extends Modal {
     }
 
     getHeaderContent() {
-        return <span>{this.props.direction}</span>
+        return <span>Edit {this.props.direction} clues</span>
     }
 
     getBodyContent() {
@@ -88,7 +88,7 @@ class EditableCrosswordCluesModal extends Modal {
     }
 
     getFooterContent() {
-        return <button onClick={this.submitClues}/>;
+        return <div><button onClick={this.props.dismissModal}>Cancel</button><button onClick={this.submitClues}>Update</button></div>;
     }
 
     render() {
