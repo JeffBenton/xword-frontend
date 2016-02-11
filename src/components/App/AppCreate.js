@@ -50,6 +50,7 @@ class AppCreate extends React.Component {
                     <div className="app-body">
                         <EditableCrosswordController
                             game={this.state.game}
+                            type="create"
                             params={this.state.params}
                             canUseLocalStorage={canUseLocalStorage()}
                         /></div>

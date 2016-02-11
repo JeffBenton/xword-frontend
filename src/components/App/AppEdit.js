@@ -121,6 +121,7 @@ class AppEdit extends React.Component {
                     <div className="app-body"><EditableCrosswordController
                         game={this.state.game}
                         params={this.state.params}
+                        type="edit"
                         canUseLocalStorage={canUseLocalStorage()}
                         reload={() => {
                                 this.setState({isLoading: true});
