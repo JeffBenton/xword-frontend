@@ -1,8 +1,3 @@
-/**
- *
- * @author alex
- */
-
 import React from 'react';
 import FormHelper from './FormHelper.js';
 import './DynamicFormText.js';
