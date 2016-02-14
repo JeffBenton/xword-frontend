@@ -108,7 +108,7 @@ class AppEdit extends React.Component {
 
     render() {
         if (this.state.error) {
-            return (<div><AppError error={this.state.error}/></div>)
+            return (<div><AppHeader /><AppError error={this.state.error}/></div>)
         } else if (this.state.redirect || this.state.isLoading || this.state.replace){
             return (<div>
                 <AppHeader />

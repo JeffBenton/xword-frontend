@@ -1,5 +1,4 @@
 import React from 'react';
-import AppHeader from './AppHeader.js';
 import './AppError.css';
 
 /**
@@ -13,7 +12,6 @@ class AppError extends React.Component {
 
     render() {
         return  <div>
-                    <AppHeader />
                     <div className="app-body">
                         <div className="app-error">{this.props.error}</div>
                     </div>
