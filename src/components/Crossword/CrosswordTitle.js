@@ -1,22 +1,30 @@
-/**
- *
- * @author alex
- */
-
 import React from 'react';
+import Metadata from './../../objects/metadata.js';
 import './CrosswordTitle.css';
 
+/**
+ * The CrosswordTitle component. Displays the title of this crossword puzzle, with 'created by' and 'edited by'
+ * subtitles.
+ *
+ * props:
+ *      data - Metadata - the metadata object for this Crossword. used to show the title/author/editor.
+ *      defaultTitle - string - the placeholder string to display if there's no title. default: 'Untitled Crossword'
+ */
 class CrosswordTitle extends React.Component {
 
     constructor(props) {
         super(props);
-        this.DEFAULT_TITLE = "Untitled Crossword";
     }
 
+    /**
+     * Render the CrosswordTitle element.
+     *
+     * @returns {XML}
+     */
     render() {
         return (<div className="crossword-title-container">
             <div className="title">
-                <span>{this.props.data.title || this.DEFAULT_TITLE}</span>
+                <span>{this.props.data.title || this.props.defaultTitle}</span>
             </div>
             {this.props.data ? (<div className="metadata">
                 {(this.props.data.author) ?
@@ -28,5 +36,14 @@ class CrosswordTitle extends React.Component {
     }
 
 }
+
+CrosswordTitle.propTypes = {
+    defaultTitle: React.PropTypes.string,
+    data: React.PropTypes.instanceOf(Metadata).isRequired
+};
+
+CrosswordTitle.defaultProps = {
+    defaultTitle: "Untitled Crossword"
+};
 
 module.exports = CrosswordTitle;

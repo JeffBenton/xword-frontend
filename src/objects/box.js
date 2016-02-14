@@ -86,6 +86,11 @@ class Box {
         this.color = "000000";
     }
 
+    /**
+     * Get the value of this box. Returns an empty string if the box is empty.
+     *
+     * @returns {*}
+     */
     get() {
         if (this.value) {
             return this.value;
