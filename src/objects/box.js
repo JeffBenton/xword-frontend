@@ -86,6 +86,13 @@ class Box {
         this.color = "000000";
     }
 
+    get() {
+        if (this.value) {
+            return this.value;
+        }
+        return '';
+    }
+
     /**
      * Is this box selected?
      *
