@@ -38,6 +38,7 @@ class AppLoading extends React.Component {
                         <div><div></div></div>
                         <div><div></div></div>
                         <div><div></div></div>
+                        <div id='center'></div>
                     </div>
                 {this.state.message}
             </div>

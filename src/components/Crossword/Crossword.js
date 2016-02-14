@@ -63,27 +63,34 @@ class Crossword extends React.Component {
                 return;
             }
 
-            selectedBox.set(char);
-
-            if (selectedClue.focused === 'across') {
-                let next = this.props.game.board.right(selectedBox);
-                if (next && !next.isBlackBox()) {
-                    this.selectBox(next);
-                } else {
-                    this.selectBox(this.props.game.nextClue(selectedClue[selectedClue.focused], selectedClue.focused));
-                }
-            } else if (selectedClue.focused === 'down') {
-                let next = this.props.game.board.below(selectedBox);
-                if (next && !next.isBlackBox()) {
-                    this.selectBox(next);
-                } else {
-                    this.selectBox(this.props.game.nextClue(selectedClue[selectedClue.focused], selectedClue.focused));
-                }
-            } else {
+            if (event.shiftKey) {
+                selectedBox.set(selectedBox.get() + char);
                 this.setState({
                     selectedBox: selectedBox
                 });
+            } else {
+                selectedBox.set(char);
+                if (selectedClue.focused === 'across') {
+                    let next = this.props.game.board.right(selectedBox);
+                    if (next && !next.isBlackBox()) {
+                        this.selectBox(next);
+                    } else {
+                        this.selectBox(this.props.game.nextClue(selectedClue[selectedClue.focused], selectedClue.focused));
+                    }
+                } else if (selectedClue.focused === 'down') {
+                    let next = this.props.game.board.below(selectedBox);
+                    if (next && !next.isBlackBox()) {
+                        this.selectBox(next);
+                    } else {
+                        this.selectBox(this.props.game.nextClue(selectedClue[selectedClue.focused], selectedClue.focused));
+                    }
+                } else {
+                    this.setState({
+                        selectedBox: selectedBox
+                    });
+                }
             }
+
             if (this.props.onChange) {
                 console.log('box value changed!!');
                 this.props.onChange();

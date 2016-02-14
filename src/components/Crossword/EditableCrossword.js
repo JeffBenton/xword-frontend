@@ -20,7 +20,7 @@ class EditableCrossword extends Crossword {
 
     constructor(props) {
         super(props);
-        this.state.clickAction = "CREATEBOX";
+        this.state.clickAction = this.props.type === 'create' ? "CREATEBOX" : "SELECT";
         this.state.modal = null;
         this.handleClueUpdate = this.handleClueUpdate.bind(this);
         this.handleMetadataUpdate = this.handleMetadataUpdate.bind(this);

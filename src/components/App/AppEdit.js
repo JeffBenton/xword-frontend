@@ -9,6 +9,7 @@ import Game from './../../objects/game.js';
 import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
+import AppError from './AppError.js';
 import {API_URL} from './../../util/constants.js';
 import {canUseLocalStorage, getEditState} from './../../util/localstoragehelper.js';
 import history from './../../history.js';
@@ -29,7 +30,6 @@ class AppEdit extends React.Component {
             if (state.params && state.params.editId === params.id) {
                 return {
                     isLoading: false,
-                    isCreating: false,
                     game: state.game,
                     params: state.params
                 };
@@ -37,7 +37,6 @@ class AppEdit extends React.Component {
             this.loadEditGame(params.id);
             return {
                 isLoading: true,
-                isCreating: false,
                 game: null,
                 params: null
             };
@@ -45,7 +44,6 @@ class AppEdit extends React.Component {
             if (state.params && state.params.editId) {
                 return {
                     isLoading: false,
-                    isCreating: false,
                     game: state.game,
                     params: state.params,
                     replace: "/edit/" + state.params.editId
@@ -53,7 +51,6 @@ class AppEdit extends React.Component {
             } else {
                 return {
                     isLoading: false,
-                    isCreating: false,
                     game: state.game,
                     params: state.params
                 };
@@ -76,18 +73,27 @@ class AppEdit extends React.Component {
             headers: headers
         };
 
-        let response = await fetch(url, ajax);
-        let data = await response.json();
+        try {
 
-        this.setState({
-            game: Game.fromSavedPuzzle(data.board, data.clues),
-            isLoading: false,
-            params: {
-                id: data.id,
-                editId: data.editId,
-                metadata: Metadata.fromSavedMetadata(data.metadata)
-            }
-        });
+            let response = await fetch(url, ajax);
+            let data = await response.json();
+
+            this.setState({
+                game: Game.fromSavedPuzzle(data.board, data.clues),
+                isLoading: false,
+                params: {
+                    id: data.id,
+                    editId: data.editId,
+                    metadata: Metadata.fromSavedMetadata(data.metadata)
+                }
+            });
+
+        } catch (e) {
+            console.error('error when loading game.');
+            this.setState({
+                error: "Couldn't find the specified puzzle to edit."
+            });
+        }
     }
 
     componentDidMount() {
@@ -101,10 +107,13 @@ class AppEdit extends React.Component {
     }
 
     render() {
-        if (this.state.redirect || this.state.isLoading || this.state.replace){
-            return (<div><AppLoading /></div>);
-        } else if (this.state.isChoosing) {
-            return (<div><AppChoosing header="Use local version?" body=""/></div>)
+        if (this.state.error) {
+            return (<div><AppError error={this.state.error}/></div>)
+        } else if (this.state.redirect || this.state.isLoading || this.state.replace){
+            return (<div>
+                <AppHeader />
+                    <div className="app-body"><AppLoading /></div>
+                </div>);
         } else {
             return (
                 <div>
@@ -112,6 +121,7 @@ class AppEdit extends React.Component {
                     <div className="app-body"><EditableCrosswordController
                         game={this.state.game}
                         params={this.state.params}
+                        type="edit"
                         canUseLocalStorage={canUseLocalStorage()}
                         reload={() => {
                                 this.setState({isLoading: true});

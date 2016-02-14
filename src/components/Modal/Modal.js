@@ -89,6 +89,20 @@ class Modal extends React.Component {
     }
 
     /**
+     * When the modal mounts, prevent the body from scrolling (by adding a css class).
+     */
+    componentDidMount() {
+        document.body.classList.add("modal-open");
+    }
+
+    /**
+     * When the modal unmounts, re-enable scrolling (by removing a css class).
+     */
+    componentWillUnmount() {
+        document.body.classList.remove("modal-open");
+    }
+
+    /**
      * Render the modal.
      *
      * @returns {XML}

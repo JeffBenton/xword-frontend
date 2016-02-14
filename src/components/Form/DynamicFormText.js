@@ -6,9 +6,9 @@ import DynamicFormElement from './DynamicFormElement.js';
  * A basic text form element.
  *
  * props:
- *      defaultValue - string - the placeholder value for this text input (default: "none")
- *      title - string - the title that is rendered to the user for this form element (ex: First Name)
- *      name - string - a programmer-friendly name for this value (ex: firstName)
+ *      defaultValue - string - the placeholder value for this date input (default: "none")
+ *      title - string - the title that is rendered to the user for this form element (ex: Date)
+ *      name - string - a programmer-friendly name for this value (ex: date)
  *      value - node - the value for this element
  *      onUpdate - function - if the value changes due to user input, this function is called with the new
  *                            key-value pair

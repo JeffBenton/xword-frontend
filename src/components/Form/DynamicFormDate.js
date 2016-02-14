@@ -1,18 +1,29 @@
-/**
- *
- * @author alex
- */
-
 import DynamicFormText from './DynamicFormText.js';
 import React from 'react';
 import FormHelper from './FormHelper.js';
 import {sleep} from './../../util/util.js';
 
+
+/**
+ * Extends DynamicFormText. A Date input.
+ *
+ * props:
+ *      defaultHeight - number - the initial height for the textarea element (default: 50). note that the height
+ *                               of this element adjusts with the number of lines in the textarea.
+ *      defaultValue - string - the placeholder value for this text input (default: "none")
+ *      title - string - the title that is rendered to the user for this form element (ex: First Name)
+ *      name - string - a programmer-friendly name for this value (ex: firstName)
+ *      value - number - a date in number (ms since epoch) form
+ *      onUpdate - function - if the value changes due to user input, this function is called with the new
+ *                            key-value pair
+ */
 class DynamicFormDate extends DynamicFormText {
 
     constructor(props) {
         super(props);
         this.state['startEditing'] = false;
+
+        // convert the value into day/month/year
         if (props.value) {
             var value = new Date(props.value);
             this.state['day'] = value.getUTCDate();
@@ -21,6 +32,11 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
+    /**
+     * When we click on this element, start editing.
+     *
+     * @param event
+     */
     handleClick(event) {
         if (!this.state.isEditing) {
             this.setState({
@@ -30,12 +46,22 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
+    /**
+     * When we finish updating, stop editing.
+     */
     finishUpdate() {
         this.setState({
             isEditing: false
         });
     }
 
+    /**
+     * Handle a blur event.
+     *
+     * If we're moving between the different inputs within this element, do nothing. Otherwise, stop editing.
+     *
+     * @param event
+     */
     async handleBlur(event) {
         await sleep(10);
         if (document.activeElement != this.refs.editmonth && document.activeElement != this.refs.editday && document.activeElement != this.refs.edityear) {
@@ -43,6 +69,13 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
+    /**
+     * Validate the day/month/year values to ensure we have a valid date.
+     *
+     * @param value
+     * @param field 'day'/'month'/'year'
+     * @returns {boolean} true if the value is invalid, false otherwise
+     */
     isInvalidFieldValue(value, field) {
         switch (field) {
             case 'month':
@@ -57,7 +90,22 @@ class DynamicFormDate extends DynamicFormText {
 
     }
 
+    /**
+     * Called when a value changes.
+     *
+     * Validate the changed value and update the element.
+     *
+     * @param event
+     */
     handleChange(event) {
+
+        /**
+         * Helper function to determine which field changed.
+         *
+         * @param element the activeElement
+         * @param refs the refs for this DynamicFormDate
+         * @returns {*} 'month'/'day'/'year', depending on which field changed
+         */
         let determineChangedField = function(element, refs) {
             switch (element) {
                 case refs.editmonth:
@@ -76,6 +124,7 @@ class DynamicFormDate extends DynamicFormText {
             return;
         }
 
+        // update whichever value changed
         let stateChange = {};
         if (!value.trim()) {
             value = null;
@@ -89,6 +138,7 @@ class DynamicFormDate extends DynamicFormText {
             this.setState(stateChange);
         }
 
+        // propagate the changed value. convert the day/month/year back to ms before updating.
         if (this.props.onUpdate && value != null) {
             let update = {};
             let date = {year: this.state.year, month: this.state.month, day: this.state.day};
@@ -98,6 +148,9 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
+    /**
+     * QOL improvement to ensure that when we start editing, the cursor is in the correct location.
+     */
     componentDidUpdate() {
         if (this.state.isEditing) {
 
@@ -112,24 +165,48 @@ class DynamicFormDate extends DynamicFormText {
         }
     }
 
+    /**
+     * Get the largest possible day value for a given month.
+     *
+     * @param month
+     * @param year
+     * @returns {number}
+     */
     getMaxDayByMonth(month, year) {
         return new Date(year || this.getCurrentYear(), month || 1, 0).getUTCDate();
     }
 
+    /**
+     * Get the current year.
+     *
+     * @returns {number}
+     */
     getCurrentYear() {
         return new Date().getUTCFullYear();
     }
 
 
+    /**
+     * Render the date input element.
+     *
+     * @returns {XML}
+     */
     renderDynamicElement() {
-        var getDisplayValue = function(state) {
-            if (!state.month || !state.day || !state.year) {
+
+        /**
+         * Get the value to display for the element based on the current state.
+         *
+         * @returns {*} a string representing the value of this element
+         */
+        var getDisplayValue = () => {
+            if (!this.state.month || !this.state.day || !this.state.year) {
                 return null;
             }
-            return state.month + " / " + state.day + " / " + state.year;
+            return this.state.month + " / " + this.state.day + " / " + this.state.year;
         };
+
         if (!this.state.isEditing) {
-            return <div className="value">{getDisplayValue(this.state) || this.DEFAULT_VALUE}</div>;
+            return <div className="value">{getDisplayValue() || this.props.defaultValue}</div>;
         } else {
             return <div className="date">
                 <div className="value">
