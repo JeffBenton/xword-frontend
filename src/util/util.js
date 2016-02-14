@@ -102,6 +102,22 @@ module.exports = {
      */
     sleep(ms = 0) {
         return new Promise(r => setTimeout(r, ms));
+    },
+
+    /**
+     * Schedule an event to trigger once.
+     *
+     * @param element - the element that should listen to the event
+     * @param eventType - the event (ex: onclick)
+     * @param cb - the callback function that should handle the event
+     */
+    once(element, eventType, cb) {
+        element.addEventListener(eventType, (e) => {
+            //
+            e.target.removeEventListener(e.type, arguments.callee);
+
+            return cb(e);
+        });
     }
 
 };

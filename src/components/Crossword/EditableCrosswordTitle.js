@@ -133,9 +133,9 @@ class EditableCrosswordTitle extends CrosswordTitle {
                                onChange={this.handleChange}
                                onKeyDown={this.handleKeydown}
                                onBlur={this.handleBlur}
-                               placeholder={this.DEFAULT_TITLE}/> :
+                               placeholder={this.props.defaultTitle}/> :
                             // else, render a 'span' element
-                            <span onClick={this.onClick}>{this.state.title || this.DEFAULT_TITLE}</span>
+                            <span onClick={this.onClick}>{this.state.title || this.props.defaultTitle}</span>
                         }
                     </div>
                     {

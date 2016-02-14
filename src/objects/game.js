@@ -93,18 +93,118 @@ class Game {
      * Deselect all selected clues.
      */
     clearSelectedClues() {
-        for (let dir in directions) {
-            if (directions.hasOwnProperty(dir)) {
-                let direction = directions[dir];
-                for (let number in this.puzzle[direction]) {
-                    if (this.puzzle[direction].hasOwnProperty(number)) {
-                        for (let i = 0; i < this.puzzle[direction][number].length; i++) {
-                            this.puzzle[direction][number][i].state = boxState.NORMAL;
-                        }
-                        this.clues[direction][number].isSelected = false;
-                    }
+        Object.keys(directions).forEach((dir) => {
+            let direction = directions[dir];
+            Object.keys(this.puzzle[direction]).forEach((number) => {
+                for (let i = 0; i < this.puzzle[direction][number].length; i++) {
+                    this.puzzle[direction][number][i].state = boxState.NORMAL;
                 }
-            }
+                this.clues[direction][number].isSelected = false;
+            });
+        });
+    }
+
+    /**
+     * Get the next box after the provided box in the specified direction.
+     *
+     * This should be called to determine the next box to select after receiving input. Note that the strategy
+     * to determine the 'next' box is different depending on whether we're navigating around (ex: using the arrow keys)
+     * vs altering the puzzle (ex: using 'backspace' or entering characters). This method handles the latter case. Use
+     * 'nextNavigateBox' for the former.
+     *
+     * @param box
+     *          the current box
+     * @param direction
+     *          the direction to move in
+     * @returns {*}
+     *          the next box
+     */
+    nextInputBox(box, direction) {
+        let func = {
+            across: 'right',
+            down: 'below'
+        };
+
+        if (!func[direction]) {
+            return box;
+        }
+
+        let result = this.board[func[direction]](box);
+        if (result && !result.isBlackBox()) {
+            return result;
+        } else {
+            return this.nextClue(box[direction].clue, direction);
+        }
+    }
+
+    /**
+     * Get the next box after the provided box in the specified direction.
+     *
+     * This should be called to determine the next box to select when navigating. Note that the strategy to
+     * determine the 'next' box is different depending on whether we're navigating around (ex: using the arrow
+     * keys) vs altering the puzzle (ex: using 'backspace' or entering characters). This method handles the former
+     * case. Use 'nextInputBox' for the latter.
+     *
+     * @param box
+     *          the current box
+     * @param direction
+     *          the direction to move in
+     * @returns {*}
+     *          the previous box
+     */
+    nextNavigateBox(box, direction) {
+        return this.board.next(box, direction);
+    }
+
+    /**
+     * Get the box before the provided box in the specified direction.
+     *
+     * This should be called to determine the previous box to select when navigating. Note that the strategy to
+     * determine the 'previous' box is different depending on whether we're navigating around (ex: using the arrow
+     * keys) vs altering the puzzle (ex: using 'backspace' or entering characters). This method handles the former
+     * case. Use 'previousInputBox' for the latter.
+     *
+     * @param box
+     *          the current box
+     * @param direction
+     *          the direction to move in
+     * @returns {*}
+     *          the previous box
+     */
+    previousNavigateBox(box, direction) {
+        return this.board.previous(box, direction);
+    }
+
+    /**
+     * Get the box before the provided box in the specified direction.
+     *
+     * This should be called to determine the previous box to select after receiving input. Note that the strategy
+     * to determine the 'previous' box is different depending on whether we're navigating around (ex: using the arrow
+     * keys) vs altering the puzzle (ex: using 'backspace' or entering characters). This method handles the latter
+     * case. Use 'previousNavigateBox' for the former.
+     *
+     * @param box
+     *          the current box
+     * @param direction
+     *          the direction to move in
+     * @returns {*}
+     *          the previous box
+     */
+    previousInputBox(box, direction) {
+        let func = {
+            across: 'left',
+            down: 'above'
+        };
+
+        if (!func[direction]) {
+            return box;
+        }
+
+        let result = this.board[func[direction]](box);
+        if (result && !result.isBlackBox()) {
+            return result;
+        } else {
+            return this.previousClue(box[direction].clue, direction);
         }
     }
 
