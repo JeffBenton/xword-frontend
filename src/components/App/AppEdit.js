@@ -11,7 +11,7 @@ import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import AppError from './AppError.js';
 import {API_URL} from './../../util/constants.js';
-import {canUseLocalStorage, getEditState} from './../../util/localstoragehelper.js';
+import {canUseLocalStorage, hasEditState, getEditState} from './../../util/localstoragehelper.js';
 import history from './../../history.js';
 
 class AppEdit extends React.Component {
@@ -23,11 +23,11 @@ class AppEdit extends React.Component {
 
     initializeState(params) {
         var state;
-        if (canUseLocalStorage()) {
-             state = getEditState();
+        if (canUseLocalStorage() && hasEditState()) {
+            state = getEditState();
         }
         if (params != null && params.id != null) {
-            if (state.params && state.params.editId === params.id) {
+            if (state && state.params && state.params.editId === params.id) {
                 return {
                     isLoading: false,
                     game: state.game,
@@ -66,7 +66,7 @@ class AppEdit extends React.Component {
     async loadEditGame(id) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        var url = API_URL + 'puzzle/edit/' + id;
+        var url = API_URL + 'puzzle/v2/edit/' + id;
 
         let ajax = {
             method: 'GET',
@@ -108,7 +108,7 @@ class AppEdit extends React.Component {
 
     render() {
         if (this.state.error) {
-            return (<div><AppError error={this.state.error}/></div>)
+            return (<div><AppHeader /><AppError error={this.state.error}/></div>)
         } else if (this.state.redirect || this.state.isLoading || this.state.replace){
             return (<div>
                 <AppHeader />

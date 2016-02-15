@@ -49,6 +49,48 @@ class EditableCrossword extends Crossword {
                 // should select the clue we clicked on
                 this.selectBox(box);
                 break;
+            case 'COLOR':
+                if (box.isBlackBox()) {
+                    this.props.game.toggleBoxStatus(box.x, box.y);
+                }
+                if (box.attributes.color) {
+                    delete box.attributes.color;
+                } else {
+                    box.attributes.color = 'DDDDDD';
+                }
+
+                this.setState(
+                    {
+                        selectedBox: null
+                    }
+                );
+
+                if (this.props.onChange) {
+                    console.log('board updated!!');
+                    this.props.onChange();
+                }
+                break;
+            case 'SHAPE':
+                if (box.isBlackBox()) {
+                    this.props.game.toggleBoxStatus(box.x, box.y);
+                }
+                if (box.attributes.shape) {
+                    delete box.attributes.shape;
+                } else {
+                    box.attributes.shape = 'circle';
+                }
+
+                this.setState(
+                    {
+                        selectedBox: null
+                    }
+                );
+
+                if (this.props.onChange) {
+                    console.log('board updated!!');
+                    this.props.onChange();
+                }
+                break;
         }
     }
 
@@ -113,7 +155,25 @@ class EditableCrossword extends Crossword {
                 },
                 isClicked: this.state.clickAction === 'SELECT',
                 icon: "touch_app"
-            }],
+            },
+            {
+                name: "color",
+                onClick: () => {
+                    this.setState({clickAction: 'COLOR', modal: null})
+                },
+                isClicked: this.state.clickAction === 'COLOR',
+                icon: "palette"
+            },
+            {
+                name: "shape",
+                onClick: () => {
+                    this.setState({clickAction: 'SHAPE', modal: null})
+                },
+                isClicked: this.state.clickAction === 'SHAPE',
+                icon: "panorama_fish_eye"
+            }
+
+            ],
             saveGroup
         ];
     }

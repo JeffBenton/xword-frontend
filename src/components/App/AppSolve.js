@@ -9,6 +9,7 @@ import Game from './../../objects/game.js';
 import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
+import AppError from './AppError.js';
 import {canUseLocalStorage, getSolveState} from './../../util/localstoragehelper.js';
 import {API_URL} from './../../util/constants.js';
 import history from './../../history.js';
@@ -69,32 +70,41 @@ class AppSolve extends React.Component {
         }
     }
 
-    // todo: error handling
     async loadSolveGame(id) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        var url = API_URL + 'puzzle/' + id;
+        var url = API_URL + 'puzzle/v2/' + id;
 
         let ajax = {
             method: 'GET',
             headers: headers
         };
 
-        let response = await fetch(url, ajax);
-        let data = await response.json();
+        try {
+            let response = await fetch(url, ajax);
+            let data = await response.json();
 
-        this.setState({
-            game: Game.fromSavedPuzzle(data.board, data.clues),
-            isLoading: false,
-            params: {id: data.id,
-                metadata: Metadata.fromSavedMetadata(data.metadata)
-            }
-        });
+            this.setState({
+                game: Game.fromSavedPuzzle(data.board, data.clues),
+                isLoading: false,
+                params: {
+                    id: data.id,
+                    metadata: Metadata.fromSavedMetadata(data.metadata)
+                }
+            });
+        } catch (e) {
+            console.error('error when loading game.');
+            this.setState({
+                error: "Couldn't find the specified puzzle to solve."
+            });
+        }
     }
 
     render() {
-        if (this.state.isLoading || this.state.replace){
-            return (<div><AppLoading /></div>);
+        if (this.state.error) {
+            return (<div><AppHeader /><AppError error={this.state.error}/></div>)
+        } else if (this.state.isLoading || this.state.replace){
+            return (<div><AppHeader /><AppLoading /></div>);
         } else {
             return (<div><AppHeader />
                 <div className="app-body"><CrosswordController game={this.state.game} params={this.state.params}/></div>

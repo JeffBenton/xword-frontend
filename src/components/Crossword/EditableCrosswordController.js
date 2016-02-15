@@ -26,7 +26,7 @@ class EditableCrosswordController extends React.Component {
     save(cb) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        var url = API_URL + 'puzzle/';
+        var url = API_URL + 'puzzle/v2/';
 
         var body = this.props.game.getSaveState();
         body.metadata = this.state.metadata;
