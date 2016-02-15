@@ -52,6 +52,8 @@ class EditableCrossword extends Crossword {
             case 'COLOR':
                 if (box.isBlackBox()) {
                     this.props.game.toggleBoxStatus(box.x, box.y);
+                } else {
+                    this.props.game.clearSelectedClues();
                 }
                 if (box.attributes.color) {
                     delete box.attributes.color;
@@ -61,7 +63,8 @@ class EditableCrossword extends Crossword {
 
                 this.setState(
                     {
-                        selectedBox: null
+                        selectedBox: null,
+                        selectedClue: {across: null, down: null, focused: null}
                     }
                 );
 
@@ -73,7 +76,10 @@ class EditableCrossword extends Crossword {
             case 'SHAPE':
                 if (box.isBlackBox()) {
                     this.props.game.toggleBoxStatus(box.x, box.y);
+                } else {
+                    this.props.game.clearSelectedClues();
                 }
+
                 if (box.attributes.shape) {
                     delete box.attributes.shape;
                 } else {
@@ -82,7 +88,8 @@ class EditableCrossword extends Crossword {
 
                 this.setState(
                     {
-                        selectedBox: null
+                        selectedBox: null,
+                        selectedClue: {across: null, down: null, focused: null}
                     }
                 );
 
