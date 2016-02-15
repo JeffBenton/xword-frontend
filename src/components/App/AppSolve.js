@@ -10,7 +10,7 @@ import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import AppError from './AppError.js';
-import {canUseLocalStorage, getSolveState} from './../../util/localstoragehelper.js';
+import {canUseLocalStorage, getSolveState, hasSolveState} from './../../util/localstoragehelper.js';
 import {API_URL} from './../../util/constants.js';
 import history from './../../history.js';
 
@@ -23,11 +23,11 @@ class AppSolve extends React.Component {
 
     initializeState(params) {
         var state;
-        if (canUseLocalStorage()) {
+        if (canUseLocalStorage() && hasSolveState()) {
             state = getSolveState();
         }
         if (params != null && params.id != null) {
-            if (params.id === state.params.id) {
+            if (state && state.params && params.id === state.params.id) {
                 return {
                     isLoading: false,
                     game: state.game,
