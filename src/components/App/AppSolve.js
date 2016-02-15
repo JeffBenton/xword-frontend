@@ -73,7 +73,7 @@ class AppSolve extends React.Component {
     async loadSolveGame(id) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        var url = API_URL + 'puzzle/' + id;
+        var url = API_URL + 'puzzle/v2/' + id;
 
         let ajax = {
             method: 'GET',

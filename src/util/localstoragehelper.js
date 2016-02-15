@@ -49,10 +49,14 @@ class LocalStorageHelper {
     /**
      * Get the last-edited puzzle from LocalStorage.
      *
-     * @returns {{game: Game, params: *}} the saved puzzle state
+     * @returns {*} the saved puzzle state, or null if it can't be found
      */
     static getEditState() {
         let state = JSON.parse(window.localStorage.getItem("edit"));
+
+        if (!state) {
+            return null;
+        }
 
         // recreate our game objects
         let game = Game.fromSavedPuzzle(state.game.board, state.game.clues);
@@ -88,10 +92,14 @@ class LocalStorageHelper {
     /**
      * Get the last-solved puzzle from LocalStorage.
      *
-     * @returns {{game: Game, params: *}} the saved puzzle state
+     * @returns {*} the saved puzzle state, or null if it can't be found
      */
     static getSolveState() {
         let state = JSON.parse(window.localStorage.getItem("solve"));
+
+        if (!state) {
+            return null;
+        }
 
         // recreate our game objects
         let game = Game.fromSavedPuzzle(state.game.board, state.game.clues);

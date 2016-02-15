@@ -433,7 +433,8 @@ class Crossword extends React.Component {
 }
 
 Crossword.propTypes = {
-    game: React.PropTypes.instanceOf(Game).isRequired
+    game: React.PropTypes.instanceOf(Game).isRequired,
+    solver: React.PropTypes.object
 };
 
 module.exports = Crossword;

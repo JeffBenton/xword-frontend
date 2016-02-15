@@ -17,6 +17,10 @@ class CrosswordBox extends React.Component {
             color: '#' + this.props.box.color
         };
 
+        if (this.props.box.attributes && this.props.box.attributes.color && this.props.box.state === boxState.NORMAL) {
+            style.backgroundColor = '#' + this.props.box.attributes.color;
+        }
+
         if (this.props.box.x === 0) {
             style.borderLeft = '2px solid black';
         }
@@ -47,6 +51,10 @@ class CrosswordBox extends React.Component {
         };
     }
 
+    addShape(shape, value) {
+        return <div><div className={shape} style={{height: (this.props.height - 8) + 'px', width: (this.props.width - 8) + 'px', margin: '3px'}}></div>{value}</div>;
+    }
+
     render() {
         var boxStyle = this.getBoxStyle();
         var numberStyle = this.getNumberStyle();
@@ -55,11 +63,15 @@ class CrosswordBox extends React.Component {
             this.props.onClick(this.props.box);
         };
         var clueNumber = null;
-        var value = this.props.box.value !== null ? (
+        var value = !this.props.box.isBlackBox() ? (
             <div className='value' style={valueStyle}>
-                {this.props.box.value}
+                {this.props.box.value != null ? this.props.box.value : " "}
             </div>
         ) : null;
+
+        if (value && this.props.box.attributes && this.props.box.attributes.shape) {
+            value = this.addShape(this.props.box.attributes.shape, value);
+        }
 
         if (this.props.box.isBlackBox()) {
             // do nothing

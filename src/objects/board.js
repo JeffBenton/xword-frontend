@@ -26,13 +26,19 @@ class Board {
             board[y] = [];
             for (let x = 0; x < b.width; x++) {
                 let box = new Box((y*b.height) + x, b.version, x, y);
-                if (values[y][x] == null) {
+
+                if (values[y][x] == null || values[y][x].value === null) {
                     box.state = boxState.BLACKBOX;
-                } else if (values[y][x] == " ") {
+                } else if (values[y][x] == " " || values[y][x].value == " ") {
                     box.value = null;
                 } else {
-                    box.value = values[y][x];
+                    box.value = typeof values[y][x] === "string" ? values[y][x] : values[y][x].value;
                 }
+
+                if (values[y][x] != null && values[y][x].attributes) {
+                    box.attributes = values[y][x].attributes;
+                }
+
                 board[y][x] = box;
             }
         }
@@ -392,13 +398,10 @@ class Board {
             result[y] = [];
             for (let x = 0; x < this.width; x++) {
                 let box = this.get(x,y);
-                if (box.isBlackBox()) {
-                    result[y][x] = null;
-                } else if (box.value === null) {
-                    result[y][x] = " ";
-                } else {
-                    result[y][x] = box.value;
-                }
+                result[y][x] = {
+                    value: box.isBlackBox() ? null : (box.value === null ? " " : box.value),
+                    attributes: box.attributes
+                };
             }
         }
         return result;

@@ -28,6 +28,7 @@ class Box {
         this.down = null;
         this.version = version;
         this.color = "000000";
+        this.attributes = {};
     }
 
     /**
@@ -45,12 +46,14 @@ class Box {
     toggleBlackBoxState() {
         if (this.isBlackBox()) {
             this.state = boxState.NORMAL;
+            this.attributes = {};
         } else {
             this.state = boxState.BLACKBOX;
             this.value = null;
             this.across = null;
             this.down = null;
             this.color = "000000";
+            this.attributes = {};
         }
     }
 
