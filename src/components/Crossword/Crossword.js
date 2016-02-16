@@ -28,6 +28,7 @@ class Crossword extends React.Component {
         this.handleClueClick = this.handleClueClick.bind(this);
         this.handleKeypress = this.handleKeypress.bind(this);
         this.handleKeydown = this.handleKeydown.bind(this);
+        this.handleKeyup = this.handleKeyup.bind(this);
     }
 
     componentDidMount() {
@@ -42,6 +43,15 @@ class Crossword extends React.Component {
 
     handleBoxClick(box) {
         this.selectBox(box);
+    }
+
+    handleKeyup(event) {
+        if (event.which == 16) {
+            let selectedBox = this.props.game.nextInputBox(this.state.selectedBox, this.state.selectedClue.focused);
+            this.selectBox(selectedBox);
+            this.setState({shift: false});
+            window.removeEventListener(event.type, this.handleKeyup);
+        }
     }
 
     /**
@@ -66,9 +76,10 @@ class Crossword extends React.Component {
             if (event.shiftKey) {
                 selectedBox.set(selectedBox.get() + char);
                 this.selectBox(selectedBox);
-                //window.addEventListener('keyup', (event) => {
-                //    event.target.removeEventListener(event.type, arguments.callee);
-                //});
+                if (!this.state.shift) {
+                    this.setState({shift: true});
+                    window.addEventListener('keyup', this.handleKeyup);
+                }
             } else {
                 selectedBox.set(char);
                 selectedBox = this.props.game.nextInputBox(selectedBox, selectedClue.focused);

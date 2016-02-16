@@ -52,7 +52,16 @@ class CrosswordBox extends React.Component {
     }
 
     addShape(shape, value) {
-        return <div><div className={shape} style={{height: (this.props.height - 8) + 'px', width: (this.props.width - 8) + 'px', margin: '3px'}}></div>{value}</div>;
+        return  <div>
+                    <div className={shape}
+                         style={
+                            {height: (this.props.height - 8) + 'px',
+                             width: (this.props.width - 8) + 'px',
+                             margin: '3px'}
+                             }>
+                    </div>
+                    {value}
+                </div>;
     }
 
     render() {

@@ -52,6 +52,8 @@ class EditableCrossword extends Crossword {
             case 'COLOR':
                 if (box.isBlackBox()) {
                     this.props.game.toggleBoxStatus(box.x, box.y);
+                } else {
+                    this.props.game.clearSelectedClues();
                 }
                 if (box.attributes.color) {
                     delete box.attributes.color;
@@ -61,7 +63,8 @@ class EditableCrossword extends Crossword {
 
                 this.setState(
                     {
-                        selectedBox: null
+                        selectedBox: null,
+                        selectedClue: {across: null, down: null, focused: null}
                     }
                 );
 
@@ -73,7 +76,10 @@ class EditableCrossword extends Crossword {
             case 'SHAPE':
                 if (box.isBlackBox()) {
                     this.props.game.toggleBoxStatus(box.x, box.y);
+                } else {
+                    this.props.game.clearSelectedClues();
                 }
+
                 if (box.attributes.shape) {
                     delete box.attributes.shape;
                 } else {
@@ -82,7 +88,8 @@ class EditableCrossword extends Crossword {
 
                 this.setState(
                     {
-                        selectedBox: null
+                        selectedBox: null,
+                        selectedClue: {across: null, down: null, focused: null}
                     }
                 );
 
@@ -138,41 +145,41 @@ class EditableCrossword extends Crossword {
         }
 
         return [
-            [{
-                name: "add box",
-                onClick: () => {
-                    this.setState({clickAction: 'CREATEBOX',
-                        modal: null});
+            [
+                {
+                    name: "select",
+                    onClick: () => {
+                        this.setState({clickAction: 'SELECT',
+                            modal: null});
+                    },
+                    isClicked: this.state.clickAction === 'SELECT',
+                    icon: "touch_app"
                 },
-                isClicked: this.state.clickAction === 'CREATEBOX',
-                icon: 'add_box'
-            },
-            {
-                name: "select",
-                onClick: () => {
-                    this.setState({clickAction: 'SELECT',
-                        modal: null});
+                {
+                    name: "add box",
+                    onClick: () => {
+                        this.setState({clickAction: 'CREATEBOX',
+                            modal: null});
+                    },
+                    isClicked: this.state.clickAction === 'CREATEBOX',
+                    icon: 'add_box'
                 },
-                isClicked: this.state.clickAction === 'SELECT',
-                icon: "touch_app"
-            },
-            {
-                name: "color",
-                onClick: () => {
-                    this.setState({clickAction: 'COLOR', modal: null})
+                {
+                    name: "color",
+                    onClick: () => {
+                        this.setState({clickAction: 'COLOR', modal: null})
+                    },
+                    isClicked: this.state.clickAction === 'COLOR',
+                    icon: "palette"
                 },
-                isClicked: this.state.clickAction === 'COLOR',
-                icon: "palette"
-            },
-            {
-                name: "shape",
-                onClick: () => {
-                    this.setState({clickAction: 'SHAPE', modal: null})
-                },
-                isClicked: this.state.clickAction === 'SHAPE',
-                icon: "panorama_fish_eye"
-            }
-
+                {
+                    name: "shape",
+                    onClick: () => {
+                        this.setState({clickAction: 'SHAPE', modal: null})
+                    },
+                    isClicked: this.state.clickAction === 'SHAPE',
+                    icon: "panorama_fish_eye"
+                }
             ],
             saveGroup
         ];

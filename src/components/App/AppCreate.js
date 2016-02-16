@@ -7,29 +7,36 @@ import AppHeader from './AppHeader.js';
 import {API_URL} from './../../util/constants.js';
 import {canUseLocalStorage} from './../../util/localstoragehelper.js';
 
+/**
+ * High-level React component that defines the create portion of the crossword App.
+ *
+ * Contains a menu that allows the user to select the height and width of the puzzle they're creating, then
+ * creates a new puzzle for the user to edit.
+ */
 class AppCreate extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = this.initializeState();
-        this.startCreate = this.startCreate.bind(this);
-    }
 
-    initializeState() {
-        return {
-            isLoading: false,
+        // initialize the state
+        this.state = {
             isCreating: true,
             game: null,
             params: null
         };
-
+        this.startCreate = this.startCreate.bind(this);
     }
 
+    /**
+     * Callback from the AppCreating form. Use the width and height from the params to create
+     * the puzzle.
+     *
+     * @param params object with width and height defined
+     */
     startCreate(params) {
-        let width = params.width || this.props.width;
-        let height = params.height || this.props.height;
+        let width = params.width;
+        let height = params.height;
         this.setState({
-            isLoading: false,
             isCreating: false,
             game: new Game(width, height),
             params: {
@@ -40,10 +47,12 @@ class AppCreate extends React.Component {
 
     render() {
         if (this.state.isCreating) {
+            // if we're 'creating,' show the AppCreating form
             return (<div>
                 <AppHeader />
                 <AppCreating onSubmit={this.startCreate}/></div>)
         } else {
+            // we're done creating, render the game
             return (
                 <div>
                     <AppHeader />
@@ -59,8 +68,4 @@ class AppCreate extends React.Component {
     }
 }
 
-AppCreate.defaultProps = {
-    width: 15,
-    height: 15
-};
 module.exports = AppCreate;
