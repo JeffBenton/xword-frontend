@@ -36,8 +36,8 @@ class CrosswordSelectedClue extends React.Component {
 
     handleResize() {
         if (this.hasClue()) {
-            let text = ReactDOM.findDOMNode(this).getElementsByClassName("clue-text")[0];
-            let name = ReactDOM.findDOMNode(this).getElementsByClassName("clue-name")[0];
+            let text = this.refs.text;
+            let name = this.refs.name;
             let container = ReactDOM.findDOMNode(this);
             let containerWidth = realWidth(container);
             let nameWidth = realWidth(name);
@@ -71,9 +71,9 @@ class CrosswordSelectedClue extends React.Component {
     render() {
         if (this.hasClue()) {
             let clueName = (
-                <span className="clue-name">{this.props.clue.number + " " + this.props.clue.direction + " |"}</span>);
+                <span ref="name" className="clue-name">{this.props.clue.number + " " + this.props.clue.direction + " |"}</span>);
             let clueText = (
-                <span className="clue-text">{this.props.clue.text ? this.props.clue.text : <i>(no clue text)</i>}</span>);
+                <span ref="text" className="clue-text">{this.props.clue.text ? this.props.clue.text : <i>(no clue text)</i>}</span>);
             if (this.state.isFloating) {
                 let floatbar = <div className="crossword-selected-clue-container-floating">{clueName}{clueText}</div>;
                 return (

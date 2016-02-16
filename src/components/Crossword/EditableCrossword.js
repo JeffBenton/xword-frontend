@@ -20,7 +20,7 @@ class EditableCrossword extends Crossword {
 
     constructor(props) {
         super(props);
-        this.state.clickAction = "CREATEBOX";
+        this.state.clickAction = this.props.type === 'create' ? "CREATEBOX" : "SELECT";
         this.state.modal = null;
         this.handleClueUpdate = this.handleClueUpdate.bind(this);
         this.handleMetadataUpdate = this.handleMetadataUpdate.bind(this);
@@ -48,6 +48,55 @@ class EditableCrossword extends Crossword {
             case 'SELECT':
                 // should select the clue we clicked on
                 this.selectBox(box);
+                break;
+            case 'COLOR':
+                if (box.isBlackBox()) {
+                    this.props.game.toggleBoxStatus(box.x, box.y);
+                } else {
+                    this.props.game.clearSelectedClues();
+                }
+                if (box.attributes.color) {
+                    delete box.attributes.color;
+                } else {
+                    box.attributes.color = 'DDDDDD';
+                }
+
+                this.setState(
+                    {
+                        selectedBox: null,
+                        selectedClue: {across: null, down: null, focused: null}
+                    }
+                );
+
+                if (this.props.onChange) {
+                    console.log('board updated!!');
+                    this.props.onChange();
+                }
+                break;
+            case 'SHAPE':
+                if (box.isBlackBox()) {
+                    this.props.game.toggleBoxStatus(box.x, box.y);
+                } else {
+                    this.props.game.clearSelectedClues();
+                }
+
+                if (box.attributes.shape) {
+                    delete box.attributes.shape;
+                } else {
+                    box.attributes.shape = 'circle';
+                }
+
+                this.setState(
+                    {
+                        selectedBox: null,
+                        selectedClue: {across: null, down: null, focused: null}
+                    }
+                );
+
+                if (this.props.onChange) {
+                    console.log('board updated!!');
+                    this.props.onChange();
+                }
                 break;
         }
     }
@@ -96,24 +145,42 @@ class EditableCrossword extends Crossword {
         }
 
         return [
-            [{
-                name: "add box",
-                onClick: () => {
-                    this.setState({clickAction: 'CREATEBOX',
-                        modal: null});
+            [
+                {
+                    name: "select",
+                    onClick: () => {
+                        this.setState({clickAction: 'SELECT',
+                            modal: null});
+                    },
+                    isClicked: this.state.clickAction === 'SELECT',
+                    icon: "touch_app"
                 },
-                isClicked: this.state.clickAction === 'CREATEBOX',
-                icon: 'add_box'
-            },
-            {
-                name: "select",
-                onClick: () => {
-                    this.setState({clickAction: 'SELECT',
-                        modal: null});
+                {
+                    name: "add box",
+                    onClick: () => {
+                        this.setState({clickAction: 'CREATEBOX',
+                            modal: null});
+                    },
+                    isClicked: this.state.clickAction === 'CREATEBOX',
+                    icon: 'add_box'
                 },
-                isClicked: this.state.clickAction === 'SELECT',
-                icon: "touch_app"
-            }],
+                {
+                    name: "color",
+                    onClick: () => {
+                        this.setState({clickAction: 'COLOR', modal: null})
+                    },
+                    isClicked: this.state.clickAction === 'COLOR',
+                    icon: "palette"
+                },
+                {
+                    name: "shape",
+                    onClick: () => {
+                        this.setState({clickAction: 'SHAPE', modal: null})
+                    },
+                    isClicked: this.state.clickAction === 'SHAPE',
+                    icon: "panorama_fish_eye"
+                }
+            ],
             saveGroup
         ];
     }
