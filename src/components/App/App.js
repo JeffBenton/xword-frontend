@@ -1,5 +1,4 @@
 import React from 'react';
-
 import AppOption from './AppOption.js';
 import AppLanding from './AppLanding.js';
 import Crossword from './../Crossword/Crossword.js';
@@ -9,6 +8,9 @@ import history from './../../history.js';
 import {canUseLocalStorage, hasSolveState, hasEditState} from './../../util/localstoragehelper.js';
 import './App.css';
 
+/**
+ * The app landing page. Contains menu options to route to specific app functions.
+ */
 class App extends React.Component {
 
     constructor(props) {
@@ -16,29 +18,31 @@ class App extends React.Component {
         this.state = {mode: null};
     }
 
+    /**
+     * Generate the options on the app landing page.
+     *
+     * @returns {*[]}
+     */
     getAppOptions() {
         let options = [
             {
                 title: "Create a new crossword puzzle",
-                onClick: (function(context) {
-                    return function() {
-                        console.log("clicked create");
-                        history.pushState(null, "/create");
-                    };
-                })(this),
+                onClick: () => {
+                    history.pushState(null, "/create");
+                },
                 icon: "add"
             }
         ];
+
+        // only show the localstorage options if we can use localstorage
         if (canUseLocalStorage()) {
             let editItem = hasEditState();
             if (editItem) {
                 options.push({
                     title: "Continue editing your last puzzle",
-                    onClick: (function(context) {
-                        return function() {
-                            history.pushState(null, "/edit");
-                        };
-                    })(this),
+                    onClick: () => {
+                        history.pushState(null, "/edit");
+                    },
                     icon: "border_all"
                 });
             }
@@ -46,11 +50,9 @@ class App extends React.Component {
             if (solveItem) {
                 options.push({
                     title: "Continue solving your last puzzle",
-                    onClick: (function(context) {
-                        return function() {
-                            history.pushState(null, "/solve");
-                        };
-                    })(this),
+                    onClick: () => {
+                        history.pushState(null, "/solve");
+                    },
                     icon: "edit"
                 });
             }
@@ -58,10 +60,15 @@ class App extends React.Component {
         return options;
     }
 
+    /**
+     * Render the App.
+     *
+     * @returns {XML}
+     */
     render() {
         return  <div>
                     <AppLanding>
-                        {this.getAppOptions().map(function (option, i) {
+                        {this.getAppOptions().map((option, i) => {
                             return (<AppOption key={i} {...option}/>);
                         })}
                     </AppLanding>

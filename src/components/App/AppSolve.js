@@ -1,8 +1,3 @@
-/**
- *
- * @author alex
- */
-
 import React from 'react';
 import CrosswordController from './../Crossword/CrosswordController.js';
 import Game from './../../objects/game.js';
@@ -14,6 +9,11 @@ import {canUseLocalStorage, getSolveState, hasSolveState} from './../../util/loc
 import {API_URL} from './../../util/constants.js';
 import history from './../../history.js';
 
+/**
+ * High-level React component that defines the solve portion of the crossword App.
+ *
+ * Supports loading a puzzle from the database or from localstorage.
+ */
 class AppSolve extends React.Component {
 
     constructor(props) {
@@ -21,12 +21,25 @@ class AppSolve extends React.Component {
         this.state = this.initializeState(props.params);
     }
 
+    /**
+     * Initialize the component state.
+     *
+     * We could get path params passed into this element from the Router. If we have an id,
+     * we'll try to load that puzzle. If we don't have an id, we'll load the puzzle from localstorage.
+     *
+     * @param params
+     * @returns {*} the initial state for this component
+     */
     initializeState(params) {
         var state;
         if (canUseLocalStorage() && hasSolveState()) {
             state = getSolveState();
         }
+
+        // we were passed an id. use that to load the puzzle.
         if (params != null && params.id != null) {
+
+            // if the puzzle in localstorage is that puzzle, load it!
             if (state && state.params && params.id === state.params.id) {
                 return {
                     isLoading: false,
@@ -34,6 +47,8 @@ class AppSolve extends React.Component {
                     params: state.params
                 };
             }
+
+            // if not, go to the database for the puzzle
             this.loadSolveGame(params.id);
             return {
                 isLoading: true,
@@ -41,28 +56,32 @@ class AppSolve extends React.Component {
                 params: null
             };
         } else if (state) {
-            if (state.params && state.params.id) {
-                return {
-                    isLoading: false,
-                    game: state.game,
-                    params: state.params,
-                    replace: "/solve/" + state.params.id
-                };
-            }
-            return {
-
-            };
-        } else {
-            return {
+            // we don't have params, but we have a puzzle in localstorage.
+            // use that puzzle as the game state
+            let result = {
                 isLoading: false,
-                game: new Game(this.props.width, this.props.height),
-                params: {
-                    metadata: new Metadata()
-                }
+                game: state.game,
+                params: state.params
             };
+
+            // if the puzzle from localstorage has an id (it should), we should update the url
+            if (state.params && state.params.id) {
+                result.replace = "/solve/" + state.params.id;
+            }
+
+            return result;
         }
+
+        // we didn't have params or a saved puzzle... why are we here...?
+        console.error("invalid params passed to appsolve");
+        this.setState({
+            error: "Couldn't find a puzzle to solve!"
+        });
     }
 
+    /**
+     * We might want to redirect or change the URL. Do it when the component mounts.
+     */
     componentDidMount() {
         if (this.state.replace) {
             history.replaceState(null, this.state.replace);
@@ -70,6 +89,14 @@ class AppSolve extends React.Component {
         }
     }
 
+    /**
+     * Get a puzzle from the database with the specified id.
+     *
+     * If we succeed, the state will be updated with the puzzle we got. If we fail, 'error' will be
+     * set in this component's state.
+     *
+     * @param id
+     */
     async loadSolveGame(id) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -84,6 +111,7 @@ class AppSolve extends React.Component {
             let response = await fetch(url, ajax);
             let data = await response.json();
 
+            // decode the puzzle and set the state
             this.setState({
                 game: Game.fromSavedPuzzle(data.board, data.clues),
                 isLoading: false,
@@ -100,15 +128,27 @@ class AppSolve extends React.Component {
         }
     }
 
+    /**
+     * Render the AppSolve element.
+     *
+     * @returns {XML}
+     */
     render() {
         if (this.state.error) {
+            // if we have an error, render it
             return (<div><AppHeader /><AppError error={this.state.error}/></div>)
         } else if (this.state.isLoading || this.state.replace){
+            // show a loading page if we're loading or thinking
             return (<div><AppHeader /><AppLoading /></div>);
         } else {
-            return (<div><AppHeader />
-                <div className="app-body"><CrosswordController game={this.state.game} params={this.state.params}/></div>
-            </div>);
+            // show the solve crossword game!
+            return (
+                <div>
+                    <AppHeader />
+                    <div className="app-body">
+                        <CrosswordController game={this.state.game} params={this.state.params}/>
+                    </div>
+                </div>);
         }
     }
 }

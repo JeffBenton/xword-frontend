@@ -1,0 +1,32 @@
+.app-option {
+    width: 100%;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.app-option:hover {
+    background-color: #E3E3E3;
+}
+
+.app-option .frame {
+    margin-left: auto;
+    margin-right: auto;
+    height: 58px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-option .frame i {
+    font-size: 48px;
+}
+
+.app-option .frame .title {
+    margin-left: 30px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Raleway', sans-serif;
+}

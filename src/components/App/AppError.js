@@ -3,6 +3,9 @@ import './AppError.css';
 
 /**
  * A component that displays an error message.
+ *
+ * props:
+ *      error - string - the error message
  */
 class AppError extends React.Component {
 
@@ -10,6 +13,11 @@ class AppError extends React.Component {
         super(props);
     }
 
+    /**
+     * Render the AppError component.
+     *
+     * @returns {XML}
+     */
     render() {
         return  <div>
                     <div className="app-body">
@@ -18,5 +26,9 @@ class AppError extends React.Component {
                 </div>;
     }
 }
+
+AppError.propTypes = {
+    error: React.PropTypes.string.isRequired
+};
 
 module.exports = AppError;
