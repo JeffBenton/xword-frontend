@@ -5,8 +5,8 @@
 import React from 'react';
 import EditableCrossword from './EditableCrossword.js';
 import Metadata from './../../objects/metadata.js';
-import {API_URL} from './../../util/constants.js';
 import {setEditState} from './../../util/localstoragehelper.js';
+import PuzzleApiHelper from './../../api/PuzzleApiHelper.js';
 
 class EditableCrosswordController extends React.Component {
 
@@ -24,69 +24,57 @@ class EditableCrosswordController extends React.Component {
     }
 
     save(cb) {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        var url = API_URL + 'puzzle/v2/';
-
-        var body = this.props.game.getSaveState();
-        body.metadata = this.state.metadata;
+        var puzzle = this.props.game.getSaveState();
+        puzzle.metadata = this.state.metadata;
 
         if (this.state.editId == null) {
-            let ajax = {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(body)
-            };
-            (async () => {
-                try {
-                    let response = await fetch(url, ajax);
-                    let data = await response.json();
+            PuzzleApiHelper.save(puzzle,
+                (data) => {
                     this.setState({
                         id: data.id,
                         editId: data.editId
                     });
                     window.history.replaceState(data, "", "/edit/" + data.editId);
-                } catch (e) {
-                    console.error(e);
+                    if (cb) {
+                        cb();
+                    }
+                },
+                (error) => {
+                    console.error(error);
+                    if (cb) {
+                        cb();
+                    }
                 }
-                if (cb) {
-                    cb();
-                }
-            })();
+            );
         } else {
-            body.editId = this.state.editId;
-            let ajax = {
-                method: 'PUT',
-                headers: headers,
-                body: JSON.stringify(body)
-            };
-            (async () => {
-                try {
-                    let response = await fetch(url, ajax);
-                    let data = await response.json();
+            puzzle.editId = this.state.editId;
+            PuzzleApiHelper.update(puzzle,
+                (data) => {
                     // successfully updated
                     this.setState({
                         id: data.id,
                         editId: data.editId
                     });
                     window.history.replaceState(data, "", "/edit/" + data.editId);
-                } catch (e) {
-                    console.error(e);
+                    if (cb) {
+                        cb();
+                    }
+                },
+                (error) => {
+                    console.error(error);
+                    if (cb) {
+                        cb();
+                    }
                 }
-                if (cb) {
-                    cb();
-                }
-            })();
+            );
         }
     }
 
     handleMetadataUpdate(event) {
         let metadata = this.state.metadata;
-        for (let key in event) {
-            if (event.hasOwnProperty(key) && metadata.hasOwnProperty(key)) {
-                metadata[key] = event[key];
-            }
-        }
+        Object.keys(event).forEach((key) => {
+            metadata[key] = event[key];
+        });
         this.setState({metadata: metadata});
     }
 

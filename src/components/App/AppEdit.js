@@ -1,13 +1,11 @@
 import React from 'react';
 import EditableCrosswordController from './../Crossword/EditableCrosswordController.js';
-import Game from './../../objects/game.js';
-import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import AppError from './AppError.js';
-import {API_URL} from './../../util/constants.js';
 import {canUseLocalStorage, hasEditState, getEditState} from './../../util/localstoragehelper.js';
 import history from './../../history.js';
+import PuzzleApiHelper from './../../api/PuzzleApiHelper.js';
 
 /**
  * High-level React component that defines the edit portion of the crossword App.
@@ -88,36 +86,26 @@ class AppEdit extends React.Component {
      * @param id
      */
     async loadEditGame(id) {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        var url = API_URL + 'puzzle/v2/edit/' + id;
-
-        let ajax = {
-            method: 'GET',
-            headers: headers
-        };
-
-        try {
-            let response = await fetch(url, ajax);
-            let data = await response.json();
-
-            // decode the puzzle and set the state
-            this.setState({
-                game: Game.fromSavedPuzzle(data.board, data.clues),
-                isLoading: false,
-                params: {
-                    id: data.id,
-                    editId: data.editId,
-                    metadata: Metadata.fromSavedMetadata(data.metadata)
-                }
-            });
-
-        } catch (e) {
-            console.error('error when loading game.');
-            this.setState({
-                error: "Couldn't find the specified puzzle to edit."
-            });
-        }
+        await PuzzleApiHelper.getByEditId(id,
+            (data) => {
+                // set the state
+                this.setState({
+                    game: data.game,
+                    isLoading: false,
+                    params: {
+                        id: data.id,
+                        editId: data.editId,
+                        metadata: data.metadata
+                    }
+                });
+            },
+            (error) => {
+                console.error(error);
+                this.setState({
+                    error: "Couldn't find the specified puzzle to edit."
+                });
+            }
+        );
     }
 
     /**
