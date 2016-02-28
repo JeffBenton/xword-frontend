@@ -1,11 +1,11 @@
-/**
- * Created by alex on 12/13/15.
- */
 import React from 'react';
 import Crossword from './Crossword.js';
 import {API_URL} from './../../util/constants.js';
 import {setSolveState} from './../../util/localstoragehelper.js';
 
+/**
+ * 
+ */
 class CrosswordController extends React.Component {
 
     constructor(props) {
