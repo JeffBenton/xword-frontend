@@ -45,6 +45,11 @@ class AppCreate extends React.Component {
         });
     }
 
+    /**
+     * Render the AppCreate element.
+     *
+     * @returns {XML}
+     */
     render() {
         if (this.state.isCreating) {
             // if we're 'creating,' show the AppCreating form
