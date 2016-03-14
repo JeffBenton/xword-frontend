@@ -1,13 +1,11 @@
 import React from 'react';
 import CrosswordController from './../Crossword/CrosswordController.js';
-import Game from './../../objects/game.js';
-import Metadata from './../../objects/metadata.js';
 import AppLoading from './AppLoading.js';
 import AppHeader from './AppHeader.js';
 import AppError from './AppError.js';
 import {canUseLocalStorage, getSolveState, hasSolveState} from './../../util/localstoragehelper.js';
-import {API_URL} from './../../util/constants.js';
 import history from './../../history.js';
+import PuzzleApiHelper from './../../api/PuzzleApiHelper.js';
 
 /**
  * High-level React component that defines the solve portion of the crossword App.
@@ -98,33 +96,73 @@ class AppSolve extends React.Component {
      * @param id
      */
     async loadSolveGame(id) {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        var url = API_URL + 'puzzle/v2/' + id;
+        await PuzzleApiHelper.getById(id,
+            (data) => {
+                // set the state
+                this.setState({
+                    game: data.game,
+                    isLoading: false,
+                    params: {
+                        id: data.id,
+                        metadata: data.metadata
+                    }
+                });
+            },
+            (error) => {
+                console.error(error);
+                this.setState({
+                    error: "Couldn't find the specified puzzle to solve."
+                });
+            }
+        );
+    }
 
-        let ajax = {
-            method: 'GET',
-            headers: headers
-        };
+    /**
+     * Create a helper object to give child react elements the ability to get answers to crossword puzzles.
+     *
+     * Example usage:
+     *      solver.verify().box(box, {success callback}, {failure callback});
+     *      solver.answer().puzzle({success callback}, {failure callback});
+     *
+     * Look at the verify/answer functions in PuzzleApiHelper for more details.
+     *
+     * @returns {*}
+     */
+    createSolver() {
+        if (!this.state.params || !this.state.params.id) {
+            return null;
+        }
+        let id = this.state.params.id;
 
-        try {
-            let response = await fetch(url, ajax);
-            let data = await response.json();
-
-            // decode the puzzle and set the state
-            this.setState({
-                game: Game.fromSavedPuzzle(data.board, data.clues),
-                isLoading: false,
-                params: {
-                    id: data.id,
-                    metadata: Metadata.fromSavedMetadata(data.metadata)
+        return {
+            // create verify functions
+            verify: () => {
+                return {
+                    box: (box, success, failure) => {
+                        PuzzleApiHelper.verifyBox(id, box, success, failure);
+                    },
+                    clue: (clue, success, failure) => {
+                        PuzzleApiHelper.verifyClue(id, clue, success, failure);
+                    },
+                    puzzle: (board, success, failure) => {
+                        PuzzleApiHelper.verifyBoard(id, board, success, failure);
+                    }
                 }
-            });
-        } catch (e) {
-            console.error('error when loading game.');
-            this.setState({
-                error: "Couldn't find the specified puzzle to solve."
-            });
+            },
+            // create answer functions
+            answer: () => {
+                return {
+                    box: (box, success, failure) => {
+                        PuzzleApiHelper.answerBox(id, box, success, failure);
+                    },
+                    clue: (clue, success, failure) => {
+                        PuzzleApiHelper.answerClue(id, clue, success, failure);
+                    },
+                    puzzle: (success, failure) => {
+                        PuzzleApiHelper.answerBoard(id, success, failure);
+                    }
+                }
+            }
         }
     }
 
@@ -146,7 +184,11 @@ class AppSolve extends React.Component {
                 <div>
                     <AppHeader />
                     <div className="app-body">
-                        <CrosswordController game={this.state.game} params={this.state.params}/>
+                        <CrosswordController
+                            game={this.state.game}
+                            params={this.state.params}
+                            solver={this.createSolver()}
+                        />
                     </div>
                 </div>);
         }

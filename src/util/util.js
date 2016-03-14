@@ -37,6 +37,8 @@ module.exports = {
     toLetter(code) {
         if ((code === 32) || (code > 64 && code < 91) || (code > 96 && code < 123)) {
             return String.fromCharCode(code).toUpperCase();
+        } else if (code > 47 && code < 58) {
+            return String.fromCharCode(code);
         }
         return null;
     },

@@ -8,22 +8,23 @@ import './CrosswordHeader.css';
 
 class CrosswordHeader extends React.Component {
 
-    getGroupStyle(index, length) {
-        if (index === 0) {
-            return {textAlign: 'left'};
-        } else if (length === 1) {
-            return {textAlign: 'right'};
-        } else if (index === length - 1) {
-            return {textAlign: 'right'};
-        } else {
-            return {textAlign: 'center'};
-        }
-    }
 
     render() {
+        let getGroupStyle = (index) => {
+            if (index === 0) {
+                return {textAlign: 'left'};
+            } else if (this.props.headerItems.length === 1) {
+                return {textAlign: 'right'};
+            } else if (index === this.props.headerItems.length - 1) {
+                return {textAlign: 'right'};
+            } else {
+                return {textAlign: 'center'};
+            }
+        };
+
         var elements = [];
         for (let i = 0; i < this.props.headerItems.length; i++) {
-            elements.push(<td key={i} style={this.getGroupStyle(i, this.props.headerItems.length)}>{
+            elements.push(<td key={i} style={getGroupStyle(i, this.props.headerItems.length)}>{
                 this.props.headerItems[i].map(function(value, index) {
                 return <CrosswordHeaderItem key={i + "-" + index} item={value} width={this.props.itemWidth}/>
             }, this)}</td>);
