@@ -90,8 +90,8 @@ class CrosswordBoard extends React.Component {
                                 key={box.id}
                                 height={boxHeight}
                                 width={boxWidth}
-                                maxHeight={this.props.board.height}
-                                maxWidth={this.props.board.width}
+                                maxY={this.props.board.height}
+                                maxX={this.props.board.width}
                             />);
                         }, this)}
                     </div>);
